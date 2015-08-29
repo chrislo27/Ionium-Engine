@@ -12,6 +12,7 @@ import ionium.util.AssetMap;
 import ionium.util.CaptureStream;
 import ionium.util.CaptureStream.Consumer;
 import ionium.util.GameException;
+import ionium.util.IoniumEngineVersion;
 import ionium.util.Logger;
 import ionium.util.MathHelper;
 import ionium.util.MemoryUtils;
@@ -361,7 +362,7 @@ public abstract class Main extends Game implements Consumer {
 				.getUsedMemory();
 		font.setColor(Color.WHITE);
 		font.draw(batch, "version: " + Main.version
-				+ (githubVersion == null ? "" : "; latest: " + Main.githubVersion), 5,
+				+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion + "; engineV: " + IoniumEngineVersion.ENGINE_VERSION), 5,
 				Main.convertY(font.getCapHeight() * 2 + offset));
 		font.draw(batch, "memory: "
 				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
