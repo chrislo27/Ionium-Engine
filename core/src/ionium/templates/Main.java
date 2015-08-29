@@ -4,13 +4,13 @@ import ionium.registry.AssetRegistry;
 import ionium.registry.ErrorLogRegistry;
 import ionium.registry.ScreenRegistry;
 import ionium.screen.AssetLoadingScreen;
-import ionium.screen.MainMenuScreen;
 import ionium.screen.Updateable;
 import ionium.transition.TrainDoors;
 import ionium.transition.Transition;
 import ionium.transition.TransitionScreen;
 import ionium.util.AssetMap;
 import ionium.util.CaptureStream;
+import ionium.util.CaptureStream.Consumer;
 import ionium.util.GameException;
 import ionium.util.Logger;
 import ionium.util.MathHelper;
@@ -20,7 +20,6 @@ import ionium.util.SpecialCharactersList;
 import ionium.util.Splashes;
 import ionium.util.Translator;
 import ionium.util.Utils;
-import ionium.util.CaptureStream.Consumer;
 import ionium.util.render.Gears;
 import ionium.util.render.Shaders;
 import ionium.util.version.VersionGetter;
@@ -221,7 +220,6 @@ public abstract class Main extends Game implements Consumer {
 
 	public void prepareStates() {
 		ScreenRegistry reg = ScreenRegistry.instance();
-		reg.add("mainmenu", new MainMenuScreen(this));
 		reg.add("assetloading", new AssetLoadingScreen(this));
 		reg.add("transition", new TransitionScreen(this));
 	}
@@ -727,5 +725,7 @@ public abstract class Main extends Game implements Consumer {
 	}
 	
 	public abstract String getPreferencePrefix();
+	
+	public abstract String getScreenToSwitchToAfterLoadingAssets();
 
 }

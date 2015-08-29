@@ -39,7 +39,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				Main.logger.info("Finished loading all managed assets, took "
 						+ (System.currentTimeMillis() - startms) + " ms");
 
-				main.setScreen(ScreenRegistry.get("mainmenu"));
+				main.setScreen(ScreenRegistry.get(main.getScreenToSwitchToAfterLoadingAssets()));
 			}
 		} while (false);
 
