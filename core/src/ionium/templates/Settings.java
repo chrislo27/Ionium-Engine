@@ -9,7 +9,6 @@ public class Settings {
 
 	public static final int DEFAULT_WIDTH = 1920;
 	public static final int DEFAULT_HEIGHT = 1080;
-	public static final int DEFAULT_PORT = 27299;
 
 	public static boolean showFPS = true;
 	public static boolean debug = false;

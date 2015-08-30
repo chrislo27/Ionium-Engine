@@ -56,31 +56,6 @@ public class Utils {
 		return (b & 0xFF);
 	}
 
-	/**
-	 * WARNING: slow method!
-	 * @return
-	 */
-	public static int findFreePort() {
-		ServerSocket socket = null;
-		int port = -1;
-		try {
-			socket = new ServerSocket(0);
-			port = socket.getLocalPort();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		if (port == Settings.DEFAULT_PORT) return findFreePort();
-
-		return port;
-	}
-
 	//	public static float getSoundPan(float xpos, float camerax) {
 	//		return MathUtils
 	//				.clamp(((xpos - (Math.round((camerax + (Settings.DEFAULT_WIDTH / 2))
