@@ -248,7 +248,7 @@ public abstract class Main extends Game implements Consumer {
 		ScreenRegistry.instance().dispose();
 	}
 
-	private void preRender() {
+	protected void preRender() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glClearDepthf(1f);
@@ -306,7 +306,7 @@ public abstract class Main extends Game implements Consumer {
 
 	}
 
-	private void postRender() {
+	protected void postRender() {
 		batch.begin();
 
 		font.setColor(Color.WHITE);
@@ -355,7 +355,7 @@ public abstract class Main extends Game implements Consumer {
 		inputUpdate();
 	}
 
-	private int renderDebug() {
+	protected int renderDebug() {
 		int offset = 0;
 		if (getScreen() != null) offset = ((Updateable) getScreen()).getDebugOffset();
 		if (MemoryUtils.getUsedMemory() > getMostMemory) getMostMemory = MemoryUtils
@@ -440,7 +440,7 @@ public abstract class Main extends Game implements Consumer {
 		// the default assets are already added in StandardAssetLoader
 	}
 
-	private void loadUnmanagedAssets() {
+	protected void loadUnmanagedAssets() {
 		long timeTaken = System.currentTimeMillis();
 		
 		AssetRegistry.instance().loadUnmanagedTextures();
@@ -452,7 +452,7 @@ public abstract class Main extends Game implements Consumer {
 				+ (System.currentTimeMillis() - timeTaken) + " ms");
 	}
 
-	private void addColors() {
+	protected void addColors() {
 
 	}
 
