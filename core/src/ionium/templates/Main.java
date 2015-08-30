@@ -715,8 +715,6 @@ public abstract class Main extends Game implements Consumer {
 		Gdx.gl20.glClearColor(r / 255f, g / 255f, b / 255f, 1f);
 	}
 	
-	public abstract String getPreferencePrefix();
-	
 	public abstract String getScreenToSwitchToAfterLoadingAssets();
 
 }
