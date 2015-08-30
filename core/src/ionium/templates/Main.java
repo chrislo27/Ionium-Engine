@@ -711,16 +711,6 @@ public abstract class Main extends Game implements Consumer {
 
 	public int getMostMemory = MemoryUtils.getUsedMemory();
 
-	/**
-	 * basically appends gamename + "-" to the beginning of your preference
-	 * 
-	 * @param ref
-	 * @return preferences
-	 */
-	public static Preferences getPref(String ref) {
-		return Gdx.app.getPreferences("-" + ref);
-	}
-
 	public void setClearColor(int r, int g, int b) {
 		Gdx.gl20.glClearColor(r / 255f, g / 255f, b / 255f, 1f);
 	}

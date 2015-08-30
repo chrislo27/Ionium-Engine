@@ -27,14 +27,14 @@ public class LanguageButton extends Button {
 	@Override
 	public boolean onLeftClick() {
 		Translator.instance().nextLang();
-		Main.getPref("settings").putString("language", Translator.instance().currentLang()).flush();
+		Settings.getPref("settings").putString("language", Translator.instance().currentLang()).flush();
 		return true;
 	}
 
 	@Override
 	public boolean onRightClick() {
 		Translator.instance().prevLang();
-		Main.getPref("settings").putString("language", Translator.instance().currentLang()).flush();
+		Settings.getPref("settings").putString("language", Translator.instance().currentLang()).flush();
 		return true;
 	}
 }

@@ -1,5 +1,6 @@
 package ionium.templates;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 public class Settings {
@@ -41,13 +42,17 @@ public class Settings {
 	private Preferences pref;
 
 	private void loadResources() {
-		pref = Main.getPref("settings");
+		pref = getPref("settings");
 
 		showFPS = pref.getBoolean("showFPS", true);
 		soundVolume = pref.getFloat("soundVolume", 1f);
 		musicVolume = pref.getFloat("musicVolume", 1f);
 		actualWidth = pref.getInteger("actualWidth", DEFAULT_WIDTH);
 		actualHeight = pref.getInteger("actualHeight", DEFAULT_HEIGHT);
+	}
+	
+	public static Preferences getPref(String suffix){
+		return Gdx.app.getPreferences("" + "-" + suffix);
 	}
 
 	public void save() {
