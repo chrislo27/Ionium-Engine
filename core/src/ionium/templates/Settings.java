@@ -19,7 +19,7 @@ public class Settings {
 	public static int actualWidth = DEFAULT_WIDTH;
 	public static int actualHeight = DEFAULT_HEIGHT;
 	public static boolean fullscreen = false;
-	
+
 	public static final int TICKS = 20;
 	public static final int TICKS_NANO = 1000000000 / TICKS;
 	public static final int MAX_FPS = 60;
@@ -50,16 +50,15 @@ public class Settings {
 		actualWidth = pref.getInteger("actualWidth", DEFAULT_WIDTH);
 		actualHeight = pref.getInteger("actualHeight", DEFAULT_HEIGHT);
 	}
-	
-	public static Preferences getPref(String suffix){
+
+	public static Preferences getPref(String suffix) {
 		return Gdx.app.getPreferences("" + "-" + suffix);
 	}
 
 	public void save() {
 		pref.putBoolean("showFPS", Settings.showFPS).putFloat("sound", soundVolume)
-				.putFloat("music", musicVolume).putBoolean("smoothLighting", true)
-				.putInteger("actualWidth", actualWidth).putInteger("actualHeight", actualHeight)
-				.flush();
+				.putFloat("music", musicVolume).putInteger("actualWidth", actualWidth)
+				.putInteger("actualHeight", actualHeight).flush();
 	}
 
 	public static Preferences getPreferences() {
