@@ -27,6 +27,8 @@ public class ScreenshotFactory {
 			} while (fh.exists());
 			Pixmap pixmap = getScreenshot(0, 0, Settings.DEFAULT_WIDTH, Gdx.graphics.getHeight(),
 					true);
+			pixmap.setColor(0, 0, 0, 1);
+			pixmap.fill();
 			PixmapIO.writePNG(fh, pixmap);
 			pixmap.dispose();
 		} catch (Exception e) {
