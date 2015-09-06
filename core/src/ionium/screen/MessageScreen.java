@@ -1,7 +1,7 @@
 package ionium.screen;
 
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -27,10 +27,10 @@ public class MessageScreen extends Updateable {
 
 		main.batch.begin();
 
-		float width = (Settings.DEFAULT_WIDTH / 3f) * 2f;
+		float width = (SettingsTemplate.DEFAULT_WIDTH / 3f) * 2f;
 		main.font.draw(main.batch, getRenderMessage(),
-				(Settings.DEFAULT_WIDTH - width) / 2f,
-				Main.convertY((Settings.DEFAULT_HEIGHT / 3f)), width, Align.center, true);
+				(SettingsTemplate.DEFAULT_WIDTH - width) / 2f,
+				Main.convertY((SettingsTemplate.DEFAULT_HEIGHT / 3f)), width, Align.center, true);
 
 		container.render(main);
 		main.font.setColor(Color.WHITE);

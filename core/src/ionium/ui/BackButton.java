@@ -1,12 +1,12 @@
 package ionium.ui;
 
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 public abstract class BackButton extends Button {
 
 	public BackButton(UiCorner corner) {
-		super(0, 0, 64f / Settings.DEFAULT_WIDTH, 64f / Settings.DEFAULT_HEIGHT, null);
+		super(0, 0, 64f / SettingsTemplate.DEFAULT_WIDTH, 64f / SettingsTemplate.DEFAULT_HEIGHT, null);
 		this.setFixed(corner, 64, 64);
 	}
 

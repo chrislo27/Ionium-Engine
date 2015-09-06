@@ -109,7 +109,7 @@ public abstract class Main extends Game implements Consumer {
 	private JScrollPane conscrollPane;
 
 	private int[] lastFPS = new int[5];
-	private long nanoUntilTick = Settings.TICKS_NANO;
+	private long nanoUntilTick = SettingsTemplate.TICKS_NANO;
 	private long lastKnownNano = System.nanoTime();
 	public float totalSeconds = 0f;
 	private long totalTicksElapsed = 0;
@@ -182,7 +182,7 @@ public abstract class Main extends Game implements Consumer {
 		blurshader = new ShaderProgram(Shaders.VERTBLUR, Shaders.FRAGBLUR);
 		blurshader.begin();
 		blurshader.setUniformf("dir", 1f, 0f);
-		blurshader.setUniformf("resolution", Settings.DEFAULT_WIDTH);
+		blurshader.setUniformf("resolution", SettingsTemplate.DEFAULT_WIDTH);
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
 		
@@ -211,11 +211,11 @@ public abstract class Main extends Game implements Consumer {
 		}.start();
 
 		// set resolution/fullscreen according to settings
-		if (Gdx.graphics.getWidth() != Settings.actualWidth
-				|| Gdx.graphics.getHeight() != Settings.actualHeight
-				|| Gdx.graphics.isFullscreen() != Settings.fullscreen) {
-			Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight,
-					Settings.fullscreen);
+		if (Gdx.graphics.getWidth() != SettingsTemplate.actualWidth
+				|| Gdx.graphics.getHeight() != SettingsTemplate.actualHeight
+				|| Gdx.graphics.isFullscreen() != SettingsTemplate.fullscreen) {
+			Gdx.graphics.setDisplayMode(SettingsTemplate.actualWidth, SettingsTemplate.actualHeight,
+					SettingsTemplate.fullscreen);
 		}
 	}
 
@@ -227,7 +227,7 @@ public abstract class Main extends Game implements Consumer {
 
 	@Override
 	public void dispose() {
-		Settings.instance().save();
+		SettingsTemplate.instance().save();
 
 		batch.dispose();
 		verticesRenderer.dispose();
@@ -267,7 +267,7 @@ public abstract class Main extends Game implements Consumer {
 
 		try {
 			// ticks
-			while (nanoUntilTick >= Settings.TICKS_NANO) {
+			while (nanoUntilTick >= SettingsTemplate.TICKS_NANO) {
 				long nano = System.nanoTime();
 				
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
@@ -276,7 +276,7 @@ public abstract class Main extends Game implements Consumer {
 				
 				lastTickDurationNano = System.nanoTime() - nano;
 				
-				nanoUntilTick -= Settings.TICKS_NANO;
+				nanoUntilTick -= SettingsTemplate.TICKS_NANO;
 			}
 			
 			// render updates
@@ -311,14 +311,14 @@ public abstract class Main extends Game implements Consumer {
 
 		font.setColor(Color.WHITE);
 
-		if (Settings.showFPS || Settings.debug) {
+		if (SettingsTemplate.showFPS || SettingsTemplate.debug) {
 			font.draw(batch, "FPS: "
-					+ (Gdx.graphics.getFramesPerSecond() <= (Settings.MAX_FPS / 4f) ? "[RED]"
-							: (Gdx.graphics.getFramesPerSecond() <= (Settings.MAX_FPS / 2f) ? "[YELLOW]"
+					+ (Gdx.graphics.getFramesPerSecond() <= (SettingsTemplate.MAX_FPS / 4f) ? "[RED]"
+							: (Gdx.graphics.getFramesPerSecond() <= (SettingsTemplate.MAX_FPS / 2f) ? "[YELLOW]"
 									: "")) + Gdx.graphics.getFramesPerSecond() + "[]", 5,
 					Gdx.graphics.getHeight() - 5);
 		}
-		if (Settings.debug) {
+		if (SettingsTemplate.debug) {
 			font.getData().markupEnabled = false;
 			font.draw(
 					batch,
@@ -331,7 +331,7 @@ public abstract class Main extends Game implements Consumer {
 		}
 
 		if (this.getScreen() != null) {
-			if (Settings.debug) ((Updateable) this.getScreen()).renderDebug(this.renderDebug());
+			if (SettingsTemplate.debug) ((Updateable) this.getScreen()).renderDebug(this.renderDebug());
 		}
 		batch.end();
 
@@ -385,11 +385,11 @@ public abstract class Main extends Game implements Consumer {
 
 	public void inputUpdate() {
 		if (Gdx.input.isKeyJustPressed(Keys.F12)) {
-			Settings.debug = !Settings.debug;
+			SettingsTemplate.debug = !SettingsTemplate.debug;
 		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
-		if (Settings.debug) { // console things -> alt + key
+		if (SettingsTemplate.debug) { // console things -> alt + key
 			if (((Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)))) {
 				if (Gdx.input.isKeyJustPressed(Keys.C)) {
 					if (consolewindow.isVisible()) {

@@ -1,7 +1,7 @@
 package ionium.util.render;
 
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -22,7 +22,7 @@ public class RandomText {
 				main.font.draw(
 						main.batch,
 						text,
-						MathUtils.random(1, Settings.DEFAULT_WIDTH - 1),
+						MathUtils.random(1, SettingsTemplate.DEFAULT_WIDTH - 1),
 						MathUtils.random(Math.round(height),
 								Math.round(Gdx.graphics.getHeight() - height)), 1, Align.center,
 						false);

@@ -2,12 +2,12 @@ package ionium.ui;
 
 import ionium.registry.ScreenRegistry;
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 public class SettingsButton extends Button {
 
 	public SettingsButton(UiCorner corner) {
-		super(0, 0, 64f / Settings.DEFAULT_WIDTH, 64f / Settings.DEFAULT_HEIGHT, null);
+		super(0, 0, 64f / SettingsTemplate.DEFAULT_WIDTH, 64f / SettingsTemplate.DEFAULT_HEIGHT, null);
 		this.setFixed(corner, 64, 64);
 	}
 

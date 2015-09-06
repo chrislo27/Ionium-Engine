@@ -1,7 +1,7 @@
 package ionium.util;
 
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,7 +1,7 @@
 package ionium.util;
 
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -81,7 +81,7 @@ public class Translator {
 		addBundle(defaultLang, I18NBundle.createBundle(base, new Locale("")));
 		//		addBundle("Česky", I18NBundle.createBundle(base, new Locale("cz")));
 
-		Preferences settings = Settings.getPreferences();
+		Preferences settings = SettingsTemplate.getPreferences();
 		for (int i = 0; i < languageList.size; i++) {
 			String lang = languageList.get(i);
 			if (lang.equalsIgnoreCase(settings.getString("language", defaultLang))) {

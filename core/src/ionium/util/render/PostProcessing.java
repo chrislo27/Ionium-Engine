@@ -1,7 +1,7 @@
 package ionium.util.render;
 
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 import ionium.util.MathHelper;
 
 import com.badlogic.gdx.Gdx;
@@ -44,8 +44,8 @@ public class PostProcessing {
 		batch.setShader(null);
 		buffer.end();
 
-		batch.draw(buffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH,
-				-Settings.DEFAULT_HEIGHT);
+		batch.draw(buffer.getColorBufferTexture(), 0, SettingsTemplate.DEFAULT_HEIGHT, SettingsTemplate.DEFAULT_WIDTH,
+				-SettingsTemplate.DEFAULT_HEIGHT);
 		batch.flush();
 	}
 

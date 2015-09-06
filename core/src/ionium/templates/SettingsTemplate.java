@@ -3,9 +3,9 @@ package ionium.templates;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-public class Settings {
+public class SettingsTemplate {
 
-	private static Settings instance;
+	private static SettingsTemplate instance;
 
 	public static final int DEFAULT_WIDTH = 1920;
 	public static final int DEFAULT_HEIGHT = 1080;
@@ -24,15 +24,15 @@ public class Settings {
 	public static final int MAX_FPS = 60;
 
 	static {
-		Settings.instance(); // init settings
+		SettingsTemplate.instance(); // init settings
 	}
 
-	private Settings() {
+	private SettingsTemplate() {
 	}
 
-	public static Settings instance() {
+	public static SettingsTemplate instance() {
 		if (instance == null) {
-			instance = new Settings();
+			instance = new SettingsTemplate();
 			instance.loadResources();
 		}
 		return instance;
@@ -55,7 +55,7 @@ public class Settings {
 	}
 
 	public void save() {
-		pref.putBoolean("showFPS", Settings.showFPS).putFloat("sound", soundVolume)
+		pref.putBoolean("showFPS", SettingsTemplate.showFPS).putFloat("sound", soundVolume)
 				.putFloat("music", musicVolume).putInteger("actualWidth", actualWidth)
 				.putInteger("actualHeight", actualHeight).flush();
 	}

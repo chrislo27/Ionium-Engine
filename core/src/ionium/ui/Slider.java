@@ -2,7 +2,7 @@ package ionium.ui;
 
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
-import ionium.templates.Settings;
+import ionium.templates.SettingsTemplate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
