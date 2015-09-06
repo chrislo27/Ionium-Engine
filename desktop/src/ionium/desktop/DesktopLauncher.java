@@ -1,6 +1,6 @@
 package ionium.desktop;
 
-import ionium.templates.SettingsTemplate;
+import ionium.registry.ConstantsRegistry;
 import ionium.util.Logger;
 
 import com.badlogic.gdx.Files.FileType;
@@ -13,11 +13,11 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "";
-		config.width = SettingsTemplate.DEFAULT_WIDTH;
-		config.height = SettingsTemplate.DEFAULT_HEIGHT;
+		config.width = ConstantsRegistry.getInt("DEFAULT_WIDTH");
+		config.height = ConstantsRegistry.getInt("DEFAULT_HEIGHT");
 		config.fullscreen = false;
-		config.foregroundFPS = SettingsTemplate.MAX_FPS;
-		config.backgroundFPS = SettingsTemplate.MAX_FPS;
+		config.foregroundFPS = ConstantsRegistry.getInt("MAX_FPS");
+		config.backgroundFPS = ConstantsRegistry.getInt("MAX_FPS");
 		config.resizable = false;
 		config.vSyncEnabled = true;
 		
