@@ -1,6 +1,7 @@
 package ionium.templates;
 
 import ionium.registry.AssetRegistry;
+import ionium.registry.ConstantsRegistry;
 import ionium.registry.ErrorLogRegistry;
 import ionium.registry.ScreenRegistry;
 import ionium.screen.AssetLoadingScreen;
@@ -11,6 +12,7 @@ import ionium.transition.TransitionScreen;
 import ionium.util.AssetMap;
 import ionium.util.CaptureStream;
 import ionium.util.CaptureStream.Consumer;
+import ionium.util.DebugSetting;
 import ionium.util.GameException;
 import ionium.util.IoniumEngineVersion;
 import ionium.util.Logger;
@@ -42,7 +44,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -109,11 +110,11 @@ public abstract class Main extends Game implements Consumer {
 	private JScrollPane conscrollPane;
 
 	private int[] lastFPS = new int[5];
-	private long nanoUntilTick = SettingsTemplate.TICKS_NANO;
 	private long lastKnownNano = System.nanoTime();
 	public float totalSeconds = 0f;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
+	private long nanoUntilTick = 1;
 
 	public static Gears gears;
 
@@ -182,7 +183,7 @@ public abstract class Main extends Game implements Consumer {
 		blurshader = new ShaderProgram(Shaders.VERTBLUR, Shaders.FRAGBLUR);
 		blurshader.begin();
 		blurshader.setUniformf("dir", 1f, 0f);
-		blurshader.setUniformf("resolution", SettingsTemplate.DEFAULT_WIDTH);
+		blurshader.setUniformf("resolution", ConstantsRegistry.getInt("DEFAULT_WIDTH"));
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
 		
@@ -209,14 +210,6 @@ public abstract class Main extends Game implements Consumer {
 				VersionGetter.instance().getVersionFromServer();
 			}
 		}.start();
-
-		// set resolution/fullscreen according to settings
-		if (Gdx.graphics.getWidth() != SettingsTemplate.actualWidth
-				|| Gdx.graphics.getHeight() != SettingsTemplate.actualHeight
-				|| Gdx.graphics.isFullscreen() != SettingsTemplate.fullscreen) {
-			Gdx.graphics.setDisplayMode(SettingsTemplate.actualWidth, SettingsTemplate.actualHeight,
-					SettingsTemplate.fullscreen);
-		}
 	}
 
 	public void prepareStates() {
@@ -227,8 +220,6 @@ public abstract class Main extends Game implements Consumer {
 
 	@Override
 	public void dispose() {
-		SettingsTemplate.instance().save();
-
 		batch.dispose();
 		verticesRenderer.dispose();
 		AssetRegistry.instance().dispose();
@@ -267,7 +258,7 @@ public abstract class Main extends Game implements Consumer {
 
 		try {
 			// ticks
-			while (nanoUntilTick >= SettingsTemplate.TICKS_NANO) {
+			while (nanoUntilTick >= (1_000_000_000 / ConstantsRegistry.getInt("TICKS"))) {
 				long nano = System.nanoTime();
 				
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
@@ -276,7 +267,7 @@ public abstract class Main extends Game implements Consumer {
 				
 				lastTickDurationNano = System.nanoTime() - nano;
 				
-				nanoUntilTick -= SettingsTemplate.TICKS_NANO;
+				nanoUntilTick -= (1_000_000_000 / ConstantsRegistry.getInt("TICKS"));
 			}
 			
 			// render updates
@@ -311,14 +302,14 @@ public abstract class Main extends Game implements Consumer {
 
 		font.setColor(Color.WHITE);
 
-		if (SettingsTemplate.showFPS || SettingsTemplate.debug) {
+		if (DebugSetting.showFPS || DebugSetting.debug) {
 			font.draw(batch, "FPS: "
-					+ (Gdx.graphics.getFramesPerSecond() <= (SettingsTemplate.MAX_FPS / 4f) ? "[RED]"
-							: (Gdx.graphics.getFramesPerSecond() <= (SettingsTemplate.MAX_FPS / 2f) ? "[YELLOW]"
+					+ (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry.getInt("MAX_FPS") / 4f) ? "[RED]"
+							: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry.getInt("MAX_FPS") / 2f) ? "[YELLOW]"
 									: "")) + Gdx.graphics.getFramesPerSecond() + "[]", 5,
 					Gdx.graphics.getHeight() - 5);
 		}
-		if (SettingsTemplate.debug) {
+		if (DebugSetting.debug) {
 			font.getData().markupEnabled = false;
 			font.draw(
 					batch,
@@ -331,7 +322,7 @@ public abstract class Main extends Game implements Consumer {
 		}
 
 		if (this.getScreen() != null) {
-			if (SettingsTemplate.debug) ((Updateable) this.getScreen()).renderDebug(this.renderDebug());
+			if (DebugSetting.debug) ((Updateable) this.getScreen()).renderDebug(this.renderDebug());
 		}
 		batch.end();
 
@@ -384,12 +375,12 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public void inputUpdate() {
-		if (Gdx.input.isKeyJustPressed(Keys.F12)) {
-			SettingsTemplate.debug = !SettingsTemplate.debug;
+		if (Gdx.input.isKeyJustPressed(Keys.F8)) {
+			DebugSetting.debug = !DebugSetting.debug;
 		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
-		if (SettingsTemplate.debug) { // console things -> alt + key
+		if (DebugSetting.debug) { // console things -> alt + key
 			if (((Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)))) {
 				if (Gdx.input.isKeyJustPressed(Keys.C)) {
 					if (consolewindow.isVisible()) {

@@ -1,7 +1,6 @@
 package ionium.transition;
 
 import ionium.templates.Main;
-import ionium.templates.SettingsTemplate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +13,7 @@ public class Spiral implements Transition {
 
 	public Spiral(int time) {
 		tilespertick = time;
-		tilewidth = SettingsTemplate.DEFAULT_WIDTH / 16;
+		tilewidth = Gdx.graphics.getWidth() / 16;
 		tileheight = Gdx.graphics.getHeight() / 9;
 
 		traversed = new boolean[tilewidth][tileheight];

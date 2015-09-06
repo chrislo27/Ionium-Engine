@@ -1,10 +1,7 @@
 package ionium.util;
 
 import ionium.templates.Main;
-import ionium.templates.SettingsTemplate;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 

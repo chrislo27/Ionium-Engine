@@ -1,7 +1,5 @@
 package ionium.util;
 
-import ionium.templates.SettingsTemplate;
-
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +23,7 @@ public class ScreenshotFactory {
 			do {
 				fh = new FileHandle("screenshots/screenshot_" + date + ".png");
 			} while (fh.exists());
-			Pixmap pixmap = getScreenshot(0, 0, SettingsTemplate.DEFAULT_WIDTH, Gdx.graphics.getHeight(),
+			Pixmap pixmap = getScreenshot(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 					true);
 			pixmap.setColor(0, 0, 0, 1);
 			pixmap.fill();

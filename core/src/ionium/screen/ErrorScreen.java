@@ -1,8 +1,8 @@
 package ionium.screen;
 
+import ionium.registry.ConstantsRegistry;
 import ionium.registry.ScreenRegistry;
 import ionium.templates.Main;
-import ionium.templates.SettingsTemplate;
 import ionium.ui.Button;
 
 /**
@@ -15,7 +15,7 @@ public class ErrorScreen extends MessageScreen {
 	public ErrorScreen(Main m) {
 		super(m);
 
-		container.elements.add(new Button((SettingsTemplate.DEFAULT_WIDTH / 2) - 80, 128, 160, 32,
+		container.elements.add(new Button((ConstantsRegistry.getInt("DEFAULT_WIDTH") / 2) - 80, 128, 160, 32,
 				"menu.backmainmenu") {
 
 			@Override
