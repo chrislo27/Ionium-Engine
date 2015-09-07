@@ -34,6 +34,11 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (main.getScreen() != null) {
 			if (button == Buttons.LEFT) {
 				if (((Updateable) main.getScreen()).container.onLeftClick()) return true;
@@ -41,12 +46,7 @@ public class MainInputProcessor implements InputProcessor {
 				if (((Updateable) main.getScreen()).container.onRightClick()) return true;
 			}
 		}
-
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		
 		return false;
 	}
 
