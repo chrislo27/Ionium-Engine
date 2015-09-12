@@ -5,6 +5,7 @@ import ionium.templates.Main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.Array;
 
 public class MiscLoadingScreen extends Updateable {
 
@@ -27,7 +28,8 @@ public class MiscLoadingScreen extends Updateable {
 	}
 
 	@Override
-	public void renderDebug(int starting) {
+	public Array<String> getDebugStrings(Array<String> array) {
+		return array;
 	}
 
 	@Override

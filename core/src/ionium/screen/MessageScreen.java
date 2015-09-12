@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 
 public class MessageScreen extends Updateable {
 
@@ -56,7 +57,8 @@ public class MessageScreen extends Updateable {
 	}
 
 	@Override
-	public void renderDebug(int starting) {
+	public Array<String> getDebugStrings(Array<String> array) {
+		return array;
 	}
 
 	@Override

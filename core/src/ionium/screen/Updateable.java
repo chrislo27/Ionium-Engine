@@ -4,6 +4,7 @@ import ionium.templates.Main;
 import ionium.ui.UiContainer;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class Updateable implements Screen {
 
@@ -23,10 +24,7 @@ public abstract class Updateable implements Screen {
 
 	public abstract void tickUpdate();
 
-	/**
-	 * x is 5
-	 */
-	public abstract void renderDebug(int starting);
+	public abstract Array<String> getDebugStrings(Array<String> array);
 
 	@Override
 	public abstract void resize(int width, int height);
@@ -45,10 +43,6 @@ public abstract class Updateable implements Screen {
 
 	@Override
 	public abstract void dispose();
-
-	public int getDebugOffset() {
-		return 0;
-	}
 
 	public void debug(String message) {
 		Main.logger.debug(message);

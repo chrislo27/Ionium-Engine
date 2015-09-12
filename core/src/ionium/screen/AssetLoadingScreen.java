@@ -9,6 +9,7 @@ import ionium.util.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 
 public class AssetLoadingScreen extends MiscLoadingScreen {
@@ -98,7 +99,8 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	}
 
 	@Override
-	public void renderDebug(int starting) {
+	public Array<String> getDebugStrings(Array<String> array) {
+		return array;
 	}
 
 	@Override

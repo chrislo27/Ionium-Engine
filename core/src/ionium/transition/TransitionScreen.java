@@ -5,6 +5,7 @@ import ionium.templates.Main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Array;
 
 public class TransitionScreen extends Updateable {
 
@@ -72,7 +73,8 @@ public class TransitionScreen extends Updateable {
 	}
 
 	@Override
-	public void renderDebug(int starting) {
+	public Array<String> getDebugStrings(Array<String> array) {
+		return array;
 	}
 
 	@Override

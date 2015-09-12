@@ -64,6 +64,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * 
@@ -77,7 +78,7 @@ public abstract class Main extends Game implements Consumer {
 	public SpriteBatch batch;
 
 	public ShapeRenderer shapes;
-	
+
 	public ImmediateModeRenderer20 verticesRenderer;
 
 	public BitmapFont font;
@@ -109,12 +110,13 @@ public abstract class Main extends Game implements Consumer {
 	private JTextArea consoletext;
 	private JScrollPane conscrollPane;
 
-	private int[] lastFPS = new int[5];
 	private long lastKnownNano = System.nanoTime();
 	public float totalSeconds = 0f;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 	private long nanoUntilTick = 1;
+
+	private Array<String> debugStrings = new Array<>();
 
 	public static Gears gears;
 
@@ -133,18 +135,14 @@ public abstract class Main extends Game implements Consumer {
 		Gdx.graphics.setTitle(getTitle() + " - " + Splashes.getRandomSplash());
 		redirectSysOut();
 
-		for (int i = 0; i < lastFPS.length; i++) {
-			lastFPS[i] = 0;
-		}
-
 		ShaderProgram.pedantic = false;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch = new SpriteBatch();
 		batch.enableBlending();
-		
+
 		verticesRenderer = new ImmediateModeRenderer20(false, true, 0);
-		
+
 		defaultShader = SpriteBatch.createDefaultShader();
 		AssetRegistry.createMissingTexture();
 
@@ -162,14 +160,14 @@ public abstract class Main extends Game implements Consumer {
 		clearPixmap = new Pixmap(8, 8, Format.RGBA8888);
 		clearPixmap.setColor(0, 0, 0, 0);
 		clearPixmap.fill();
-		
+
 		shapes = new ShapeRenderer();
 
 		maskshader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKE);
 		maskshader.begin();
 		maskshader.setUniformi("u_mask", 1);
 		maskshader.end();
-		
+
 		greyshader = new ShaderProgram(Shaders.VERTGREY, Shaders.FRAGGREY);
 
 		warpshader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGWARP);
@@ -186,7 +184,7 @@ public abstract class Main extends Game implements Consumer {
 		blurshader.setUniformf("resolution", ConstantsRegistry.getInt("DEFAULT_WIDTH"));
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
-		
+
 		maskNoiseShader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKENOISE);
 
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
@@ -260,16 +258,16 @@ public abstract class Main extends Game implements Consumer {
 			// ticks
 			while (nanoUntilTick >= (1_000_000_000 / ConstantsRegistry.getInt("TICKS"))) {
 				long nano = System.nanoTime();
-				
+
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
-				
+
 				tickUpdate();
-				
+
 				lastTickDurationNano = System.nanoTime() - nano;
-				
+
 				nanoUntilTick -= (1_000_000_000 / ConstantsRegistry.getInt("TICKS"));
 			}
-			
+
 			// render updates
 			if (getScreen() != null) {
 				((Updateable) getScreen()).renderUpdate();
@@ -283,8 +281,10 @@ public abstract class Main extends Game implements Consumer {
 			e.printStackTrace();
 
 			Gdx.files.local("crash/").file().mkdir();
-			FileHandle handle = Gdx.files.local("crash/crash-log_" + new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()).trim() + ".txt");
-			
+			FileHandle handle = Gdx.files.local("crash/crash-log_"
+					+ new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()).trim()
+					+ ".txt");
+
 			handle.writeString(ErrorLogRegistry.instance().createErrorLog(output.toString()), false);
 
 			resetSystemOut();
@@ -300,41 +300,34 @@ public abstract class Main extends Game implements Consumer {
 	protected void postRender() {
 		batch.begin();
 
-		font.setColor(Color.WHITE);
+		font.setColor(1, 1, 1, 1);
 
 		if (DebugSetting.showFPS || DebugSetting.debug) {
-			font.draw(batch, "FPS: "
-					+ (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry.getInt("MAX_FPS") / 4f) ? "[RED]"
-							: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry.getInt("MAX_FPS") / 2f) ? "[YELLOW]"
-									: "")) + Gdx.graphics.getFramesPerSecond() + "[]", 5,
-					Gdx.graphics.getHeight() - 5);
-		}
-		if (DebugSetting.debug) {
-			font.getData().markupEnabled = false;
 			font.draw(
 					batch,
-					"(avg of " + lastFPS.length + " sec: " + String.format("%.1f", getAvgFPS())
-							+ ") " + Arrays.toString(lastFPS),
-					5 + font.getSpaceWidth()
-							+ (Utils.getWidth(font, "FPS: " + Gdx.graphics.getFramesPerSecond())),
-							Gdx.graphics.getHeight() - 5);
-			font.getData().markupEnabled = true;
+					"FPS: "
+							+ (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
+									.getInt("MAX_FPS") / 4f) ? "[RED]"
+									: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
+											.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
+							+ Gdx.graphics.getFramesPerSecond() + "[]", 5,
+					Gdx.graphics.getHeight() - 5);
 		}
 
 		if (this.getScreen() != null) {
-			if (DebugSetting.debug) ((Updateable) this.getScreen()).renderDebug(this.renderDebug());
+			if (DebugSetting.debug) {
+				// update array
+				this.getDebugStrings();
+				if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
+
+				for (int i = 0; i < debugStrings.size; i++) {
+					font.draw(batch, debugStrings.get(i), 5, (Gdx.graphics.getHeight() - 5 - (font.getCapHeight() + 5))
+							- ((i + 1) * 3) - ((font.getCapHeight() + 1) * i));
+				}
+
+			}
 		}
 		batch.end();
-
-		fpstimer += Gdx.graphics.getDeltaTime();
-		if (fpstimer >= 1) {
-			fpstimer--;
-			int[] temp = lastFPS.clone();
-			for (int i = 1; i < lastFPS.length; i++) {
-				lastFPS[i] = temp[i - 1];
-			}
-			lastFPS[0] = Gdx.graphics.getFramesPerSecond();
-		}
 
 		warpshader.begin();
 		warpshader.setUniformf(warpshader.getUniformLocation("time"), totalSeconds);
@@ -346,32 +339,28 @@ public abstract class Main extends Game implements Consumer {
 		inputUpdate();
 	}
 
-	protected int renderDebug() {
-		int offset = 0;
-		if (getScreen() != null) offset = ((Updateable) getScreen()).getDebugOffset();
+	protected Array<String> getDebugStrings() {
 		if (MemoryUtils.getUsedMemory() > getMostMemory) getMostMemory = MemoryUtils
 				.getUsedMemory();
-		font.setColor(Color.WHITE);
-		font.draw(batch, "version: " + Main.version
-				+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion + "; engineV: " + IoniumEngineVersion.ENGINE_VERSION), 5,
-				Main.convertY(font.getCapHeight() * 2 + offset));
-		font.draw(batch, "memory: "
+
+		debugStrings.clear();
+
+		debugStrings.add("version: "
+				+ Main.version
+				+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion + "; engineV: "
+						+ IoniumEngineVersion.ENGINE_VERSION));
+		debugStrings.add("memory: "
 				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
 				+ NumberFormat.getInstance().format(MemoryUtils.getMaxMemory()) + " KB (max "
-				+ NumberFormat.getInstance().format(getMostMemory) + " KB) ", 5,
-				Main.convertY(font.getCapHeight() * 3 + offset));
-		font.draw(batch, "OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores() + " cores", 5,
-				Main.convertY(font.getCapHeight() * 4 + offset));
-		font.draw(batch, "tickDuration: " + (lastTickDurationNano / 1000000f) + " ms", 5, Main.convertY(font.getCapHeight() * 5 + offset));
-		font.draw(batch, "delta: " + Gdx.graphics.getDeltaTime(), 5, Main.convertY(font.getCapHeight() * 6 + offset));
-		if (getScreen() != null) {
-			font.draw(batch, "state: " + getScreen().getClass().getSimpleName(), 5,
-					Main.convertY(font.getCapHeight() * 7 + offset));
-		} else {
-			font.draw(batch, "state: null", 5, Main.convertY(font.getCapHeight() * 8 + offset));
-		}
+				+ NumberFormat.getInstance().format(getMostMemory) + " KB) ");
+		debugStrings.add("OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores()
+				+ " cores");
+		debugStrings.add("tickDuration: " + (lastTickDurationNano / 1000000f) + " ms");
+		debugStrings.add("delta: " + Gdx.graphics.getDeltaTime());
+		debugStrings.add("state: "
+				+ (getScreen() == null ? "null" : getScreen().getClass().getSimpleName()));
 
-		return 30 + offset + 105;
+		return debugStrings;
 	}
 
 	public void inputUpdate() {
@@ -395,9 +384,10 @@ public abstract class Main extends Game implements Consumer {
 							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
-					
+
 					// FIXME
-					this.transition(new TrainDoors(true), new TrainDoors(false), ScreenRegistry.get("mainmenu"));
+					this.transition(new TrainDoors(true), new TrainDoors(false),
+							ScreenRegistry.get("mainmenu"));
 				}
 
 			}
@@ -405,10 +395,10 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public void tickUpdate() {
-		
+
 	}
-	
-	public void loadFont(){
+
+	public void loadFont() {
 		FreeTypeFontGenerator ttfGenerator = new FreeTypeFontGenerator(
 				Gdx.files.internal("fonts/minecraft.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
@@ -419,7 +409,7 @@ public abstract class Main extends Game implements Consumer {
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
 		font.getData().markupEnabled = true;
-		
+
 		ttfGenerator.dispose();
 	}
 
@@ -427,15 +417,15 @@ public abstract class Main extends Game implements Consumer {
 		AssetMap.instance(); // load asset map namer thing
 		Translator.instance();
 		addColors();
-		
+
 		// the default assets are already added in StandardAssetLoader
 	}
 
 	protected void loadUnmanagedAssets() {
 		long timeTaken = System.currentTimeMillis();
-		
+
 		AssetRegistry.instance().loadUnmanagedTextures();
-		
+
 		// load gears instance (used in loading screen)
 		gears = new Gears(this);
 
@@ -459,8 +449,8 @@ public abstract class Main extends Game implements Consumer {
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, width, height);
 		shapes.setProjectionMatrix(Main.camera.combined);
-		
-		for(Updateable up : ScreenRegistry.instance().getAll()){
+
+		for (Updateable up : ScreenRegistry.instance().getAll()) {
 			up.container.onResize();
 		}
 	}
@@ -496,7 +486,7 @@ public abstract class Main extends Game implements Consumer {
 
 	public void transition(Transition from, Transition to, Screen next) {
 		TransitionScreen transition = ScreenRegistry.get("transition", TransitionScreen.class);
-		
+
 		transition.prepare(this.getScreen(), from, to, next);
 		setScreen(transition);
 	}
@@ -677,27 +667,16 @@ public abstract class Main extends Game implements Consumer {
 		return Math.round(Gdx.graphics.getHeight() - f);
 	}
 
-	public void drawTextBg(BitmapFont font, String text, float x, float y, float wrapWidth, int align) {
+	public void drawTextBg(BitmapFont font, String text, float x, float y, float wrapWidth,
+			int align) {
 		batch.setColor(0, 0, 0, batch.getColor().a * 0.6f);
 		fillRect(batch, x, y, Utils.getWidth(font, text) + 2, (Utils.getHeight(font, text)) + 2);
 		font.draw(batch, text, x + 1, y + font.getCapHeight(), wrapWidth, align, true);
 		batch.setColor(1, 1, 1, 1);
 	}
-	
-	public void drawTextBg(BitmapFont font, String text, float x, float y){
+
+	public void drawTextBg(BitmapFont font, String text, float x, float y) {
 		drawTextBg(font, text, x, y, Utils.getWidth(font, text), Align.left);
-	}
-
-	private int totalavgFPS = 0;
-	private float fpstimer = 0;
-
-	public float getAvgFPS() {
-		totalavgFPS = 0;
-		for (int i = 0; i < lastFPS.length; i++) {
-			totalavgFPS += lastFPS[i];
-		}
-
-		return ((totalavgFPS) / (lastFPS.length * 1f));
 	}
 
 	public int getMostMemory = MemoryUtils.getUsedMemory();
@@ -705,7 +684,7 @@ public abstract class Main extends Game implements Consumer {
 	public void setClearColor(int r, int g, int b) {
 		Gdx.gl20.glClearColor(r / 255f, g / 255f, b / 255f, 1f);
 	}
-	
+
 	public abstract String getScreenToSwitchToAfterLoadingAssets();
 
 }
