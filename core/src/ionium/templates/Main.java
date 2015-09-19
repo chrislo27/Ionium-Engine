@@ -400,12 +400,12 @@ public abstract class Main extends Game implements Consumer {
 
 	public void loadFont() {
 		FreeTypeFontGenerator ttfGenerator = new FreeTypeFontGenerator(
-				Gdx.files.internal("fonts/minecraft.ttf"));
+				Gdx.files.internal("fonts/courbd.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.magFilter = TextureFilter.Nearest;
 		ttfParam.minFilter = TextureFilter.Nearest;
 		ttfParam.genMipMaps = true;
-		ttfParam.size = 16; // 14 for my font, 16 for Osaka font/minecraft font
+		ttfParam.size = 20;
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
 		font.getData().markupEnabled = true;
