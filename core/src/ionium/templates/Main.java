@@ -320,9 +320,10 @@ public abstract class Main extends Game implements Consumer {
 				this.getDebugStrings();
 				if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
 
+				float baseHeight = Gdx.graphics.getHeight() - 5;
+				
 				for (int i = 0; i < debugStrings.size; i++) {
-					font.draw(batch, debugStrings.get(i), 5, (Gdx.graphics.getHeight() - 5 - (font.getCapHeight() + 5))
-							- ((i + 1) * 3) - ((font.getCapHeight() + 1) * i));
+					font.draw(batch, debugStrings.get(i), 5, (baseHeight - ((font.getCapHeight() * 1.5f) * (i + 1))));
 				}
 
 			}
