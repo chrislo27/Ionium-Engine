@@ -1,4 +1,4 @@
-package ionium.util;
+package ionium.util.controllers;
 
 public class Xbox360Mappings {
 
