@@ -53,6 +53,8 @@ public class MenuTree {
 			if (elements.get(selected).sublevel.size > 0) {
 				elements.get(selected).moveSublevel(true);
 			}
+		} else if(Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			elements.get(selected).handleEnter();
 		}
 
 		renderSublevel(batch, font, offsetX, offsetY, elements, selected, true);

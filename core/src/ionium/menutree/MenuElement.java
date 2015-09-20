@@ -19,6 +19,16 @@ public abstract class MenuElement {
 	}
 
 	public abstract String getRenderText();
+	
+	public void handleEnter(){
+		if(sublevel.size > 0){
+			if(!onNextSublevel){
+				onNextSublevel = true;
+			}else{
+				sublevel.get(selectedInSub).handleEnter();
+			}
+		}
+	}
 
 	public MenuElement setSublevel(Array<MenuElement> array) {
 		sublevel = array;
