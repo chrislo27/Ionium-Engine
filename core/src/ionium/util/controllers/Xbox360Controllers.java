@@ -23,6 +23,7 @@ public class Xbox360Controllers {
 	}
 
 	private Array<Controller> controllers = new Array<>(4);
+	private boolean initialized = false;
 	
 	private void loadResources() {
 
@@ -32,6 +33,11 @@ public class Xbox360Controllers {
 	 * Must be called on the rendering thread
 	 */
 	public void findControllers(){
+		if(initialized){
+			Main.logger.warn("Warning: something attempted to re-search for controllers!");
+			return;
+		}
+		
 		controllers.clear();
 		
 		Main.logger.info("Searching for controllers...");
@@ -49,6 +55,8 @@ public class Xbox360Controllers {
 		}else{
 			Main.logger.info("No controllers found!");
 		}
+		
+		initialized = true;
 	}
 	
 	public static Controller getController(int i){
@@ -57,6 +65,10 @@ public class Xbox360Controllers {
 	
 	public static boolean hasAny(){
 		return instance().controllers.size > 0;
+	}
+	
+	public static boolean initialized(){
+		return instance().initialized;
 	}
 	
 }
