@@ -55,4 +55,8 @@ public class Xbox360Controllers {
 		return instance().controllers.get(i);
 	}
 	
+	public static boolean hasAny(){
+		return instance().controllers.size > 0;
+	}
+	
 }
