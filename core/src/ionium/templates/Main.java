@@ -311,7 +311,7 @@ public abstract class Main extends Game implements Consumer {
 									: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
 											.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
 							+ Gdx.graphics.getFramesPerSecond() + "[]", 5,
-					Gdx.graphics.getHeight() - 5);
+					Gdx.graphics.getHeight() - 5 - (font.getCapHeight() * 2.5f));
 		}
 
 		if (this.getScreen() != null) {
@@ -323,7 +323,7 @@ public abstract class Main extends Game implements Consumer {
 				float baseHeight = Gdx.graphics.getHeight() - 5;
 				
 				for (int i = 0; i < debugStrings.size; i++) {
-					font.draw(batch, debugStrings.get(i), 5, (baseHeight - ((font.getCapHeight() * 1.5f) * (i + 1))));
+					font.draw(batch, debugStrings.get(i), 5, (baseHeight - ((font.getCapHeight() * 1.5f) * (i + 3))));
 				}
 
 			}
@@ -361,6 +361,9 @@ public abstract class Main extends Game implements Consumer {
 		debugStrings.add("state: "
 				+ (getScreen() == null ? "null" : getScreen().getClass().getSimpleName()));
 
+		// newline before screen debug
+		debugStrings.add("");
+		
 		return debugStrings;
 	}
 
