@@ -1,6 +1,6 @@
 package ionium.util;
 
-public class Xbox360Pad {
+public class Xbox360Mappings {
 
 	public static final int BUTTON_A = 0;
 	public static final int BUTTON_B = 1;
