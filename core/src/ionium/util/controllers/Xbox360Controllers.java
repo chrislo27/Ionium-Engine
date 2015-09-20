@@ -64,7 +64,7 @@ public class Xbox360Controllers {
 	}
 	
 	public static boolean hasAny(){
-		return instance().controllers.size > 0;
+		return instance().controllers.size > 0 && initialized();
 	}
 	
 	public static boolean initialized(){
