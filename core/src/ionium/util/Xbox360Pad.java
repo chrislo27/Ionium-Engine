@@ -1,46 +1,48 @@
 package ionium.util;
 
-import com.badlogic.gdx.controllers.PovDirection;
-
 public class Xbox360Pad {
 
-	public static final int BUTTON_X = 2;
-	public static final int BUTTON_Y = 3;
 	public static final int BUTTON_A = 0;
 	public static final int BUTTON_B = 1;
+	public static final int BUTTON_X = 2;
+	public static final int BUTTON_Y = 3;
+	public static final int BUTTON_LB = 4;
+	public static final int BUTTON_RB = 5;
 	public static final int BUTTON_BACK = 6;
 	public static final int BUTTON_START = 7;
-	public static final PovDirection BUTTON_DPAD_UP = PovDirection.north;
-	public static final PovDirection BUTTON_DPAD_DOWN = PovDirection.south;
-	public static final PovDirection BUTTON_DPAD_RIGHT = PovDirection.east;
-	public static final PovDirection BUTTON_DPAD_LEFT = PovDirection.west;
-	public static final int BUTTON_LB = 4;
-	public static final int BUTTON_L3 = 8;
-	public static final int BUTTON_RB = 5;
-	public static final int BUTTON_R3 = 9;
 	/**
-	 * -1 is full left, +1 is full right
+	 * Left stick clicked
 	 */
-	public static final int AXIS_LEFT_X = 1;
+	public static final int BUTTON_LS = 8;
 	/**
-	 * -1 is full up, +1 is full down
+	 * Right stick clicked
 	 */
-	public static final int AXIS_LEFT_Y = 0;
+	public static final int BUTTON_RS = 9;
+
 	/**
-	 * 0 to 1f
+	 * D-pad/hat switch
 	 */
-	public static final int AXIS_LEFT_TRIGGER = 4;
+	public static final int POV = 0;
+
 	/**
-	 * -1 is full left, +1 is full right
+	 * -1 is up, +1 is down
 	 */
-	public static final int AXIS_RIGHT_X = 3;
+	public static final int AXIS_LY = 0;
 	/**
-	 * -1 is full up, +1 is full down
+	 * -1 is left, +1 is right
 	 */
-	public static final int AXIS_RIGHT_Y = 2;
+	public static final int AXIS_LX = 1;
 	/**
-	 * 0 to -1f
+	 * -1 is up, +1 is down
 	 */
-	public static final int AXIS_RIGHT_TRIGGER = 4;
-	
+	public static final int AXIS_RY = 2;
+	/**
+	 * -1 is left, +1 is right
+	 */
+	public static final int AXIS_RX = 3;
+	/**
+	 * Left trigger < 0, Right trigger > 0
+	 */
+	public static final int AXIS_TRIGGER = 4;
+
 }
