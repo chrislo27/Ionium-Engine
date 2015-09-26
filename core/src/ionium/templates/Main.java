@@ -310,8 +310,8 @@ public abstract class Main extends Game implements Consumer {
 									.getInt("MAX_FPS") / 4f) ? "[RED]"
 									: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
 											.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
-							+ Gdx.graphics.getFramesPerSecond() + "[]", 5,
-					Gdx.graphics.getHeight() - 5 - (font.getCapHeight() * 2.5f));
+							+ Gdx.graphics.getFramesPerSecond() + "[]", 5, Gdx.graphics.getHeight()
+							- 5 - (font.getCapHeight() * 2.5f));
 		}
 
 		if (this.getScreen() != null) {
@@ -321,9 +321,10 @@ public abstract class Main extends Game implements Consumer {
 				if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
 
 				float baseHeight = Gdx.graphics.getHeight() - 5;
-				
+
 				for (int i = 0; i < debugStrings.size; i++) {
-					font.draw(batch, debugStrings.get(i), 5, (baseHeight - ((font.getCapHeight() * 1.5f) * (i + 3))));
+					font.draw(batch, debugStrings.get(i), 5,
+							(baseHeight - ((font.getCapHeight() * 1.5f) * (i + 3))));
 				}
 
 			}
@@ -363,29 +364,28 @@ public abstract class Main extends Game implements Consumer {
 
 		// newline before screen debug
 		debugStrings.add("");
-		
+
 		return debugStrings;
 	}
 
 	public void inputUpdate() {
-		if (Gdx.input.isKeyJustPressed(Keys.F8)) {
+		if (Gdx.input.isKeyJustPressed(DebugSetting.DEBUG_KEY)) {
 			DebugSetting.debug = !DebugSetting.debug;
 		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
-		if (DebugSetting.debug) { // console things -> alt + key
-			if (((Gdx.input.isKeyPressed(Keys.ALT_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)))) {
-				if (Gdx.input.isKeyJustPressed(Keys.C)) {
-					if (consolewindow.isVisible()) {
-						consolewindow.setVisible(false);
-					} else {
-						consolewindow.setVisible(true);
-						conscrollPane.getVerticalScrollBar().setValue(
-								conscrollPane.getVerticalScrollBar().getMaximum());
-					}
+		if (Gdx.input.isKeyPressed(DebugSetting.DEBUG_KEY)) {
+			if (Gdx.input.isKeyJustPressed(Keys.C)) {
+				if (consolewindow.isVisible()) {
+					consolewindow.setVisible(false);
+				} else {
+					consolewindow.setVisible(true);
+					conscrollPane.getVerticalScrollBar().setValue(
+							conscrollPane.getVerticalScrollBar().getMaximum());
 				}
 			}
 		}
+
 	}
 
 	public void tickUpdate() {
