@@ -74,12 +74,21 @@ public class Translator {
 	private void loadResources() {
 		base = Gdx.files.internal("localization/default");
 
-		languageList.clear();
+		
 		languageList.ordered = true;
+		
+		languageList.clear();
 
 		addBundle(defaultLang, I18NBundle.createBundle(base, new Locale("")));
-		//		addBundle("Česky", I18NBundle.createBundle(base, new Locale("cz")));
 
+	}
+	
+	public void reloadFromFile(){
+		for(int i = 0; i < languageList.size; i++){
+			Locale locale = bundles.get(languageList.get(i)).getLocale();
+			
+			bundles.put(languageList.get(i), I18NBundle.createBundle(base, locale));
+		}
 	}
 	
 	public void loadFromSettings(Preferences settings){
