@@ -383,17 +383,7 @@ public abstract class Main extends Game implements Consumer {
 						conscrollPane.getVerticalScrollBar().setValue(
 								conscrollPane.getVerticalScrollBar().getMaximum());
 					}
-				} else if (Gdx.input.isKeyJustPressed(Keys.Q)) {
-					throw new GameException(
-							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
-				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
-					gears.reset();
-
-					// FIXME
-					this.transition(new TrainDoors(true), new TrainDoors(false),
-							ScreenRegistry.get("mainmenu"));
 				}
-
 			}
 		}
 	}
