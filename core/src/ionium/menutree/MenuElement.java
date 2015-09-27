@@ -75,5 +75,9 @@ public abstract class MenuElement {
 
 		return !(old == onNextSublevel);
 	}
+	
+	public boolean isEnabled(){
+		return true;
+	}
 
 }

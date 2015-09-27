@@ -39,9 +39,10 @@ public class MenuTree {
 		@Override
 		public boolean buttonDown(Controller controller, int buttonIndex) {
 			if (controller == Xbox360Controllers.getController(0)) {
-				if(buttonIndex == Xbox360Mappings.BUTTON_A){
+				if (buttonIndex == Xbox360Mappings.BUTTON_A) {
 					pressEnter();
-				}else if(buttonIndex == Xbox360Mappings.BUTTON_B || buttonIndex == Xbox360Mappings.BUTTON_BACK){
+				} else if (buttonIndex == Xbox360Mappings.BUTTON_B
+						|| buttonIndex == Xbox360Mappings.BUTTON_BACK) {
 					pressBack();
 				}
 			}
@@ -55,21 +56,21 @@ public class MenuTree {
 
 		@Override
 		public boolean axisMoved(Controller controller, int axisIndex, float value) {
-//			if (controller == Xbox360Controllers.getController(0)) {
-//				if (axisIndex == Xbox360Mappings.AXIS_LX) {
-//					if (value <= -0.75f) {
-//						pressLeft();
-//					} else if (value >= 0.75f) {
-//						pressRight();
-//					}
-//				} else if (axisIndex == Xbox360Mappings.AXIS_LY) {
-//					if (value <= -0.75f) {
-//						pressUp();
-//					} else if (value >= 0.75f) {
-//						pressDown();
-//					}
-//				}
-//			}
+			//			if (controller == Xbox360Controllers.getController(0)) {
+			//				if (axisIndex == Xbox360Mappings.AXIS_LX) {
+			//					if (value <= -0.75f) {
+			//						pressLeft();
+			//					} else if (value >= 0.75f) {
+			//						pressRight();
+			//					}
+			//				} else if (axisIndex == Xbox360Mappings.AXIS_LY) {
+			//					if (value <= -0.75f) {
+			//						pressUp();
+			//					} else if (value >= 0.75f) {
+			//						pressDown();
+			//					}
+			//				}
+			//			}
 			return false;
 		}
 
@@ -122,7 +123,7 @@ public class MenuTree {
 	}
 
 	protected void pressEnter() {
-		elements.get(selected).handleEnter();
+		if (elements.get(selected).isEnabled()) elements.get(selected).handleEnter();
 	}
 
 	protected void pressBack() {
@@ -187,7 +188,7 @@ public class MenuTree {
 			// draw text
 			font.setColor(1, 1, 1, 1);
 
-			if (shouldBeGreyedOut) {
+			if (shouldBeGreyedOut || !level.get(i).isEnabled()) {
 				font.setColor(0.25f, 0.25f, 0.25f, 1f);
 			} else {
 				if (i == selected) {
