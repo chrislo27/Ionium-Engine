@@ -20,11 +20,20 @@ public abstract class MenuElement {
 
 	public abstract String getRenderText();
 	
-	public void handleEnter(){
-		if(sublevel.size > 0){
+	/**
+	 * Called when handleEnter is called
+	 * @return true if handled, false otherwise
+	 */
+	public abstract boolean onAction();
+	
+	public final void handleEnter(){
+		// if sublevel size is greater than 0 and onAction wasn't handled
+		if(sublevel.size > 0 && !onAction()){
 			if(!onNextSublevel){
+				// move to next sublevel if not already
 				onNextSublevel = true;
 			}else{
+				// handle enter on the sublevel
 				sublevel.get(selectedInSub).handleEnter();
 			}
 		}
