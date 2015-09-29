@@ -27,7 +27,7 @@ public class Translator {
 		return instance;
 	}
 
-	public String currentLang() {
+	public String getCurrentLanguageName() {
 		return languageList.get(toUse);
 	}
 
@@ -107,6 +107,14 @@ public class Translator {
 
 	private static I18NBundle getBundle() {
 		return instance().bundles.get(instance().languageList.get(instance().toUse));
+	}
+	
+	public I18NBundle getCurrentBundle(){
+		return bundles.get(languageList.get(toUse));
+	}
+	
+	public Locale getCurrentLocale(){
+		return getCurrentBundle().getLocale();
 	}
 
 	public static String getMsg(String key, Object... params) {

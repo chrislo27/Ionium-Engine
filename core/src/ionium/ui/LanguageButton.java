@@ -30,14 +30,14 @@ public abstract class LanguageButton extends Button {
 	@Override
 	public boolean onLeftClick() {
 		Translator.instance().nextLang();
-		getPreferences().putString("language", Translator.instance().currentLang()).flush();
+		getPreferences().putString("language", Translator.instance().getCurrentLanguageName()).flush();
 		return true;
 	}
 
 	@Override
 	public boolean onRightClick() {
 		Translator.instance().prevLang();
-		getPreferences().putString("language", Translator.instance().currentLang()).flush();
+		getPreferences().putString("language", Translator.instance().getCurrentLanguageName()).flush();
 		return true;
 	}
 }
