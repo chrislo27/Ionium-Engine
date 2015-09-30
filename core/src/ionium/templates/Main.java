@@ -310,8 +310,7 @@ public abstract class Main extends Game implements Consumer {
 									.getInt("MAX_FPS") / 4f) ? "[RED]"
 									: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
 											.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
-							+ Gdx.graphics.getFramesPerSecond() + "[]", 5, Gdx.graphics.getHeight()
-							- 5 - (font.getCapHeight() * 2.5f));
+							+ Gdx.graphics.getFramesPerSecond() + "[]", 5, Gdx.graphics.getHeight() - (font.getCapHeight() * 1.25f));
 		}
 
 		if (this.getScreen() != null) {
@@ -320,11 +319,11 @@ public abstract class Main extends Game implements Consumer {
 				this.getDebugStrings();
 				if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
 
-				float baseHeight = Gdx.graphics.getHeight() - 5;
+				float baseHeight = Gdx.graphics.getHeight() - (font.getCapHeight() * 1.25f * 3f);
 
 				for (int i = 0; i < debugStrings.size; i++) {
 					font.draw(batch, debugStrings.get(i), 5,
-							(baseHeight - ((font.getCapHeight() * 1.5f) * (i + 3))));
+							(baseHeight - ((font.getCapHeight() * 1.5f) * (i))));
 				}
 
 			}
