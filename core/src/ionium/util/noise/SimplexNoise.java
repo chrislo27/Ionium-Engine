@@ -1,4 +1,4 @@
-package ionium.util;
+package ionium.util.noise;
 
 /*
  * OpenSimplex Noise in Java.

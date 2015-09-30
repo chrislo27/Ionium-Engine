@@ -1,7 +1,7 @@
 package ionium.util.render;
 
 import ionium.templates.Main;
-import ionium.util.SimplexNoise;
+import ionium.util.noise.SimplexNoise;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
