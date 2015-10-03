@@ -327,6 +327,8 @@ public abstract class Main extends Game implements Consumer {
 				}
 
 			}
+		}else{
+			font.draw(batch, "null screen", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center, false);
 		}
 		batch.end();
 
