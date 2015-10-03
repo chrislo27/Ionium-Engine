@@ -35,6 +35,8 @@ public class ConstantsRegistry {
 
 		putInt("TICKS", 20);
 		putInt("MAX_FPS", 60);
+		
+		putString("VERSION_URL", null);
 	}
 	
 	public ConstantsRegistry putInt(String key, int value){

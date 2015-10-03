@@ -1,5 +1,6 @@
 package ionium.util.version;
 
+import ionium.registry.ConstantsRegistry;
 import ionium.templates.Main;
 
 import java.io.BufferedReader;
@@ -31,7 +32,13 @@ public class VersionGetter {
 	 * NOTE: This method blocks until it fails or completes
 	 */
 	public void getVersionFromServer() {
-		final String path = "https://raw.githubusercontent.com/chrislo27/VersionPlace/master/YourTicketPlease-version.txt";
+		final String path = ConstantsRegistry.getString("VERSION_URL", null);
+		
+		if(path == null){
+			Main.logger.error("Version URL is null!");
+			return;
+		}
+		
 		long start = System.currentTimeMillis();
 		try {
 			BufferedReader br = new BufferedReader(
