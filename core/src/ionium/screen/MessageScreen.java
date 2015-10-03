@@ -1,6 +1,6 @@
 package ionium.screen;
 
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
 
 import com.badlogic.gdx.Gdx;
@@ -28,10 +28,10 @@ public class MessageScreen extends Updateable {
 
 		main.batch.begin();
 
-		float width = (ConstantsRegistry.getInt("DEFAULT_WIDTH") / 3f) * 2f;
+		float width = (GlobalVariables.getInt("DEFAULT_WIDTH") / 3f) * 2f;
 		main.font.draw(main.batch, getRenderMessage(),
-				(ConstantsRegistry.getInt("DEFAULT_WIDTH") - width) / 2f,
-				Main.convertY((ConstantsRegistry.getInt("DEFAULT_HEIGHT") / 3f)), width, Align.center, true);
+				(GlobalVariables.getInt("DEFAULT_WIDTH") - width) / 2f,
+				Main.convertY((GlobalVariables.getInt("DEFAULT_HEIGHT") / 3f)), width, Align.center, true);
 
 		container.render(main);
 		main.font.setColor(Color.WHITE);

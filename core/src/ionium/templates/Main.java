@@ -1,7 +1,7 @@
 package ionium.templates;
 
 import ionium.registry.AssetRegistry;
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.registry.ErrorLogRegistry;
 import ionium.registry.ScreenRegistry;
 import ionium.screen.AssetLoadingScreen;
@@ -181,7 +181,7 @@ public abstract class Main extends Game implements Consumer {
 		blurshader = new ShaderProgram(Shaders.VERTBLUR, Shaders.FRAGBLUR);
 		blurshader.begin();
 		blurshader.setUniformf("dir", 1f, 0f);
-		blurshader.setUniformf("resolution", ConstantsRegistry.getInt("DEFAULT_WIDTH"));
+		blurshader.setUniformf("resolution", GlobalVariables.getInt("DEFAULT_WIDTH"));
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
 
@@ -256,7 +256,7 @@ public abstract class Main extends Game implements Consumer {
 
 		try {
 			// ticks
-			while (nanoUntilTick >= (1_000_000_000 / ConstantsRegistry.getInt("TICKS"))) {
+			while (nanoUntilTick >= (1_000_000_000 / GlobalVariables.getInt("TICKS"))) {
 				long nano = System.nanoTime();
 
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
@@ -265,7 +265,7 @@ public abstract class Main extends Game implements Consumer {
 
 				lastTickDurationNano = System.nanoTime() - nano;
 
-				nanoUntilTick -= (1_000_000_000 / ConstantsRegistry.getInt("TICKS"));
+				nanoUntilTick -= (1_000_000_000 / GlobalVariables.getInt("TICKS"));
 			}
 
 			// render updates
@@ -306,9 +306,9 @@ public abstract class Main extends Game implements Consumer {
 			font.draw(
 					batch,
 					"FPS: "
-							+ (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
+							+ (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
 									.getInt("MAX_FPS") / 4f) ? "[RED]"
-									: (Gdx.graphics.getFramesPerSecond() <= (ConstantsRegistry
+									: (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
 											.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
 							+ Gdx.graphics.getFramesPerSecond() + "[]", 5, Gdx.graphics.getHeight() - (font.getCapHeight() * 1.25f));
 		}

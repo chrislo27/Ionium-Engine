@@ -1,6 +1,6 @@
 package ionium.screen;
 
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
 
 import com.badlogic.gdx.Gdx;
@@ -19,7 +19,7 @@ public class MiscLoadingScreen extends Updateable {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		main.batch.begin();
-		Main.gears.render(main, ConstantsRegistry.getInt("DEFAULT_WIDTH") - (192), 0);
+		Main.gears.render(main, GlobalVariables.getInt("DEFAULT_WIDTH") - (192), 0);
 		main.batch.end();
 	}
 

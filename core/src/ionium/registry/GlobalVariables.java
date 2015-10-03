@@ -4,16 +4,16 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Preferences;
 
-public class ConstantsRegistry {
+public class GlobalVariables {
 
-	private static ConstantsRegistry instance;
+	private static GlobalVariables instance;
 
-	private ConstantsRegistry() {
+	private GlobalVariables() {
 	}
 
-	public static ConstantsRegistry instance() {
+	public static GlobalVariables instance() {
 		if (instance == null) {
-			instance = new ConstantsRegistry();
+			instance = new GlobalVariables();
 			instance.loadResources();
 		}
 		return instance;
@@ -39,28 +39,28 @@ public class ConstantsRegistry {
 		putString("VERSION_URL", null);
 	}
 	
-	public ConstantsRegistry putInt(String key, int value){
+	public GlobalVariables putInt(String key, int value){
 		intMap.put(key, value);
 		
 		return this;
 	}
 	
-	public ConstantsRegistry putBoolean(String key, boolean value){
+	public GlobalVariables putBoolean(String key, boolean value){
 		booleanMap.put(key, value);
 		
 		return this;
 	}
-	public ConstantsRegistry putLong(String key, long value){
+	public GlobalVariables putLong(String key, long value){
 		longMap.put(key, value);
 		
 		return this;
 	}
-	public ConstantsRegistry putString(String key, String value){
+	public GlobalVariables putString(String key, String value){
 		stringMap.put(key, value);
 		
 		return this;
 	}
-	public ConstantsRegistry putFloat(String key, float value){
+	public GlobalVariables putFloat(String key, float value){
 		floatMap.put(key, value);
 		
 		return this;

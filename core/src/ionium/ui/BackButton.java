@@ -1,12 +1,12 @@
 package ionium.ui;
 
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
 
 public abstract class BackButton extends Button {
 
 	public BackButton(UiCorner corner) {
-		super(0, 0, 64f / ConstantsRegistry.getInt("DEFAULT_WIDTH"), 64f / ConstantsRegistry.getInt("DEFAULT_HEIGHT"), null);
+		super(0, 0, 64f / GlobalVariables.getInt("DEFAULT_WIDTH"), 64f / GlobalVariables.getInt("DEFAULT_HEIGHT"), null);
 		this.setFixed(corner, 64, 64);
 	}
 

@@ -1,6 +1,6 @@
 package ionium.util.render;
 
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
 import ionium.util.MathHelper;
 
@@ -44,8 +44,8 @@ public class PostProcessing {
 		batch.setShader(null);
 		buffer.end();
 
-		batch.draw(buffer.getColorBufferTexture(), 0, ConstantsRegistry.getInt("DEFAULT_HEIGHT"), ConstantsRegistry.getInt("DEFAULT_WIDTH"),
-				-ConstantsRegistry.getInt("DEFAULT_HEIGHT"));
+		batch.draw(buffer.getColorBufferTexture(), 0, GlobalVariables.getInt("DEFAULT_HEIGHT"), GlobalVariables.getInt("DEFAULT_WIDTH"),
+				-GlobalVariables.getInt("DEFAULT_HEIGHT"));
 		batch.flush();
 	}
 

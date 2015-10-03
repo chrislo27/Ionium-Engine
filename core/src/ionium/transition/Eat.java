@@ -1,6 +1,6 @@
 package ionium.transition;
 
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
 
 import com.badlogic.gdx.Gdx;

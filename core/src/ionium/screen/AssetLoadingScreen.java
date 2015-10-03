@@ -1,7 +1,7 @@
 package ionium.screen;
 
 import ionium.registry.AssetRegistry;
-import ionium.registry.ConstantsRegistry;
+import ionium.registry.GlobalVariables;
 import ionium.registry.ScreenRegistry;
 import ionium.templates.Main;
 import ionium.util.AssetLogger;
@@ -29,7 +29,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	public void render(float delta) {
 		AssetManager manager = AssetRegistry.instance().getAssetManager();
 		
-		AssetRegistry.instance().loadManagedAssets(((int) (1000f / ConstantsRegistry.getInt("MAX_FPS"))));
+		AssetRegistry.instance().loadManagedAssets(((int) (1000f / GlobalVariables.getInt("MAX_FPS"))));
 		do {
 			if (AssetRegistry.instance().finishedLoading()) {
 				if (!waitedAFrame) {
