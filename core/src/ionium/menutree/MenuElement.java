@@ -51,6 +51,12 @@ public abstract class MenuElement {
 	public MenuElement setSublevel(MenuElement[] array){
 		return setSublevel(new Array<MenuElement>(array));
 	}
+	
+	public MenuElement addToSublevel(MenuElement me){
+		sublevel.add(me);
+		
+		return this;
+	}
 
 	public int getSelected() {
 		return selectedInSub;
