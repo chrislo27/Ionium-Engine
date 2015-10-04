@@ -99,11 +99,14 @@ public class MenuTree {
 		this.indent = indent;
 	}
 
-	public void render(SpriteBatch batch, BitmapFont font) {
+	public void render(SpriteBatch batch, BitmapFont font, float alpha) {
 		float offsetX = 0;
 		float offsetY = 0;
 
-		// keyboard input
+		renderSublevel(batch, font, offsetX, offsetY, elements, selected, true, alpha);
+	}
+	
+	public void renderUpdate(){
 		if (Gdx.input.isKeyJustPressed(Keys.DOWN)) {
 			pressDown();
 		} else if (Gdx.input.isKeyJustPressed(Keys.UP)) {
@@ -118,8 +121,6 @@ public class MenuTree {
 				|| Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			pressBack();
 		}
-
-		renderSublevel(batch, font, offsetX, offsetY, elements, selected, true);
 	}
 
 	protected void pressEnter() {
@@ -166,7 +167,7 @@ public class MenuTree {
 	}
 
 	private float renderSublevel(SpriteBatch batch, BitmapFont font, float offsetX, float offsetY,
-			Array<MenuElement> level, int selected, boolean isThisGroupEvenSelected) {
+			Array<MenuElement> level, int selected, boolean isThisGroupEvenSelected, float alpha) {
 		boolean shouldBeGreyedOut = false;
 
 		// grey out if group not selected
@@ -186,13 +187,13 @@ public class MenuTree {
 
 		for (int i = 0; i < level.size; i++) {
 			// draw text
-			font.setColor(1, 1, 1, 1);
+			font.setColor(1, 1, 1, alpha);
 
 			if (shouldBeGreyedOut || !level.get(i).isEnabled()) {
-				font.setColor(0.25f, 0.25f, 0.25f, 1f);
+				font.setColor(0.25f, 0.25f, 0.25f, alpha);
 			} else {
 				if (i == selected) {
-					font.setColor(0.25f, 0.75f, 1f, 1f);
+					font.setColor(0.25f, 0.75f, 1f, alpha);
 				}
 			}
 
@@ -200,14 +201,14 @@ public class MenuTree {
 					* Gdx.graphics.getHeight() - offsetY);
 
 			if (level.get(i).sublevel.size > 0) {
-				main.font.setColor(0.25f, 0.25f, 0.25f, 1f);
+				main.font.setColor(0.25f, 0.25f, 0.25f, alpha);
 				main.font.draw(
 						batch,
 						"   >",
 						x * Gdx.graphics.getWidth() + offsetX
 								+ Utils.getWidth(font, level.get(i).getRenderText()), y
 								* Gdx.graphics.getHeight() - offsetY);
-				main.font.setColor(1, 1, 1, 1);
+				main.font.setColor(1, 1, 1, alpha);
 			}
 
 			// show the selected arrow if the menu is:
@@ -225,7 +226,7 @@ public class MenuTree {
 			if (level.get(i).sublevel.size > 0 && i == selected && isThisGroupEvenSelected) {
 				offsetY = renderSublevel(batch, font, offsetX + indent, offsetY,
 						level.get(i).sublevel, level.get(i).getSelected(),
-						level.get(i).onNextSublevel);
+						level.get(i).onNextSublevel, alpha);
 			}
 		}
 
