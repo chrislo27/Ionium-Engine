@@ -41,19 +41,23 @@ public abstract class MenuElement {
 			}
 		}
 	}
-
-	public MenuElement setSublevel(Array<MenuElement> array) {
-		sublevel = array;
-
-		return this;
-	}
 	
 	public MenuElement setSublevel(MenuElement[] array){
-		return setSublevel(new Array<MenuElement>(array));
+		sublevel = new Array<MenuElement>(array);
+		
+		return this;
 	}
 	
 	public MenuElement addToSublevel(MenuElement me){
 		sublevel.add(me);
+		
+		return this;
+	}
+	
+	public MenuElement addToSublevel(MenuElement[] array){
+		for(int i = 0; i < array.length; i++){
+			sublevel.add(array[i]);
+		}
 		
 		return this;
 	}
