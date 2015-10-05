@@ -1,25 +1,27 @@
 package ionium.transition;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-
 import ionium.templates.Main;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 
-public class Fade implements Transition{
+public class Fade implements Transition {
 
 	protected static final Color REUSED = new Color(0, 0, 0, 1);
-	
+
+	protected float startingTime = 1f;
 	protected float timeLeft = 1f;
 	protected int color = Color.rgba8888(Color.BLACK);
 	protected boolean fadingOut = true;
-	
-	public Fade(boolean fadingOut, int color, float time){
+
+	public Fade(boolean fadingOut, int color, float time) {
 		this.fadingOut = fadingOut;
 		this.color = color;
 		timeLeft = time;
+		startingTime = time;
 	}
-	
+
 	@Override
 	public boolean finished() {
 		return timeLeft <= 0;
@@ -28,11 +30,17 @@ public class Fade implements Transition{
 	@Override
 	public void render(Main main) {
 		REUSED.set(color);
-		
-		main.batch.setColor(REUSED.r, REUSED.g, REUSED.b, (fadingOut == false ? -1 : 0) + Math.min(timeLeft, 1f));
+
+		// 0 to startingTime
+		float elapsedTime = (startingTime - timeLeft);
+		// 0 to 1 (alpha)
+		float fadeIn = MathUtils.clamp((elapsedTime / startingTime), 0f, 1f);
+
+		main.batch.setColor(REUSED.r, REUSED.g, REUSED.b,
+				(fadingOut == false ? 1 - fadeIn : fadeIn));
 		Main.fillRect(main.batch, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		main.batch.setColor(1, 1, 1, 1);
-		
+
 		if (timeLeft > 0) {
 			timeLeft -= Gdx.graphics.getDeltaTime();
 			if (timeLeft < 0) timeLeft = 0;
