@@ -8,11 +8,11 @@ import ionium.templates.Main;
 
 public class Fade implements Transition{
 
-	private static final Color REUSED = new Color(0, 0, 0, 1);
+	protected static final Color REUSED = new Color(0, 0, 0, 1);
 	
-	float timeLeft = 1f;
-	int color = Color.rgba8888(Color.BLACK);
-	boolean fadingOut = true;
+	protected float timeLeft = 1f;
+	protected int color = Color.rgba8888(Color.BLACK);
+	protected boolean fadingOut = true;
 	
 	public Fade(boolean fadingOut, int color, float time){
 		this.fadingOut = fadingOut;
