@@ -74,6 +74,11 @@ public class TransitionScreen extends Updateable {
 
 	@Override
 	public Array<String> getDebugStrings(Array<String> array) {
+		array.add("prevScreen: " + (previousScreen == null ? null : previousScreen.getClass().getSimpleName()));
+		array.add("nextScreen: " + (nextScreen == null ? null : nextScreen.getClass().getSimpleName()));
+		array.add("[" + (!onTo ? "GREEN" : "RED") + "]fromTransition: " + (from == null ? null : from.getClass().getSimpleName()) + "[]");
+		array.add("[" + (onTo ? "GREEN" : "RED") + "]toTransition: " + (to == null ? null : to.getClass().getSimpleName()) + "[]");
+		
 		return array;
 	}
 
