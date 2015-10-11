@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,28 +17,33 @@ public class Utils {
 
 	private Utils() {
 	}
-	
+
 	private static GlyphLayout glyphLayout = new GlyphLayout();
 	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
+	private static Cursor cursor = null;
 
-	public static float getWidth(BitmapFont font, String text){
+	public static float getWidth(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
 		return glyphLayout.width;
 	}
-	
-	public static float getHeight(BitmapFont font, String text){
+
+	public static float getHeight(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
 		return glyphLayout.height;
 	}
-	
-	public static void setCursorVisibility(boolean visible){
-		if(visible){
-			Gdx.input.setCursorImage(null, 0, 0);
-		}else{
-			Gdx.input.setCursorImage(Main.clearPixmap, 1, 1);
+
+	public static void setCursorVisibility(boolean visible) {
+		if (visible) {
+			Gdx.graphics.setCursor(null);
+		} else {
+			if(cursor == null){
+				cursor = Gdx.graphics.newCursor(Main.clearPixmap, 0, 0);
+			}
+			
+			Gdx.graphics.setCursor(cursor);
 		}
 	}
-	
+
 	public static <T> boolean addToArray(T[] array, T toadd) {
 		for (int i = 0; i < array.length; i++) {
 			if (array[i] == null) {
@@ -80,8 +86,8 @@ public class Utils {
 	public static void drawRotated(Batch batch, Texture tex, float x, float y, float width,
 			float height, float centerX, float centerY, float rotation, boolean clockwise, int u,
 			int v, int uwidth, int vheight) {
-		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1, rotation
-				* (clockwise ? -1f : 1f), u, v, uwidth, vheight, false, false);
+		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1,
+				rotation * (clockwise ? -1f : 1f), u, v, uwidth, vheight, false, false);
 	}
 
 	public static int HSBtoRGBA8888(float hue, float saturation, float brightness) {
@@ -160,11 +166,11 @@ public class Utils {
 		Main.useMask(theMask);
 		batch.draw(baked, x, y, width, height);
 	}
-	
+
 	/**
 	 * Does magic number work to set up the noise shader to cover a percentage of sprite at zoom 2.0;
 	 */
-	public static void setupMaskingNoiseShader(ShaderProgram program, float percentage){
+	public static void setupMaskingNoiseShader(ShaderProgram program, float percentage) {
 		program.setUniformf("zoom", 2f);
 		program.setUniformf("intensity", (float) (percentage * 2.5f));
 	}
@@ -176,36 +182,36 @@ public class Utils {
 		}
 		return r;
 	}
-	
-	public static boolean isButtonJustPressed(int button){
-		if(Gdx.input.isButtonPressed(button)){
+
+	public static boolean isButtonJustPressed(int button) {
+		if (Gdx.input.isButtonPressed(button)) {
 			if (pressedButtons.get(button) == null || !pressedButtons.get(button)) {
 				pressedButtons.put(button, true);
 
 				return true;
 			}
-		}else{
+		} else {
 			pressedButtons.put(button, false);
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * packets 2 ints into a long
 	 * @param ms most significant 32 bits
 	 * @param ls least significant 32 bits
 	 * @return
 	 */
-	public static long packLong(int ms, int ls){
+	public static long packLong(int ms, int ls) {
 		return ((long) ms << 32) | (ls & 0xFFFFFFFFL);
 	}
-	
-	public static int unpackLongUpper(long l){
+
+	public static int unpackLongUpper(long l) {
 		return (int) (l >> 32);
 	}
-	
-	public static int unpackLongLower(long l){
+
+	public static int unpackLongLower(long l) {
 		return (int) l;
 	}
 }
