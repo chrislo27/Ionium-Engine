@@ -1,7 +1,7 @@
 package ionium.ui;
 
 import ionium.templates.Main;
-import ionium.util.Translator;
+import ionium.util.i18n.Translator;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;

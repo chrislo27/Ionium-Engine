@@ -2,7 +2,7 @@ package ionium.ui;
 
 import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
-import ionium.util.Translator;
+import ionium.util.i18n.Translator;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;

@@ -1,4 +1,4 @@
-package ionium.util;
+package ionium.util.i18n;
 
 import ionium.templates.Main;
 
