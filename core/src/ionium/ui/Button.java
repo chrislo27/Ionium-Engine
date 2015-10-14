@@ -47,7 +47,7 @@ public class Button extends UiElement {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guibg");
-		renderText(main, Localization.getMsg(text), this.width * Gdx.graphics.getWidth());
+		renderText(main, Localization.get(text), this.width * Gdx.graphics.getWidth());
 	}
 
 	protected void renderText(Main main, String text, float width) {

@@ -20,7 +20,7 @@ public class ChoiceButton extends Button {
 	public void render(Main main) {
 		imageRender(main, "guibg");
 		main.font.setColor(Color.BLACK);
-		renderText(main, "< " + Localization.getMsg(text) + Localization.getMsg(choices.get(selection))
+		renderText(main, "< " + Localization.get(text) + Localization.get(choices.get(selection))
 				+ " >", width);
 	}
 

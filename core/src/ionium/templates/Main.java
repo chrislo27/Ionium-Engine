@@ -437,7 +437,7 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public static String getTitle() {
-		return (Localization.getMsg("gamename") + " " + Main.version);
+		return (Localization.get("gamename") + " " + Main.version);
 	}
 
 	@Override
@@ -460,7 +460,7 @@ public abstract class Main extends Game implements Consumer {
 
 	public void resetConsole() {
 		consolewindow = new JFrame();
-		consolewindow.setTitle("Console for " + Localization.getMsg("gamename") + " " + Main.version);
+		consolewindow.setTitle("Console for " + Localization.get("gamename") + " " + Main.version);
 		consolewindow.setVisible(false);
 		consoletext = new JTextArea(40, 60);
 		consoletext.setEditable(false);

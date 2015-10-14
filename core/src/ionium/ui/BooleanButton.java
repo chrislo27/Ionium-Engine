@@ -17,7 +17,7 @@ public class BooleanButton extends Button {
 	public void render(Main main) {
 		imageRender(main, "guibg" + state + "");
 		main.font.setColor(Color.BLACK);
-		renderText(main, Localization.getMsg(text), this.width);
+		renderText(main, Localization.get(text), this.width);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public abstract class LanguageButton extends Button {
 		main.font.setColor(Color.WHITE);
 		main.font.draw(
 				main.batch,
-				Localization.getMsg("menu.language") + ": "
+				Localization.get("menu.language") + ": "
 						+ Localization.instance().getCurrentBundle().getLocale().getName(), x
 						+ width + 5, y + (height / 2));
 	}

@@ -45,7 +45,7 @@ public class Localization {
 		selectedBundle = bundles.get(0);
 	}
 
-	public static String getMsg(String key, Object... params) {
+	public static String get(String key, Object... params) {
 
 		if (instance().caughtMissing.get(key) != null) {
 			return key;
