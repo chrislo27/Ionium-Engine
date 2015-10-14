@@ -18,7 +18,7 @@ public class ResolutionButton extends ChoiceButton {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guibg");
-		main.font.setColor(Color.BLACK);
+		main.defaultFont.setColor(Color.BLACK);
 		renderText(main, "< " + choices.get(selection) + " >", width);
 	}
 

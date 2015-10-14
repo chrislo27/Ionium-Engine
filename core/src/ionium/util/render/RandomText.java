@@ -13,12 +13,12 @@ public class RandomText {
 
 	public static void render(Main main, String text, int chance, int maxrender) {
 		if (text != null) {
-			glyphLayout.setText(main.font, text);
+			glyphLayout.setText(main.defaultFont, text);
 
 			float height = glyphLayout.height;
 			for (int i = 0; i < maxrender; i++) {
 				if (MathUtils.random(1, chance) != 1) continue;
-				main.font.draw(
+				main.defaultFont.draw(
 						main.batch,
 						text,
 						MathUtils.random(1, Gdx.graphics.getWidth() - 1),

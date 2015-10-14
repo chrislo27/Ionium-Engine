@@ -58,14 +58,14 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		Main.fillRect(main.batch, Gdx.graphics.getWidth() / 2 + 132, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
 
 		if (manager.getAssetNames().size > 0) {
-			main.drawTextBg(main.font, output.getLastMsg(),
+			main.drawTextBg(main.defaultFont, output.getLastMsg(),
 					Gdx.graphics.getWidth() / 2
-							- (Utils.getWidth(main.font, output.getLastMsg()) / 2),
+							- (Utils.getWidth(main.defaultFont, output.getLastMsg()) / 2),
 					Gdx.graphics.getHeight() / 2 - 35);
 		}
 		String percent = String.format("%.0f", (manager.getProgress() * 100f)) + "%";
-		main.drawTextBg(main.font, percent,
-				Gdx.graphics.getWidth() / 2 - (Utils.getWidth(main.font, percent) / 2),
+		main.drawTextBg(main.defaultFont, percent,
+				Gdx.graphics.getWidth() / 2 - (Utils.getWidth(main.defaultFont, percent) / 2),
 				Gdx.graphics.getHeight() / 2 - 60);
 
 		main.batch.end();

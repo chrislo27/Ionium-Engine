@@ -51,14 +51,14 @@ public class Button extends UiElement {
 	}
 
 	protected void renderText(Main main, String text, float width) {
-		main.font.setColor(Color.BLACK);
+		main.defaultFont.setColor(Color.BLACK);
 
-		glyphLayout.setText(main.font, text);
+		glyphLayout.setText(main.defaultFont, text);
 		if (glyphLayout.width + 6 > width) {
 			//main.font.setScale(width / (main.font.getBounds(text).width + 6), 1);
 		}
 
-		main.font.draw(main.batch, text, x * Gdx.graphics.getWidth() + (width / 2), y
+		main.defaultFont.draw(main.batch, text, x * Gdx.graphics.getWidth() + (width / 2), y
 				* Gdx.graphics.getHeight() + (height * Gdx.graphics.getHeight() / 2)
 				+ (glyphLayout.height / 2), 0, Align.center, false);
 	}

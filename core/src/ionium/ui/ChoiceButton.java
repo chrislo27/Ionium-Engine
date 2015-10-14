@@ -19,7 +19,7 @@ public class ChoiceButton extends Button {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guibg");
-		main.font.setColor(Color.BLACK);
+		main.defaultFont.setColor(Color.BLACK);
 		renderText(main, "< " + Localization.get(text) + Localization.get(choices.get(selection))
 				+ " >", width);
 	}

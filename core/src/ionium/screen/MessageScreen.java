@@ -29,12 +29,12 @@ public class MessageScreen extends Updateable {
 		main.batch.begin();
 
 		float width = (GlobalVariables.getInt("DEFAULT_WIDTH") / 3f) * 2f;
-		main.font.draw(main.batch, getRenderMessage(),
+		main.defaultFont.draw(main.batch, getRenderMessage(),
 				(GlobalVariables.getInt("DEFAULT_WIDTH") - width) / 2f,
 				Main.convertY((GlobalVariables.getInt("DEFAULT_HEIGHT") / 3f)), width, Align.center, true);
 
 		container.render(main);
-		main.font.setColor(Color.WHITE);
+		main.defaultFont.setColor(Color.WHITE);
 		main.batch.setColor(1, 1, 1, 1);
 
 		main.batch.end();

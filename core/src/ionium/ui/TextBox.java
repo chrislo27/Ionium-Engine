@@ -26,21 +26,21 @@ public class TextBox extends Button {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guibgtext");
-		main.font.setColor(1, 1, 1, 1);
+		main.defaultFont.setColor(1, 1, 1, 1);
 
-		glyphLayout.setText(main.font, text);
+		glyphLayout.setText(main.defaultFont, text);
 		
 		if (!passwordMode) {
-			main.font.draw(main.batch, text, x + 8, y + (height / 2)
+			main.defaultFont.draw(main.batch, text, x + 8, y + (height / 2)
 					+ (glyphLayout.height / 2));
 		} else {
-			main.font.draw(main.batch, Utils.repeat("*", text.length()), x + 8, y + (height / 2)
+			main.defaultFont.draw(main.batch, Utils.repeat("*", text.length()), x + 8, y + (height / 2)
 					+ (glyphLayout.height / 2));
 		}
 
 		if (clicked
 				&& MathHelper.getNumberFromTime(System.currentTimeMillis() - clickedTime, 1f) <= 0.5f) {
-			main.font.draw(main.batch, "|", x + 8 + glyphLayout.width, y
+			main.defaultFont.draw(main.batch, "|", x + 8 + glyphLayout.width, y
 					+ (height / 2) + (glyphLayout.height / 2));
 		}
 

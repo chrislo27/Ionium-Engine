@@ -201,14 +201,14 @@ public class MenuTree {
 					* Gdx.graphics.getHeight() - offsetY);
 
 			if (level.get(i).sublevel.size > 0) {
-				main.font.setColor(0.25f, 0.25f, 0.25f, alpha);
-				main.font.draw(
+				main.defaultFont.setColor(0.25f, 0.25f, 0.25f, alpha);
+				main.defaultFont.draw(
 						batch,
 						"   >",
 						x * Gdx.graphics.getWidth() + offsetX
 								+ Utils.getWidth(font, level.get(i).getRenderText()), y
 								* Gdx.graphics.getHeight() - offsetY);
-				main.font.setColor(1, 1, 1, alpha);
+				main.defaultFont.setColor(1, 1, 1, alpha);
 			}
 
 			// show the selected arrow if the menu is:

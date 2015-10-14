@@ -17,8 +17,8 @@ public abstract class LanguageButton extends Button {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guilanguage");
-		main.font.setColor(Color.WHITE);
-		main.font.draw(
+		main.defaultFont.setColor(Color.WHITE);
+		main.defaultFont.draw(
 				main.batch,
 				Localization.get("menu.language") + ": "
 						+ Localization.instance().getCurrentBundle().getLocale().getName(), x
