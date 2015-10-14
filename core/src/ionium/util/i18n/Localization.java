@@ -12,16 +12,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 
-public class Translator {
+public class Localization {
 
-	private static Translator instance;
+	private static Localization instance;
 
-	private Translator() {
+	private Localization() {
 	}
 
-	public static Translator instance() {
+	public static Localization instance() {
 		if (instance == null) {
-			instance = new Translator();
+			instance = new Localization();
 			instance.loadResources();
 		}
 		return instance;
@@ -74,24 +74,23 @@ public class Translator {
 	private void loadResources() {
 		base = Gdx.files.internal("localization/default");
 
-		
 		languageList.ordered = true;
-		
+
 		languageList.clear();
 
 		addBundle(defaultLang, I18NBundle.createBundle(base, new Locale("")));
 
 	}
-	
-	public void reloadFromFile(){
-		for(int i = 0; i < languageList.size; i++){
+
+	public void reloadFromFile() {
+		for (int i = 0; i < languageList.size; i++) {
 			Locale locale = bundles.get(languageList.get(i)).getLocale();
-			
+
 			bundles.put(languageList.get(i), I18NBundle.createBundle(base, locale));
 		}
 	}
-	
-	public void loadFromSettings(Preferences settings){
+
+	public void loadFromSettings(Preferences settings) {
 		for (int i = 0; i < languageList.size; i++) {
 			String lang = languageList.get(i);
 			if (lang.equalsIgnoreCase(settings.getString("language", defaultLang))) {
@@ -108,12 +107,12 @@ public class Translator {
 	private static I18NBundle getBundle() {
 		return instance().bundles.get(instance().languageList.get(instance().toUse));
 	}
-	
-	public I18NBundle getCurrentBundle(){
+
+	public I18NBundle getCurrentBundle() {
 		return bundles.get(languageList.get(toUse));
 	}
-	
-	public Locale getCurrentLocale(){
+
+	public Locale getCurrentLocale() {
 		return getCurrentBundle().getLocale();
 	}
 

@@ -12,7 +12,7 @@ import ionium.transition.TransitionScreen;
 import ionium.util.AssetMap;
 import ionium.util.CaptureStream;
 import ionium.util.CaptureStream.Consumer;
-import ionium.util.i18n.Translator;
+import ionium.util.i18n.Localization;
 import ionium.util.DebugSetting;
 import ionium.util.GameException;
 import ionium.util.IoniumEngineVersion;
@@ -410,7 +410,7 @@ public abstract class Main extends Game implements Consumer {
 
 	private void loadAssets() {
 		AssetMap.instance(); // load asset map namer thing
-		Translator.instance();
+		Localization.instance();
 		addColors();
 
 		// the default assets are already added in StandardAssetLoader
@@ -437,7 +437,7 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public static String getTitle() {
-		return (Translator.getMsg("gamename") + " " + Main.version);
+		return (Localization.getMsg("gamename") + " " + Main.version);
 	}
 
 	@Override
@@ -460,7 +460,7 @@ public abstract class Main extends Game implements Consumer {
 
 	public void resetConsole() {
 		consolewindow = new JFrame();
-		consolewindow.setTitle("Console for " + Translator.getMsg("gamename") + " " + Main.version);
+		consolewindow.setTitle("Console for " + Localization.getMsg("gamename") + " " + Main.version);
 		consolewindow.setVisible(false);
 		consoletext = new JTextArea(40, 60);
 		consoletext.setEditable(false);

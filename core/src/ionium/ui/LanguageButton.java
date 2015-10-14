@@ -2,7 +2,7 @@ package ionium.ui;
 
 import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
-import ionium.util.i18n.Translator;
+import ionium.util.i18n.Localization;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
@@ -20,8 +20,8 @@ public abstract class LanguageButton extends Button {
 		main.font.setColor(Color.WHITE);
 		main.font.draw(
 				main.batch,
-				Translator.getMsg("menu.language") + ": "
-						+ Translator.instance().languageList.get(Translator.instance().toUse), x
+				Localization.getMsg("menu.language") + ": "
+						+ Localization.instance().languageList.get(Localization.instance().toUse), x
 						+ width + 5, y + (height / 2));
 	}
 
@@ -29,15 +29,15 @@ public abstract class LanguageButton extends Button {
 	
 	@Override
 	public boolean onLeftClick() {
-		Translator.instance().nextLang();
-		getPreferences().putString("language", Translator.instance().getCurrentLanguageName()).flush();
+		Localization.instance().nextLang();
+		getPreferences().putString("language", Localization.instance().getCurrentLanguageName()).flush();
 		return true;
 	}
 
 	@Override
 	public boolean onRightClick() {
-		Translator.instance().prevLang();
-		getPreferences().putString("language", Translator.instance().getCurrentLanguageName()).flush();
+		Localization.instance().prevLang();
+		getPreferences().putString("language", Localization.instance().getCurrentLanguageName()).flush();
 		return true;
 	}
 }

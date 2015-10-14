@@ -1,7 +1,7 @@
 package ionium.ui;
 
 import ionium.templates.Main;
-import ionium.util.i18n.Translator;
+import ionium.util.i18n.Localization;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
@@ -20,7 +20,7 @@ public class ChoiceButton extends Button {
 	public void render(Main main) {
 		imageRender(main, "guibg");
 		main.font.setColor(Color.BLACK);
-		renderText(main, "< " + Translator.getMsg(text) + Translator.getMsg(choices.get(selection))
+		renderText(main, "< " + Localization.getMsg(text) + Localization.getMsg(choices.get(selection))
 				+ " >", width);
 	}
 

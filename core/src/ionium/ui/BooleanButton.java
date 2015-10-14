@@ -1,7 +1,7 @@
 package ionium.ui;
 
 import ionium.templates.Main;
-import ionium.util.i18n.Translator;
+import ionium.util.i18n.Localization;
 
 import com.badlogic.gdx.graphics.Color;
 
@@ -17,7 +17,7 @@ public class BooleanButton extends Button {
 	public void render(Main main) {
 		imageRender(main, "guibg" + state + "");
 		main.font.setColor(Color.BLACK);
-		renderText(main, Translator.getMsg(text), this.width);
+		renderText(main, Localization.getMsg(text), this.width);
 	}
 
 	@Override
