@@ -21,7 +21,7 @@ public abstract class LanguageButton extends Button {
 		main.font.draw(
 				main.batch,
 				Localization.getMsg("menu.language") + ": "
-						+ Localization.instance().languageList.get(Localization.instance().toUse), x
+						+ Localization.instance().getCurrentBundle().getLocale().getName(), x
 						+ width + 5, y + (height / 2));
 	}
 
@@ -29,15 +29,17 @@ public abstract class LanguageButton extends Button {
 	
 	@Override
 	public boolean onLeftClick() {
-		Localization.instance().nextLang();
-		getPreferences().putString("language", Localization.instance().getCurrentLanguageName()).flush();
+		Localization.instance().nextLanguage(1);
+		
+		Localization.instance().saveToSettings(getPreferences());
 		return true;
 	}
 
 	@Override
 	public boolean onRightClick() {
-		Localization.instance().prevLang();
-		getPreferences().putString("language", Localization.instance().getCurrentLanguageName()).flush();
+		Localization.instance().nextLanguage(-1);
+		
+		Localization.instance().saveToSettings(getPreferences());
 		return true;
 	}
 }

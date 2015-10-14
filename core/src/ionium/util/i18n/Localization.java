@@ -1,7 +1,5 @@
 package ionium.util.i18n;
 
-import ionium.templates.Main;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -12,7 +10,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 
+import ionium.templates.Main;
+
 public class Localization {
+
+	public static final String SETTINGS_KEY = "language";
 
 	private static Localization instance;
 
@@ -27,116 +29,121 @@ public class Localization {
 		return instance;
 	}
 
-	public String getCurrentLanguageName() {
-		return languageList.get(toUse);
-	}
+	private FileHandle baseFileHandle;
 
-	public void setLanguage(String lang) {
-		for (int i = 0; i < languageList.size; i++) {
-			if (languageList.get(i).equalsIgnoreCase(lang)) {
-				toUse = i;
-				return;
-			}
-		}
-		toUse = 0;
-	}
+	private HashMap<String, Boolean> caughtMissing = new HashMap<>();
 
-	public String nextLang() {
-		if (bundles.size() == 1) return languageList.get(toUse);
-		if (toUse + 1 == bundles.size()) {
-			toUse = 0;
-		} else {
-			toUse++;
-		}
-		return languageList.get(toUse);
-	}
+	private Array<CompleteI18NBundle> bundles = new Array<>();
 
-	public String prevLang() {
-		if (bundles.size() == 1) return languageList.get(toUse);
-		if (toUse - 1 < 0) {
-			toUse = bundles.size() - 1;
-		} else {
-			toUse--;
-		}
-		return languageList.get(toUse);
-	}
-
-	private Array<String> caught = new Array<String>(128);
-	private FileHandle base;
-
-	public HashMap<String, I18NBundle> bundles = new HashMap<String, I18NBundle>();
-
-	public int toUse = 0;
-	public Array<String> languageList = new Array<String>();
-
-	public static final String defaultLang = "English";
+	private CompleteI18NBundle selectedBundle = null;
 
 	private void loadResources() {
-		base = Gdx.files.internal("localization/default");
+		setBaseFileHandle(Gdx.files.internal("localization/default"));
 
-		languageList.ordered = true;
+		addBundle(new NamedLocale("English", new Locale("")));
 
-		languageList.clear();
-
-		addBundle(defaultLang, I18NBundle.createBundle(base, new Locale("")));
-
-	}
-
-	public void reloadFromFile() {
-		for (int i = 0; i < languageList.size; i++) {
-			Locale locale = bundles.get(languageList.get(i)).getLocale();
-
-			bundles.put(languageList.get(i), I18NBundle.createBundle(base, locale));
-		}
-	}
-
-	public void loadFromSettings(Preferences settings) {
-		for (int i = 0; i < languageList.size; i++) {
-			String lang = languageList.get(i);
-			if (lang.equalsIgnoreCase(settings.getString("language", defaultLang))) {
-				toUse = i;
-			}
-		}
-	}
-
-	private void addBundle(String name, I18NBundle bundle) {
-		languageList.add(name);
-		bundles.put(name, bundle);
-	}
-
-	private static I18NBundle getBundle() {
-		return instance().bundles.get(instance().languageList.get(instance().toUse));
-	}
-
-	public I18NBundle getCurrentBundle() {
-		return bundles.get(languageList.get(toUse));
-	}
-
-	public Locale getCurrentLocale() {
-		return getCurrentBundle().getLocale();
+		selectedBundle = bundles.get(0);
 	}
 
 	public static String getMsg(String key, Object... params) {
-		String s = "";
 
-		if (instance().caught.contains(key, false)) {
+		if (instance().caughtMissing.get(key) != null) {
 			return key;
 		}
 
 		try {
 			if (params == null) {
-				s = getBundle().get(key);
-			} else s = getBundle().format(key, params);
-		} catch (MissingResourceException m) {
-			if (!instance().caught.contains(key, false)) {
-				instance().caught.add(key + "");
-				Main.logger.warn("WARNING: the bundle \"" + instance().base.nameWithoutExtension()
-						+ "_" + getBundle().getLocale().toString() + "\" has no key \"" + key
-						+ "\"");
+				return instance().getCurrentBundle().getBundle().get(key);
+			} else {
+				return instance().getCurrentBundle().getBundle().format(key, params);
 			}
-			return key;
+		} catch (MissingResourceException e) {
+			instance().caughtMissing.put(key, true);
+			Main.logger.warn(
+					"WARNING: the bundle \"" + instance().getBaseFileHandle().nameWithoutExtension()
+							+ "_" + instance().getCurrentBundle().getLocale().getLocale().toString()
+							+ "\" has no key \"" + key + "\"");
 		}
-		return s;
+
+		return key;
+	}
+
+	public void nextLanguage(int advance) {
+		if (advance == 0) return;
+
+		int currentIndex = 0;
+
+		for (int i = 0; i < bundles.size; i++) {
+			if (bundles.get(i) == selectedBundle) {
+				currentIndex = i;
+				return;
+			}
+		}
+
+		currentIndex += (int) Math.signum(advance);
+
+		if (currentIndex < 0) {
+			currentIndex = bundles.size - 1;
+		} else if (currentIndex >= bundles.size) {
+			currentIndex = 0;
+		}
+
+		selectedBundle = bundles.get(currentIndex);
+	}
+
+	public void reloadFromFile() {
+		CompleteI18NBundle bundle = null;
+
+		for (int i = 0; i < bundles.size; i++) {
+			bundle = bundles.get(i);
+
+			bundle.setBundle(
+					I18NBundle.createBundle(getBaseFileHandle(), bundle.locale.getLocale()));
+		}
+	}
+
+	public CompleteI18NBundle getCurrentBundle() {
+		return selectedBundle;
+	}
+
+	public Array<CompleteI18NBundle> getAllBundles() {
+		return bundles;
+	}
+
+	public void addBundle(NamedLocale locale) {
+		bundles.add(new CompleteI18NBundle(locale,
+				I18NBundle.createBundle(getBaseFileHandle(), locale.getLocale())));
+	}
+
+	public void loadFromSettings(Preferences settings) {
+		CompleteI18NBundle bundle = null;
+		String savedSetting = settings.getString(SETTINGS_KEY, "");
+
+		for (int i = 0; i < bundles.size; i++) {
+			bundle = bundles.get(i);
+
+			if (savedSetting.equalsIgnoreCase(bundle.getLocale().getLocale().toString())) {
+				selectedBundle = bundle;
+
+				return;
+			}
+		}
+
+		selectedBundle = bundles.get(0);
+	}
+
+	public void saveToSettings(Preferences settings) {
+		settings.putString(SETTINGS_KEY, selectedBundle.locale.getLocale().toString());
+
+		settings.flush();
+	}
+
+	public void setBaseFileHandle(FileHandle handle) {
+		baseFileHandle = handle;
+	}
+
+	public FileHandle getBaseFileHandle() {
+		return baseFileHandle;
 	}
 
 }
