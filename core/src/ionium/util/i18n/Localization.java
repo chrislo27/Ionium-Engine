@@ -91,6 +91,22 @@ public class Localization {
 		selectedBundle = bundles.get(currentIndex);
 	}
 
+	public void setLanguage(int index) {
+		if (index < 0 || index >= bundles.size) throw new IllegalArgumentException(
+				"Index for setting language cannot be out of bounds! (got " + index + ")");
+
+		selectedBundle = bundles.get(index);
+	}
+	
+	public void setLanguage(NamedLocale locale){
+		for (int i = 0; i < bundles.size; i++) {
+			if(locale.equals(bundles.get(i).locale)){
+				selectedBundle = bundles.get(i);
+				return;
+			}
+		}
+	}
+
 	public void reloadFromFile() {
 		CompleteI18NBundle bundle = null;
 
