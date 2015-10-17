@@ -7,8 +7,7 @@ import com.badlogic.gdx.Gdx;
 public abstract class UiElement {
 
 	protected boolean fixedSize = false;
-	protected int fixedWidth, fixedHeight;
-	protected UiCorner fixedCorner = UiCorner.TOPLEFT;
+	protected int fixedWidth, fixedHeight, fixedX, fixedY;
 	
 	protected float x;
 	protected float y;
@@ -35,11 +34,10 @@ public abstract class UiElement {
 		return height;
 	}
 	
-	public void setFixed(UiCorner corner, int w, int h){
+	public void setFixedSize(int x, int y, int w, int h){
 		fixedSize = true;
 		fixedWidth = w;
 		fixedHeight = h;
-		fixedCorner = corner;
 		
 		updateActualSizeFromFixed();
 	}
@@ -67,29 +65,8 @@ public abstract class UiElement {
 	protected void updateActualSizeFromFixed(){
 		width = fixedWidth * 1f / Gdx.graphics.getWidth();
 		height = fixedHeight * 1f / Gdx.graphics.getHeight();
-		
-		switch(fixedCorner){
-		case BOTTOMLEFT:
-			x = 0;
-			y = 0;
-			break;
-		case BOTTOMRIGHT:
-			x = 1f - width;
-			y = 0;
-			break;
-		case TOPLEFT:
-			x = 0;
-			y = 1f - height;
-			break;
-		case TOPRIGHT:
-			x = 1f - width;
-			y = 1f - height;
-			break;
-		}
-	}
-	
-	public static enum UiCorner{
-		TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT;
+		x = fixedX * 1f / Gdx.graphics.getWidth();
+		y = fixedY * 1f / Gdx.graphics.getHeight();
 	}
 	
 }

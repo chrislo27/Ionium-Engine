@@ -5,9 +5,9 @@ import ionium.templates.Main;
 
 public abstract class BackButton extends Button {
 
-	public BackButton(UiCorner corner) {
-		super(0, 0, 64f / GlobalVariables.getInt("DEFAULT_WIDTH"), 64f / GlobalVariables.getInt("DEFAULT_HEIGHT"), null);
-		this.setFixed(corner, 64, 64);
+	public BackButton(int x, int y, int w, int h) {
+		super(0, 0, 1, 1, null);
+		this.setFixedSize(x, y, w, h);
 	}
 
 	@Override

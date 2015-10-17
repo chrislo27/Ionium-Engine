@@ -6,9 +6,9 @@ import ionium.templates.Main;
 
 public class SettingsButton extends Button {
 
-	public SettingsButton(UiCorner corner) {
-		super(0, 0, 64f / GlobalVariables.getInt("DEFAULT_WIDTH"), 64f / GlobalVariables.getInt("DEFAULT_HEIGHT"), null);
-		this.setFixed(corner, 64, 64);
+	public SettingsButton(int x, int y, int width, int height) {
+		super(0, 0, 1, 1, null);
+		this.setFixedSize(x, y, width, height);
 	}
 
 	@Override
