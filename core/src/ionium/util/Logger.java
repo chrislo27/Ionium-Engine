@@ -52,14 +52,14 @@ public class Logger extends com.badlogic.gdx.utils.Logger {
 	@Override
 	public void error(String message) {
 		if (getLevel() >= com.badlogic.gdx.utils.Logger.ERROR) {
-			System.out.println(getDateStamp() + " [ERROR]" + message);
+			System.out.println(getDateStamp() + " [ERROR] " + message);
 		}
 	}
 
 	@Override
 	public void error(String message, Throwable exception) {
 		if (getLevel() >= com.badlogic.gdx.utils.Logger.ERROR) {
-			System.out.println(getDateStamp() + " [ERROR]" + message);
+			System.out.println(getDateStamp() + " [ERROR] " + message);
 			exception.printStackTrace(System.out);
 		}
 	}
