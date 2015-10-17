@@ -34,14 +34,14 @@ public abstract class UiElement {
 		return height;
 	}
 	
-	public void setFixedSize(int x, int y, int w, int h){
+	public UiElement setFixedSize(int x, int y, int w, int h){
 		fixedSize = true;
 		fixedWidth = w;
 		fixedHeight = h;
 		fixedX = x;
 		fixedY = y;
 		
-		updateActualSizeFromFixed();
+		return updateActualSizeFromFixed();
 	}
 
 	/**
