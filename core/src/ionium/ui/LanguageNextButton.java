@@ -7,9 +7,9 @@ import ionium.util.i18n.Localization;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 
-public abstract class LanguageButton extends Button {
+public abstract class LanguageNextButton extends Button {
 
-	public LanguageButton(int x, int y, int w, int h) {
+	public LanguageNextButton(int x, int y, int w, int h) {
 		super(0, 0, 1, 1, null);
 		this.setFixedSize(x, y, w, h);
 	}
