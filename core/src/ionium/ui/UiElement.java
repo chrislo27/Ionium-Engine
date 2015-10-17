@@ -38,6 +38,8 @@ public abstract class UiElement {
 		fixedSize = true;
 		fixedWidth = w;
 		fixedHeight = h;
+		fixedX = x;
+		fixedY = y;
 		
 		updateActualSizeFromFixed();
 	}
