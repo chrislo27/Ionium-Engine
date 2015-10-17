@@ -64,11 +64,13 @@ public abstract class UiElement {
 		if(fixedSize) updateActualSizeFromFixed();
 	}
 	
-	protected void updateActualSizeFromFixed(){
+	public UiElement updateActualSizeFromFixed(){
 		width = fixedWidth * 1f / Gdx.graphics.getWidth();
 		height = fixedHeight * 1f / Gdx.graphics.getHeight();
 		x = fixedX * 1f / Gdx.graphics.getWidth();
 		y = fixedY * 1f / Gdx.graphics.getHeight();
+		
+		return this;
 	}
 	
 }
