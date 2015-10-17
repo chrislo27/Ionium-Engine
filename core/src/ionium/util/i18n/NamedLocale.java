@@ -32,5 +32,20 @@ public class NamedLocale {
 		this.name = name;
 		return this;
 	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof NamedLocale){
+			NamedLocale other = (NamedLocale) obj;
+			
+			if(other.locale.equals(this.locale)){
+				if(other.name.equalsIgnoreCase(this.name)){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 
 }
