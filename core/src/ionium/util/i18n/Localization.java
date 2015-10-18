@@ -129,6 +129,8 @@ public class Localization {
 	public void addBundle(NamedLocale locale) {
 		bundles.add(new CompleteI18NBundle(locale,
 				I18NBundle.createBundle(getBaseFileHandle(), locale.getLocale())));
+		
+		Main.logger.info("Loaded language " + locale.getName() + " (" + locale.getLocale().toString() + ")");
 	}
 
 	public void loadFromSettings(Preferences settings) {
