@@ -40,7 +40,7 @@ public class Localization {
 	private void loadResources() {
 		setBaseFileHandle(Gdx.files.internal("localization/default"));
 
-		addBundle(new NamedLocale("English", new Locale("")));
+		addBundle(new NamedLocale("English", new Locale(""), "flag_canada", "flag_usa", "flag_gb"));
 
 		selectedBundle = bundles.get(0);
 	}
