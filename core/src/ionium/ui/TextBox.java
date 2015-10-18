@@ -1,12 +1,13 @@
 package ionium.ui;
 
-import ionium.templates.Main;
-import ionium.util.MathHelper;
-import ionium.util.Utils;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
+import ionium.templates.Main;
+import ionium.util.MathHelper;
+import ionium.util.Utils;
 
 public class TextBox extends Button {
 
@@ -24,7 +25,7 @@ public class TextBox extends Button {
 	boolean allowSpaces = true;
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, "guibgtext");
 		main.defaultFont.setColor(1, 1, 1, 1);
 

@@ -1,13 +1,14 @@
 package ionium.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
+
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
 import ionium.util.i18n.Localization;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.utils.Align;
 
 public class Button extends UiElement {
 
@@ -45,20 +46,20 @@ public class Button extends UiElement {
 	}
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, "guibg");
-		renderText(main, Localization.get(text), this.width * Gdx.graphics.getWidth());
+		renderText(main, font, Localization.get(text), this.width * Gdx.graphics.getWidth());
 	}
 
-	protected void renderText(Main main, String text, float width) {
-		main.defaultFont.setColor(Color.BLACK);
+	protected void renderText(Main main, BitmapFont font, String text, float width) {
+		font.setColor(Color.BLACK);
 
-		glyphLayout.setText(main.defaultFont, text);
+		glyphLayout.setText(font, text);
 		if (glyphLayout.width + 6 > width) {
 			//main.font.setScale(width / (main.font.getBounds(text).width + 6), 1);
 		}
 
-		main.defaultFont.draw(main.batch, text, x * Gdx.graphics.getWidth() + (width / 2), y
+		font.draw(main.batch, text, x * Gdx.graphics.getWidth() + (width / 2), y
 				* Gdx.graphics.getHeight() + (height * Gdx.graphics.getHeight() / 2)
 				+ (glyphLayout.height / 2), 0, Align.center, false);
 	}

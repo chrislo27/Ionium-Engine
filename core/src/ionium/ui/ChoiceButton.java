@@ -1,10 +1,11 @@
 package ionium.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.Array;
+
 import ionium.templates.Main;
 import ionium.util.i18n.Localization;
-
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.Array;
 
 public class ChoiceButton extends Button {
 
@@ -17,10 +18,10 @@ public class ChoiceButton extends Button {
 	public int selection = 0;
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, "guibg");
 		main.defaultFont.setColor(Color.BLACK);
-		renderText(main, "< " + Localization.get(text) + Localization.get(choices.get(selection))
+		renderText(main, font, "< " + Localization.get(text) + Localization.get(choices.get(selection))
 				+ " >", width);
 	}
 

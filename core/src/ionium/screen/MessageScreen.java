@@ -1,18 +1,22 @@
 package ionium.screen;
 
-import ionium.registry.GlobalVariables;
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
+import ionium.registry.GlobalVariables;
+import ionium.templates.Main;
+
 public class MessageScreen extends Updateable {
 
-	public MessageScreen(Main m) {
+	private BitmapFont font;
+	
+	public MessageScreen(Main m, BitmapFont font) {
 		super(m);
+		this.font = font;
 	}
 
 	public void setMessage(String s) {
@@ -33,7 +37,7 @@ public class MessageScreen extends Updateable {
 				(GlobalVariables.getInt("DEFAULT_WIDTH") - width) / 2f,
 				Main.convertY((GlobalVariables.getInt("DEFAULT_HEIGHT") / 3f)), width, Align.center, true);
 
-		container.render(main);
+		container.render(main, font);
 		main.defaultFont.setColor(Color.WHITE);
 		main.batch.setColor(1, 1, 1, 1);
 

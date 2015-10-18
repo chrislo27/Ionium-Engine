@@ -1,11 +1,12 @@
 package ionium.ui;
 
-import ionium.registry.AssetRegistry;
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
+
+import ionium.registry.AssetRegistry;
+import ionium.templates.Main;
 
 public class Slider extends UiElement {
 
@@ -29,7 +30,7 @@ public class Slider extends UiElement {
 	}
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		main.batch.draw(AssetRegistry.getTexture("guislider"), x * Gdx.graphics.getWidth(), y * Gdx.graphics.getHeight(), width * Gdx.graphics.getWidth(),
 				height * Gdx.graphics.getHeight());
 		main.batch.draw(AssetRegistry.getTexture("guisliderarrow"), x * Gdx.graphics.getWidth()

@@ -1,9 +1,10 @@
 package ionium.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import ionium.templates.Main;
 import ionium.util.i18n.Localization;
-
-import com.badlogic.gdx.graphics.Color;
 
 public class BooleanButton extends Button {
 
@@ -14,10 +15,10 @@ public class BooleanButton extends Button {
 	public boolean state = false;
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, "guibg" + state + "");
 		main.defaultFont.setColor(Color.BLACK);
-		renderText(main, Localization.get(text), this.width);
+		renderText(main, font, Localization.get(text), this.width);
 	}
 
 	@Override

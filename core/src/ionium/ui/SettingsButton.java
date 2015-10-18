@@ -1,6 +1,7 @@
 package ionium.ui;
 
-import ionium.registry.GlobalVariables;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import ionium.registry.ScreenRegistry;
 import ionium.templates.Main;
 
@@ -12,7 +13,7 @@ public class SettingsButton extends Button {
 	}
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, "guisettings");
 		if (this.main == null) this.main = main;
 	}

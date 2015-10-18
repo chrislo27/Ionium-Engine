@@ -1,8 +1,9 @@
 package ionium.ui;
 
-import ionium.templates.Main;
-
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
+import ionium.templates.Main;
 
 /**
  * same as ChoiceButton but it does not use Translator and does not have a starting message
@@ -16,10 +17,10 @@ public class ResolutionButton extends ChoiceButton {
 	}
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, "guibg");
 		main.defaultFont.setColor(Color.BLACK);
-		renderText(main, "< " + choices.get(selection) + " >", width);
+		renderText(main, font, "< " + choices.get(selection) + " >", width);
 	}
 
 }

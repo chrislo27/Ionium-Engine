@@ -1,6 +1,7 @@
 package ionium.ui;
 
-import ionium.registry.GlobalVariables;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import ionium.templates.Main;
 
 public abstract class BackButton extends Button {
@@ -11,7 +12,7 @@ public abstract class BackButton extends Button {
 	}
 
 	@Override
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		imageRender(main, (usesExitTex ? exitpath : backpath));
 	}
 

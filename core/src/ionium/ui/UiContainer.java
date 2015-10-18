@@ -1,18 +1,19 @@
 package ionium.ui;
 
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
+
+import ionium.templates.Main;
 
 public class UiContainer {
 
 	public Array<UiElement> elements = new Array<UiElement>();
 
-	public void render(Main main) {
+	public void render(Main main, BitmapFont font) {
 		for (UiElement e : elements) {
 			if (!e.visible()) continue;
-			e.render(main);
+			e.render(main, font);
 		}
 	}
 

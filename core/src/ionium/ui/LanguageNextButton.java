@@ -1,11 +1,10 @@
 package ionium.ui;
 
-import ionium.registry.GlobalVariables;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import ionium.templates.Main;
 import ionium.util.i18n.Localization;
-
-import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Color;
 
 public abstract class LanguageNextButton extends Button {
 
@@ -15,14 +14,14 @@ public abstract class LanguageNextButton extends Button {
 	}
 
 	@Override
-	public abstract void render(Main main);
+	public abstract void render(Main main, BitmapFont font);
 
 	public abstract Preferences getPreferences();
-	
+
 	@Override
 	public boolean onLeftClick() {
 		Localization.instance().nextLanguage(1);
-		
+
 		Localization.instance().saveToSettings(getPreferences());
 		return true;
 	}
@@ -30,7 +29,7 @@ public abstract class LanguageNextButton extends Button {
 	@Override
 	public boolean onRightClick() {
 		Localization.instance().nextLanguage(-1);
-		
+
 		Localization.instance().saveToSettings(getPreferences());
 		return true;
 	}

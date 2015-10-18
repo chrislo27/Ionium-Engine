@@ -3,6 +3,7 @@ package ionium.ui;
 import ionium.templates.Main;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public abstract class UiElement {
 
@@ -14,7 +15,7 @@ public abstract class UiElement {
 	protected float width;
 	protected float height;
 
-	public abstract void render(Main main);
+	public abstract void render(Main main, BitmapFont font);
 
 	public abstract boolean visible();
 
