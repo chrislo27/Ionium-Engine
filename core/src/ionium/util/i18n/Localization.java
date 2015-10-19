@@ -105,6 +105,8 @@ public class Localization {
 				return;
 			}
 		}
+		
+		selectedBundle = bundles.get(0);
 	}
 
 	public void reloadFromFile() {
