@@ -4,188 +4,176 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A lot of this code was stolen from this article: <br>
- * http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
- * <br>
- * <br>
- * created by chrislo27
+ * A simple quadtree implementation that allows its objects to have rectangular bounds (not just points) and also allows
+ * to query all objects within a rectangular area.
+ * 
+ * @author Kai Burjack, KaiHH on java-gaming.org
  *
+ * @param <T>
+ *            the type of objects in this {@link QuadTree}. Must implement {@link Boundable}
  */
-public class QuadTree {
-
-	private int MAX_OBJECTS = 10;
-	private int MAX_LEVELS = 12;
-
-	private int level;
-	private List<Sizeable> objects;
-	private float posX, posY, width, height;
-	private QuadTree[] nodes;
+public class QuadTree<T extends QuadTree.Boundable> {
 
 	/**
-	 * ideal constructor for making a quadtree that's empty
-	 * <br>
-	 * simply calls the normal constructor with 
-	 * <code>
-	 * this(0, 0, 0, width, height)
-	 * </code>
-	 * @param width your game world width in units
-	 * @param height your game world height in units
+	 * A simple rectangle. Will describe the bounds of an object in the quadtree.
 	 */
-	public QuadTree(float width, float height) {
-		this(0, 0, 0, width, height);
-	}
+	public static class Rectangle {
 
-	/**
-	 * 
-	 * @param pLevel start at level 0 if you're creating an empty quadtree
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 */
-	public QuadTree(int pLevel, float x, float y, float width, float height) {
-		level = pLevel;
-		objects = new ArrayList();
-		posX = x;
-		posY = y;
-		this.width = width;
-		this.height = height;
-		nodes = new QuadTree[4];
-	}
+		public float x;
+		public float y;
+		public float width;
+		public float height;
 
-	public QuadTree setMaxObjects(int o) {
-		MAX_OBJECTS = o;
-		return this;
-	}
-
-	public QuadTree setMaxLevels(int l) {
-		MAX_LEVELS = l;
-		return this;
-	}
-
-	public int getChecks() {
-		int num = 0;
-
-		num += (objects.size() * objects.size());
-
-		for (int i = 0; i < nodes.length; i++) {
-			if (nodes[i] != null) {
-				num += nodes[i].getChecks();
-			}
+		public Rectangle() {
 		}
 
-		return num;
-	}
-
-	/*
-	 * Clears the quadtree
-	 */
-	public void clear() {
-		objects.clear();
-
-		for (int i = 0; i < nodes.length; i++) {
-			if (nodes[i] != null) {
-				nodes[i].clear();
-				nodes[i] = null;
-			}
+		public Rectangle(float x, float y, float width, float height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
 		}
 	}
 
-	/*
-	 * Splits the node into 4 subnodes
+	/**
+	 * Abstract interface of something that we can put into the quadtree.
 	 */
+	public interface Boundable {
+
+		Rectangle getBounds();
+	}
+
+	private static final int MAX_OBJECTS_PER_NODE = 300;
+
+	// Constants for the quadrants of the quadtree
+	private static final int PXNY = 0;
+	private static final int NXNY = 1;
+	private static final int NXPY = 2;
+	private static final int PXPY = 3;
+
+	private Rectangle bounds;
+	private ArrayList<T> objects;
+	private QuadTree<T>[] children;
+
+	public QuadTree(Rectangle b) {
+		bounds = b;
+	}
+
 	private void split() {
-		float subWidth = (width / 2);
-		float subHeight = (height / 2);
-		float x = posX;
-		float y = posY;
-
-		nodes[0] = new QuadTree(level + 1, x + subWidth, y, subWidth, subHeight);
-		nodes[1] = new QuadTree(level + 1, x, y, subWidth, subHeight);
-		nodes[2] = new QuadTree(level + 1, x, y + subHeight, subWidth, subHeight);
-		nodes[3] = new QuadTree(level + 1, x + subWidth, y + subHeight, subWidth, subHeight);
+		float hw = bounds.width / 2.0f;
+		float hh = bounds.height / 2.0f;
+		float x = bounds.x;
+		float y = bounds.y;
+		children = new QuadTree[4];
+		children[NXNY] = new QuadTree<T>(new Rectangle(x, y, hw, hh));
+		children[PXNY] = new QuadTree<T>(new Rectangle(x + hw, y, hw, hh));
+		children[NXPY] = new QuadTree<T>(new Rectangle(x, y + hh, hw, hh));
+		children[PXPY] = new QuadTree<T>(new Rectangle(x + hw, y + hh, hw, hh));
 	}
 
-	/*
-	 * Determine which node the object belongs to. -1 means object cannot
-	 * completely fit within a child node and is part of the parent node
-	 */
-	private int getIndex(Sizeable pRect) {
-		int index = -1;
-		double verticalMidpoint = posX + (width / 2);
-		double horizontalMidpoint = posY + (width / 2);
-
-		// Object can completely fit within the top quadrants
-		boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY()
-				+ pRect.getHeight() < horizontalMidpoint);
-		// Object can completely fit within the bottom quadrants
-		boolean bottomQuadrant = (pRect.getY() > horizontalMidpoint);
-
-		// Object can completely fit within the left quadrants
-		if (pRect.getX() < verticalMidpoint && pRect.getX() + pRect.getWidth() < verticalMidpoint) {
-			if (topQuadrant) {
-				index = 1;
-			} else if (bottomQuadrant) {
-				index = 2;
+	private boolean insertIntoChild(T o) {
+		// we can insert the object into a child if the object's bounds are
+		// completely within any of the child bounds.
+		Rectangle r = o.getBounds();
+		float xm = bounds.x + bounds.width / 2.0f;
+		float ym = bounds.y + bounds.height / 2.0f;
+		boolean inserted = false;
+		if (r.x >= xm && r.x + r.width < bounds.x + bounds.width) {
+			if (r.y >= ym && r.y + r.height < bounds.y + bounds.height) {
+				inserted = children[PXPY].insert(o);
+			} else if (r.y >= bounds.y && r.y + r.height < ym) {
+				inserted = children[PXNY].insert(o);
+			}
+		} else if (r.x >= bounds.x && r.x + r.width < xm) {
+			if (r.y >= ym && r.y + r.height < bounds.y + bounds.height) {
+				inserted = children[NXPY].insert(o);
+			} else if (r.y >= bounds.y && r.y + r.height < ym) {
+				inserted = children[NXNY].insert(o);
 			}
 		}
-		// Object can completely fit within the right quadrants
-		else if (pRect.getX() > verticalMidpoint) {
-			if (topQuadrant) {
-				index = 0;
-			} else if (bottomQuadrant) {
-				index = 3;
-			}
-		}
-
-		return index;
+		return inserted;
 	}
 
-	/*
-	 * Insert the object into the quadtree. If the node exceeds the capacity, it
-	 * will split and add all objects to their corresponding nodes.
+	/**
+	 * @return <code>true</code> if the given object could be inserted anywhere; or <code>false</code> if not
 	 */
-	public void insert(Sizeable pRect) {
-		if (nodes[0] != null) {
-			int index = getIndex(pRect);
-
-			if (index != -1) {
-				nodes[index].insert(pRect);
-
-				return;
-			}
-		}
-
-		objects.add(pRect);
-
-		if (objects.size() > MAX_OBJECTS && level < MAX_LEVELS) {
-			if (nodes[0] == null) {
+	public boolean insert(T object) {
+		if (children != null && insertIntoChild(object)) return true;
+		if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
+			// too many objects in this quadtree level
+			if (children == null) {
+				// split this quadtree once
 				split();
+				// and try to redistribute the objects into the children
+				for (int i = 0; i < objects.size(); i++) {
+					if (insertIntoChild(objects.get(i))) {
+						// succeeded with that one -> it fitted within a child!
+						objects.remove(i);
+						i--;
+					}
+				}
 			}
-
-			int i = 0;
-			while (i < objects.size()) {
-				int index = getIndex(objects.get(i));
-				if (index != -1) {
-					nodes[index].insert(objects.remove(i));
+			if (!insertIntoChild(object)) {
+				// cannot distribute the object to any child
+				if (objects.size() == MAX_OBJECTS_PER_NODE) {
+					// and we are still full!
+					// -> cannot insert
+					return false;
 				} else {
-					i++;
+					objects.add(object);
+				}
+			}
+		} else {
+			if (objects == null) objects = new ArrayList<T>();
+			objects.add(object);
+		}
+		return true;
+	}
+
+	public int query(Rectangle r, List<T> res) {
+		return query(r, res, false);
+	}
+
+	public int query(Rectangle r, List<T> res, boolean countOnly) {
+		int count = 0;
+		if (children != null) {
+			// query children
+			float xm = bounds.x + bounds.width / 2.0f;
+			float ym = bounds.y + bounds.height / 2.0f;
+			boolean intersectsNx = r.x < xm && r.x + r.width >= bounds.x;
+			boolean intersectsPx = r.x < bounds.x + bounds.width && r.x + r.width >= xm;
+			boolean intersectsNy = r.y < ym && r.y + r.height >= bounds.y;
+			boolean intersectsPy = r.y < bounds.y + bounds.height && r.y + r.height >= ym;
+			if (intersectsNy) {
+				if (intersectsPx) count += children[PXNY].query(r, res, countOnly);
+				if (intersectsNx) count += children[NXNY].query(r, res, countOnly);
+			}
+			if (intersectsPy) {
+				if (intersectsPx) count += children[PXPY].query(r, res, countOnly);
+				if (intersectsNx) count += children[NXPY].query(r, res, countOnly);
+			}
+		}
+		if (objects != null) {
+			// query objects in this level
+			if (r.x < bounds.x && r.y < bounds.y && r.x + r.width >= bounds.x + bounds.width
+					&& r.y + r.height >= bounds.y + bounds.height) {
+				// node lies completely within query -> simply add all objects
+				count += objects.size();
+				if (!countOnly) res.addAll(objects);
+			} else {
+				// must check each object individually
+				for (int i = 0; i < objects.size(); i++) {
+					T o = objects.get(i);
+					Rectangle bounds = o.getBounds();
+					if (r.x < bounds.x + bounds.width && r.x + r.width >= bounds.x
+							&& r.y < bounds.y + bounds.height && r.y + r.height >= bounds.y) {
+						count++;
+						if (!countOnly) res.add(o);
+					}
 				}
 			}
 		}
+		return count;
 	}
 
-	/*
-	 * Return all objects that could collide with the given object
-	 */
-	public List retrieve(List returnObjects, Sizeable pRect) {
-		int index = getIndex(pRect);
-		if (index != -1 && nodes[0] != null) {
-			nodes[index].retrieve(returnObjects, pRect);
-		}
-
-		returnObjects.addAll(objects);
-
-		return returnObjects;
-	}
 }
