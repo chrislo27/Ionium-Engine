@@ -43,8 +43,6 @@ public class QuadTree<T extends QuadTree.Boundable> {
 		Rectangle getBounds();
 	}
 
-	private static final int MAX_OBJECTS_PER_NODE = 300;
-
 	// Constants for the quadrants of the quadtree
 	private static final int PXNY = 0;
 	private static final int NXNY = 1;
@@ -54,9 +52,12 @@ public class QuadTree<T extends QuadTree.Boundable> {
 	private Rectangle bounds;
 	private ArrayList<T> objects;
 	private QuadTree<T>[] children;
+	
+	private int maxObjectsPerNode = 64;
 
-	public QuadTree(Rectangle b) {
+	public QuadTree(int maxObjs, Rectangle b) {
 		bounds = b;
+		maxObjectsPerNode = 64;
 	}
 
 	private void split() {
@@ -65,10 +66,10 @@ public class QuadTree<T extends QuadTree.Boundable> {
 		float x = bounds.x;
 		float y = bounds.y;
 		children = new QuadTree[4];
-		children[NXNY] = new QuadTree<T>(new Rectangle(x, y, hw, hh));
-		children[PXNY] = new QuadTree<T>(new Rectangle(x + hw, y, hw, hh));
-		children[NXPY] = new QuadTree<T>(new Rectangle(x, y + hh, hw, hh));
-		children[PXPY] = new QuadTree<T>(new Rectangle(x + hw, y + hh, hw, hh));
+		children[NXNY] = new QuadTree<T>(maxObjectsPerNode, new Rectangle(x, y, hw, hh));
+		children[PXNY] = new QuadTree<T>(maxObjectsPerNode, new Rectangle(x + hw, y, hw, hh));
+		children[NXPY] = new QuadTree<T>(maxObjectsPerNode, new Rectangle(x, y + hh, hw, hh));
+		children[PXPY] = new QuadTree<T>(maxObjectsPerNode, new Rectangle(x + hw, y + hh, hw, hh));
 	}
 
 	private boolean insertIntoChild(T o) {
@@ -99,7 +100,7 @@ public class QuadTree<T extends QuadTree.Boundable> {
 	 */
 	public boolean insert(T object) {
 		if (children != null && insertIntoChild(object)) return true;
-		if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
+		if (objects != null && objects.size() == maxObjectsPerNode) {
 			// too many objects in this quadtree level
 			if (children == null) {
 				// split this quadtree once
@@ -115,7 +116,7 @@ public class QuadTree<T extends QuadTree.Boundable> {
 			}
 			if (!insertIntoChild(object)) {
 				// cannot distribute the object to any child
-				if (objects.size() == MAX_OBJECTS_PER_NODE) {
+				if (objects.size() == maxObjectsPerNode) {
 					// and we are still full!
 					// -> cannot insert
 					return false;
