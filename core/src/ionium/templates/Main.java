@@ -73,7 +73,7 @@ import com.badlogic.gdx.utils.Array;
  */
 public abstract class Main extends Game implements Consumer {
 
-	public static OrthographicCamera camera;
+	public OrthographicCamera camera;
 
 	public SpriteBatch batch;
 
@@ -443,7 +443,7 @@ public abstract class Main extends Game implements Consumer {
 	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, width, height);
-		shapes.setProjectionMatrix(Main.camera.combined);
+		shapes.setProjectionMatrix(camera.combined);
 
 		for (Updateable up : ScreenRegistry.instance().getAll()) {
 			up.container.onResize();
