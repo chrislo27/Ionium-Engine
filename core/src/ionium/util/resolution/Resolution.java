@@ -1,4 +1,4 @@
-package ionium.util;
+package ionium.util.resolution;
 
 public class Resolution {
 
