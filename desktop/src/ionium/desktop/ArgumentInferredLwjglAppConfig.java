@@ -23,7 +23,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 	public void inferFromArguments() {
 		arguments.clear();
 
-		if (rawArgs == null || rawArgs.length <= 0) return;
+		if (rawArgs == null || rawArgs.length <= 1) return;
 
 		for (int i = 0; i < rawArgs.length - (rawArgs.length % 2 == 1 ? -1 : 0); i += 2) {
 			arguments.put(rawArgs[i], rawArgs[i + 1]);
@@ -34,7 +34,8 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 
 		String key;
 		String value;
-		while ((key = it.next()) != null) {
+		while (it.hasNext()) {
+			key = it.next();
 			value = arguments.get(key);
 
 			checkKeyAndValue(key, value);
