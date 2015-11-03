@@ -45,6 +45,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 	private void checkKeyAndValue(String key, String value) {
 		if (!key.startsWith("-")) return;
 
+		key = key.substring(1);
 		value = value.toLowerCase();
 
 		switch (key.toLowerCase()) {
