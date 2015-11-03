@@ -13,8 +13,8 @@ public class Resolution {
 			new Resolution(1280, 800), new Resolution(1440, 900), new Resolution(1600, 1024),
 			new Resolution(1680, 750) };
 
-	public int width = 0;
-	public int height = 0;
+	public final int width;
+	public final int height;
 
 	Resolution(int w, int h) {
 		width = w;
