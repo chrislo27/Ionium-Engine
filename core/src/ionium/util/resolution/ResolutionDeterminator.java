@@ -36,7 +36,8 @@ public class ResolutionDeterminator {
 		
 		for(Resolution r : sorted){
 			if(doesResolutionFit(r)){
-				
+				config.setWidth(r.width);
+				config.setHeight(r.height);
 			}
 		}
 	}
