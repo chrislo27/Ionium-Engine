@@ -6,7 +6,9 @@ import java.util.Set;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguration {
+import ionium.util.resolution.Resolutable;
+
+public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguration implements Resolutable {
 
 	private final String[] rawArgs;
 	private HashMap<String, String> arguments = new HashMap<>();
@@ -127,6 +129,36 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 			}
 			break;
 		}
+	}
+
+	@Override
+	public void setWidth(int w) {
+		this.width = w;
+	}
+
+	@Override
+	public void setHeight(int h) {
+		this.height = h;
+	}
+
+	@Override
+	public void setFullscreen(boolean fs) {
+		this.fullscreen = fs;
+	}
+
+	@Override
+	public int getWidth() {
+		return this.width;
+	}
+
+	@Override
+	public int getHeight() {
+		return this.height;
+	}
+
+	@Override
+	public boolean isFullscreen() {
+		return this.fullscreen;
 	}
 
 }
