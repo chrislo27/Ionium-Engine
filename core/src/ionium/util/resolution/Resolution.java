@@ -1,6 +1,6 @@
 package ionium.util.resolution;
 
-public class Resolution {
+public class Resolution implements Comparable<Resolution>{
 
 	private static final Resolution[] resolutions43 = new Resolution[] { new Resolution(640, 480),
 			new Resolution(800, 600), new Resolution(1024, 768), new Resolution(1152, 864),
@@ -16,9 +16,13 @@ public class Resolution {
 	public final int width;
 	public final int height;
 
-	Resolution(int w, int h) {
+	public Resolution(int w, int h) {
 		width = w;
 		height = h;
+	}
+	
+	public int getArea(){
+		return width * height;
 	}
 
 	@Override
@@ -63,6 +67,13 @@ public class Resolution {
 		}
 
 		return list;
+	}
+
+	@Override
+	public int compareTo(Resolution other) {
+		int area = this.getArea();
+		
+		return (int) Math.signum(area - other.getArea());
 	}
 
 }
