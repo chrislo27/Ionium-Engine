@@ -38,6 +38,7 @@ public class ResolutionDeterminator {
 			if(doesResolutionFit(r)){
 				config.setWidth(r.width);
 				config.setHeight(r.height);
+				break;
 			}
 		}
 	}
