@@ -1,10 +1,11 @@
 package ionium.desktop;
 
+import com.badlogic.gdx.Files.FileType;
+
 import ionium.registry.GlobalVariables;
 import ionium.util.Logger;
-
-import com.badlogic.gdx.Files.FileType;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import ionium.util.resolution.Resolution;
+import ionium.util.resolution.ResolutionDeterminator;
 
 public class DesktopLauncher {
 

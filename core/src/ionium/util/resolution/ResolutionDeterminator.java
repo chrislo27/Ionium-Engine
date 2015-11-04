@@ -18,7 +18,7 @@ public class ResolutionDeterminator {
 	 * @param config
 	 * @param possibleResolutions list of resolutions to use, will be sorted by size
 	 */
-	public void determineIdealResolution(Resolutable config, Resolution[] possibleResolutions) {
+	public static void determineIdealResolution(Resolutable config, Resolution[] possibleResolutions) {
 		ArrayList<Resolution> sorted = new ArrayList<>();
 
 		for (Resolution r : possibleResolutions) {
