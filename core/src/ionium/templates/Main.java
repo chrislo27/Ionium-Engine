@@ -679,6 +679,10 @@ public abstract class Main extends Game implements Consumer {
 	public void setClearColor(int r, int g, int b) {
 		Gdx.gl20.glClearColor(r / 255f, g / 255f, b / 255f, 1f);
 	}
+	
+	public long getNanoUntilTick(){
+		return nanoUntilTick;
+	}
 
 	public abstract String getScreenToSwitchToAfterLoadingAssets();
 
