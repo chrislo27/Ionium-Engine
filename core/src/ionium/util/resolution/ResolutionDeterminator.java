@@ -45,7 +45,7 @@ public class ResolutionDeterminator {
 	
 	public static boolean doesResolutionFit(Resolution r){
 		
-		if(r.width >= Gdx.app.getGraphics().getWidth() || r.height >= Gdx.app.getGraphics().getHeight()){
+		if(r.width > Gdx.app.getGraphics().getWidth() || r.height > Gdx.app.getGraphics().getHeight()){
 			return false;
 		}
 		
