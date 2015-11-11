@@ -6,11 +6,12 @@ import ionium.ui.UiContainer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 
-public abstract class Updateable implements Screen {
+public abstract class Updateable<T extends Main> implements Screen {
 
-	public Main main;
+	public T main;
 	public UiContainer container = new UiContainer();
-	public Updateable(Main m) {
+	
+	public Updateable(T m) {
 		main = m;
 	}
 

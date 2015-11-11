@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import ionium.registry.GlobalVariables;
 import ionium.templates.Main;
 
-public class MessageScreen extends Updateable {
+public class MessageScreen extends Updateable<Main> {
 
 	private BitmapFont font;
 	

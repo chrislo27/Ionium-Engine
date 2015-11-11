@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Array;
 
-public class MiscLoadingScreen extends Updateable {
+public class MiscLoadingScreen extends Updateable<Main> {
 
 	public MiscLoadingScreen(Main m) {
 		super(m);

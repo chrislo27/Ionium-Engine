@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 
-public class TransitionScreen extends Updateable {
+public class TransitionScreen extends Updateable<Main> {
 
 	public TransitionScreen(Main m) {
 		super(m);
