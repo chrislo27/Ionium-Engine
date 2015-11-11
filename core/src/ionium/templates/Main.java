@@ -1,38 +1,10 @@
 package ionium.templates;
 
-import ionium.registry.AssetRegistry;
-import ionium.registry.GlobalVariables;
-import ionium.registry.ErrorLogRegistry;
-import ionium.registry.ScreenRegistry;
-import ionium.screen.AssetLoadingScreen;
-import ionium.screen.Updateable;
-import ionium.transition.TrainDoors;
-import ionium.transition.Transition;
-import ionium.transition.TransitionScreen;
-import ionium.util.AssetMap;
-import ionium.util.CaptureStream;
-import ionium.util.CaptureStream.Consumer;
-import ionium.util.i18n.Localization;
-import ionium.util.DebugSetting;
-import ionium.util.GameException;
-import ionium.util.IoniumEngineVersion;
-import ionium.util.Logger;
-import ionium.util.MathHelper;
-import ionium.util.MemoryUtils;
-import ionium.util.ScreenshotFactory;
-import ionium.util.SpecialCharactersList;
-import ionium.util.Splashes;
-import ionium.util.Utils;
-import ionium.util.render.Gears;
-import ionium.util.render.Shaders;
-import ionium.util.version.VersionGetter;
-
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
@@ -65,6 +37,31 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+
+import ionium.registry.AssetRegistry;
+import ionium.registry.ErrorLogRegistry;
+import ionium.registry.GlobalVariables;
+import ionium.registry.ScreenRegistry;
+import ionium.screen.AssetLoadingScreen;
+import ionium.screen.Updateable;
+import ionium.transition.Transition;
+import ionium.transition.TransitionScreen;
+import ionium.util.AssetMap;
+import ionium.util.CaptureStream;
+import ionium.util.CaptureStream.Consumer;
+import ionium.util.DebugSetting;
+import ionium.util.IoniumEngineVersion;
+import ionium.util.Logger;
+import ionium.util.MathHelper;
+import ionium.util.MemoryUtils;
+import ionium.util.ScreenshotFactory;
+import ionium.util.SpecialCharactersList;
+import ionium.util.Splashes;
+import ionium.util.Utils;
+import ionium.util.i18n.Localization;
+import ionium.util.render.Gears;
+import ionium.util.render.Shaders;
+import ionium.util.version.VersionGetter;
 
 /**
  * 
@@ -199,7 +196,7 @@ public abstract class Main extends Game implements Consumer {
 
 		prepareStates();
 
-		this.setScreen(ScreenRegistry.get("assetloading"));
+		this.setScreen(ScreenRegistry.get("ionium_assetloading"));
 
 		new Thread("version checker") {
 
@@ -212,8 +209,8 @@ public abstract class Main extends Game implements Consumer {
 
 	public void prepareStates() {
 		ScreenRegistry reg = ScreenRegistry.instance();
-		reg.add("assetloading", new AssetLoadingScreen(this));
-		reg.add("transition", new TransitionScreen(this));
+		reg.add("ionium_assetloading", new AssetLoadingScreen(this));
+		reg.add("ionium_transition", new TransitionScreen(this));
 	}
 
 	@Override
@@ -480,7 +477,7 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public void transition(Transition from, Transition to, Screen next) {
-		TransitionScreen transition = ScreenRegistry.get("transition", TransitionScreen.class);
+		TransitionScreen transition = ScreenRegistry.get("ionium_transition", TransitionScreen.class);
 
 		transition.prepare(this.getScreen(), from, to, next);
 		setScreen(transition);
