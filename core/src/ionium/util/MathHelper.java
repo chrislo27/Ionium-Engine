@@ -6,7 +6,7 @@ public class MathHelper {
 
 	private MathHelper() {
 	}
-	
+
 	public static final double rootTwo = Math.sqrt(2f);
 
 	public static double getScaleFactor(float iMasterSize, float iTargetSize) {
@@ -198,6 +198,17 @@ public class MathHelper {
 		}
 
 		return true;
+	}
+
+	public static boolean isPointInRectangle(float rectX, float rectY, float rectW, float rectH,
+			float x, float y) {
+		if (x >= rectX && x <= rectX + rectW) {
+			if (y >= rectY && y <= rectY + rectH) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }
