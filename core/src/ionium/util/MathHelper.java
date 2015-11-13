@@ -77,8 +77,8 @@ public class MathHelper {
 	public static float getTriangleWave(long ms, float seconds) {
 		float f = getSawtoothWave(ms, seconds);
 		if (f >= 0.5f) {
-			return 1f - f;
-		} else return f;
+			return (1f - f) * 2;
+		} else return (f) * 2;
 	}
 
 	public static float getTriangleWave(float sec) {
