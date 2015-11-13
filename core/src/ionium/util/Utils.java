@@ -199,6 +199,8 @@ public class Utils {
 	
 	public static boolean isButtonJustReleased(int button){
 		if(!Gdx.input.isButtonPressed(button)){
+			if(pressedButtons.get(button) == null) pressedButtons.put(button, false);
+			
 			boolean oldState = pressedButtons.get(button);
 			
 			if(oldState == true){
@@ -206,6 +208,8 @@ public class Utils {
 				
 				return true;
 			}
+		}else{
+			pressedButtons.put(button, true);
 		}
 		
 		return false;
