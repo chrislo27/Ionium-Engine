@@ -1,12 +1,16 @@
 package ionium.util;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 
 public class MathHelper {
 
 	private MathHelper() {
 	}
-
+	
+	private static final Rectangle rect1 = new Rectangle();
+	private static final Rectangle rect2 = new Rectangle();
+	
 	public static final double rootTwo = Math.sqrt(2f);
 
 	public static double getScaleFactor(float iMasterSize, float iTargetSize) {
@@ -84,8 +88,8 @@ public class MathHelper {
 	public static float getTriangleWave(float sec) {
 		return getTriangleWave(System.currentTimeMillis(), sec);
 	}
-	
-	public static float getTriangleWave(){
+
+	public static float getTriangleWave() {
 		return getTriangleWave(1f);
 	}
 
@@ -150,58 +154,13 @@ public class MathHelper {
 		return (float) (gravity * Math.sqrt((2 * distance) / gravity));
 	}
 
-	public static boolean intersects(double oldx, double oldy, double oldwidth, double oldheight,
-			double oldx2, double oldy2, double oldwidth2, double oldheight2) {
-
-		double x, y, width, height, x2, y2, width2, height2;
-
-		x = oldx;
-		y = oldy;
-		width = oldwidth;
-		height = oldheight;
-		if (oldwidth < 0) {
-			width = oldx + oldwidth;
-			x -= Math.abs(oldwidth);
-		}
-		if (oldheight < 0) {
-			height = oldy + oldheight;
-			y -= Math.abs(oldheight);
-		}
-		x2 = oldx2;
-		y2 = oldy2;
-		width2 = oldwidth2;
-		height2 = oldheight2;
-		if (oldwidth2 < 0) {
-			width2 = oldx2 + oldwidth2;
-			x2 -= Math.abs(oldwidth2);
-		}
-		if (oldheight2 < 0) {
-			height2 = oldy2 + oldheight2;
-			y -= Math.abs(oldheight2);
-		}
-
-		// System.out.print(x + ", " + y + ":" + width + ", " + height + " = ");
-		// System.out.println(x2 + ", " + y2 + ":" + width2 + ", " + height2);
-
-		if ((x > (x2 + width2))) {
-			// System.out.println("x > ");
-			return false;
-		}
-		if (((x + width) < x2)) {
-			// System.out.println("x2 >");
-			return false;
-		}
-
-		if ((y > (y2 + height2))) {
-			// System.out.println("y >");
-			return false;
-		}
-		if (((y + height) < y2)) {
-			// System.out.println("y2 >");
-			return false;
-		}
-
-		return true;
+	public static boolean intersects(float x, float y, float width, float height, float x2,
+			float y2, float width2, float height2) {
+		rect1.set(x, y, width, height);
+		rect2.set(x2, y2, width2, height2);
+		
+		// true if: rect1 overlaps 2, or either contains
+		return rect1.overlaps(rect2) || rect1.contains(rect2) || rect2.contains(rect1);
 	}
 
 	public static boolean isPointInRectangle(float rectX, float rectY, float rectW, float rectH,
