@@ -494,7 +494,7 @@ public abstract class Main extends Game implements Consumer {
 	public static Color getRainbow(long ms, float s, float saturation) {
 		return rainbow.set(
 				Utils.HSBtoRGBA8888(
-						(s < 0 ? 1.0f : 0) - MathHelper.getNumberFromTime(ms, Math.abs(s)),
+						(s < 0 ? 1.0f : 0) - MathHelper.getSawtoothWave(ms, Math.abs(s)),
 						saturation, 0.75f)).clamp();
 	}
 

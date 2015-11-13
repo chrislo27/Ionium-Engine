@@ -64,16 +64,16 @@ public class PostProcessing {
 				Main.getRainbow(System.currentTimeMillis(), 0.5f, saturation).g,
 				Main.getRainbow(System.currentTimeMillis(), 0.5f, saturation).b, saturation);
 		batch.draw(buffer.getColorBufferTexture(),
-				(displace * 2 * MathHelper.clampNumberFromTime(1f)), Gdx.graphics.getHeight(),
+				(displace * 2 * MathHelper.getTriangleWave(1f)), Gdx.graphics.getHeight(),
 				buffer.getWidth(), -buffer.getHeight());
 		batch.draw(buffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight()
-				+ (displace * 2 * MathHelper.clampNumberFromTime(1f)), buffer.getWidth(),
+				+ (displace * 2 * MathHelper.getTriangleWave(1f)), buffer.getWidth(),
 				-buffer.getHeight());
 		batch.draw(buffer.getColorBufferTexture(),
-				(-displace * 2 * MathHelper.clampNumberFromTime(1f)), Gdx.graphics.getHeight(),
+				(-displace * 2 * MathHelper.getTriangleWave(1f)), Gdx.graphics.getHeight(),
 				buffer.getWidth(), -buffer.getHeight());
 		batch.draw(buffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight()
-				- (displace * 2 * MathHelper.clampNumberFromTime(1f)), buffer.getWidth(),
+				- (displace * 2 * MathHelper.getTriangleWave(1f)), buffer.getWidth(),
 				-buffer.getHeight());
 		batch.flush();
 		batch.setColor(1, 1, 1, 1);

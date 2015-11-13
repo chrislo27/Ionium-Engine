@@ -61,28 +61,32 @@ public class MathHelper {
 	 * 
 	 * @return
 	 */
-	public static float getNumberFromTime() {
-		return getNumberFromTime(System.currentTimeMillis(), 1);
+	public static float getSawtoothWave() {
+		return getSawtoothWave(System.currentTimeMillis(), 1);
 	}
 
-	public static float getNumberFromTime(float seconds) {
-		return getNumberFromTime(System.currentTimeMillis(), seconds);
+	public static float getSawtoothWave(float seconds) {
+		return getSawtoothWave(System.currentTimeMillis(), seconds);
 	}
 
-	public static float getNumberFromTime(long time, float seconds) {
+	public static float getSawtoothWave(long time, float seconds) {
 		if (seconds == 0) throw new IllegalArgumentException("Seconds cannot be zero!");
 		return ((time % Math.round((seconds * 1000))) / (seconds * 1000f));
 	}
 
-	public static float clampNumberFromTime(long ms, float seconds) {
-		float f = getNumberFromTime(ms, seconds);
+	public static float getTriangleWave(long ms, float seconds) {
+		float f = getSawtoothWave(ms, seconds);
 		if (f >= 0.5f) {
 			return 1f - f;
 		} else return f;
 	}
 
-	public static float clampNumberFromTime(float sec) {
-		return clampNumberFromTime(System.currentTimeMillis(), sec);
+	public static float getTriangleWave(float sec) {
+		return getTriangleWave(System.currentTimeMillis(), sec);
+	}
+	
+	public static float getTriangleWave(){
+		return getTriangleWave(1f);
 	}
 
 	public static int getNthDigit(int number, int n) {

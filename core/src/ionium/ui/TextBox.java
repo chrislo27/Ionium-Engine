@@ -40,7 +40,7 @@ public class TextBox extends Button {
 		}
 
 		if (clicked
-				&& MathHelper.getNumberFromTime(System.currentTimeMillis() - clickedTime, 1f) <= 0.5f) {
+				&& MathHelper.getSawtoothWave(System.currentTimeMillis() - clickedTime, 1f) <= 0.5f) {
 			main.defaultFont.draw(main.batch, "|", x + 8 + glyphLayout.width, y
 					+ (height / 2) + (glyphLayout.height / 2));
 		}
