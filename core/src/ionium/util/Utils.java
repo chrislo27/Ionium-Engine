@@ -196,6 +196,20 @@ public class Utils {
 
 		return false;
 	}
+	
+	public static boolean isButtonJustReleased(int button){
+		if(!Gdx.input.isButtonPressed(button)){
+			boolean oldState = pressedButtons.get(button);
+			
+			if(oldState == true){
+				pressedButtons.put(button, false);
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	/**
 	 * packets 2 ints into a long
