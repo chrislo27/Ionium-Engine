@@ -513,6 +513,20 @@ public abstract class Main extends Game implements Consumer {
 	public static void fillRect(Batch batch, float x, float y, float width, float height) {
 		batch.draw(filltex, x, y, width, height);
 	}
+	
+	public static void drawRect(Batch batch, float x, float y, float width, float height, float thickness){
+		// bottom
+		batch.draw(filltex, x, y, width, thickness);
+		
+		// top
+		batch.draw(filltex, x, y + height, width, -thickness);
+		
+		// left
+		batch.draw(filltex, x, y + thickness, thickness, height - (thickness * 2));
+		
+		// right
+		batch.draw(filltex, x + width - thickness, y + thickness, thickness, height - (thickness * 2));
+	}
 
 	private static float[] gradientverts = new float[20];
 	private static Color tempGradientColor = new Color();
