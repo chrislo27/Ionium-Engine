@@ -1,16 +1,11 @@
 package ionium.registry;
 
-import ionium.animation.Animation;
-import ionium.registry.handler.IAssetLoader;
-import ionium.registry.handler.StockAssetLoader;
-import ionium.util.AssetMap;
-import ionium.util.GameException;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -18,6 +13,16 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+
+import ionium.animation.Animation;
+import ionium.audio.Captioned;
+import ionium.audio.CaptionedLoader;
+import ionium.audio.CaptionedMusic;
+import ionium.audio.CaptionedSound;
+import ionium.registry.handler.IAssetLoader;
+import ionium.registry.handler.StockAssetLoader;
+import ionium.util.AssetMap;
+import ionium.util.GameException;
 
 public final class AssetRegistry implements Disposable {
 
@@ -45,6 +50,8 @@ public final class AssetRegistry implements Disposable {
 	private Texture missingTexture;
 
 	private void onInstantiate() {
+		manager.setLoader(Captioned.class, new CaptionedLoader(new InternalFileHandleResolver()));
+		
 		addAssetLoader(new StockAssetLoader());
 	}
 
