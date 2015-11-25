@@ -61,8 +61,8 @@ public class MessageScreen extends Updateable<Main> {
 	}
 
 	@Override
-	public Array<String> getDebugStrings(Array<String> array) {
-		return array;
+	public void getDebugStrings(Array<String> array) {
+		
 	}
 
 	@Override

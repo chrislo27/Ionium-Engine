@@ -25,7 +25,7 @@ public abstract class Updateable<T extends Main> implements Screen {
 
 	public abstract void tickUpdate();
 
-	public abstract Array<String> getDebugStrings(Array<String> array);
+	public abstract void getDebugStrings(Array<String> array);
 
 	@Override
 	public abstract void resize(int width, int height);

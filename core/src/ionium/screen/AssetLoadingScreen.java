@@ -99,8 +99,8 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	}
 
 	@Override
-	public Array<String> getDebugStrings(Array<String> array) {
-		return array;
+	public void getDebugStrings(Array<String> array) {
+		
 	}
 
 	@Override
