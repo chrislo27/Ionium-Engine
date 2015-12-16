@@ -1,20 +1,14 @@
 package ionium.menutree;
 
-import ionium.templates.Main;
-import ionium.util.Utils;
-import ionium.util.controllers.Xbox360Controllers;
-import ionium.util.controllers.Xbox360Mappings;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerAdapter;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+
+import ionium.templates.Main;
+import ionium.util.Utils;
 
 /**
  * The container class for the MenuElements in a screen.
@@ -33,64 +27,6 @@ public class MenuTree {
 	private float indent = 32;
 
 	private Main main;
-
-	private ControllerAdapter controllerAdapter = new ControllerAdapter() {
-
-		@Override
-		public boolean buttonDown(Controller controller, int buttonIndex) {
-			if (controller == Xbox360Controllers.getController(0)) {
-				if (buttonIndex == Xbox360Mappings.BUTTON_A) {
-					pressEnter();
-				} else if (buttonIndex == Xbox360Mappings.BUTTON_B
-						|| buttonIndex == Xbox360Mappings.BUTTON_BACK) {
-					pressBack();
-				}
-			}
-			return true;
-		}
-
-		@Override
-		public boolean buttonUp(Controller controller, int buttonIndex) {
-			return false;
-		}
-
-		@Override
-		public boolean axisMoved(Controller controller, int axisIndex, float value) {
-			//			if (controller == Xbox360Controllers.getController(0)) {
-			//				if (axisIndex == Xbox360Mappings.AXIS_LX) {
-			//					if (value <= -0.75f) {
-			//						pressLeft();
-			//					} else if (value >= 0.75f) {
-			//						pressRight();
-			//					}
-			//				} else if (axisIndex == Xbox360Mappings.AXIS_LY) {
-			//					if (value <= -0.75f) {
-			//						pressUp();
-			//					} else if (value >= 0.75f) {
-			//						pressDown();
-			//					}
-			//				}
-			//			}
-			return false;
-		}
-
-		@Override
-		public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
-			if (controller == Xbox360Controllers.getController(0)
-					&& povIndex == Xbox360Mappings.POV) {
-				if (value == PovDirection.north) {
-					pressUp();
-				} else if (value == PovDirection.south) {
-					pressDown();
-				} else if (value == PovDirection.east) {
-					pressRight();
-				} else if (value == PovDirection.west) {
-					pressLeft();
-				}
-			}
-			return false;
-		}
-	};
 
 	public MenuTree(Main m, float x, float y, float indent) {
 		main = m;
@@ -153,17 +89,11 @@ public class MenuTree {
 	}
 
 	public void onScreenShow() {
-		// check to init controllers
-		if (Xbox360Controllers.hasAny()) {
-			Controllers.addListener(controllerAdapter);
-		}
+		
 	}
 
 	public void onScreenHide() {
-		// check to init controllers
-		if (Xbox360Controllers.hasAny()) {
-			Controllers.removeListener(controllerAdapter);
-		}
+		
 	}
 
 	private float renderSublevel(SpriteBatch batch, BitmapFont font, float offsetX, float offsetY,
