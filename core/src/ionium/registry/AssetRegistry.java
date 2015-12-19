@@ -11,6 +11,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -185,16 +186,16 @@ public final class AssetRegistry implements Disposable {
 		} else {
 			if (AssetMap.get(key) == null) return getMissingTexture();
 
-			return instance().getAssetManager().get(AssetMap.get(key), Texture.class);
+			return getAsset(key, Texture.class);
 		}
 	}
 
 	public static Sound getSound(String key) {
-		return instance().getAssetManager().get(AssetMap.get(key), Sound.class);
+		return getAsset(key, Sound.class);
 	}
 
 	public static Music getMusic(String key) {
-		return instance().getAssetManager().get(AssetMap.get(key), Music.class);
+		return getAsset(key, Music.class);
 	}
 
 	public static Animation getAnimation(String key) {
@@ -203,6 +204,10 @@ public final class AssetRegistry implements Disposable {
 	
 	public static <T> T getAsset(String key, Class<T> clz){
 		return instance().getAssetManager().get(AssetMap.get(key), clz);
+	}
+	
+	public static TiledMap getTiledMap(String key){
+		return getAsset(key, TiledMap.class);
 	}
 
 }
