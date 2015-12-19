@@ -71,12 +71,14 @@ public final class AssetRegistry implements Disposable {
 		return animations;
 	}
 
-	public void addAssetLoader(IAssetLoader l) {
+	public AssetRegistry addAssetLoader(IAssetLoader l) {
 		loaders.add(l);
 
 		// add the managed textures to the asset manager, the unmanaged textures are loaded separately
 		l.addManagedAssets(manager);
 		l.addUnmanagedAnimations(animations);
+		
+		return this;
 	}
 
 	/**
