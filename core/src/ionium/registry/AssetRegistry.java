@@ -190,16 +190,10 @@ public final class AssetRegistry implements Disposable {
 	}
 
 	public static Sound getSound(String key) {
-		if (!AssetMap.containsKey(key)) return null;
-		if (!instance().getAssetManager().isLoaded(AssetMap.get(key), Sound.class)) return null;
-
 		return instance().getAssetManager().get(AssetMap.get(key), Sound.class);
 	}
 
 	public static Music getMusic(String key) {
-		if (!AssetMap.containsKey(key)) return null;
-		if (!instance().getAssetManager().isLoaded(AssetMap.get(key), Music.class)) return null;
-
 		return instance().getAssetManager().get(AssetMap.get(key), Music.class);
 	}
 
