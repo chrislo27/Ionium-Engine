@@ -206,5 +206,9 @@ public final class AssetRegistry implements Disposable {
 	public static Animation getAnimation(String key) {
 		return instance().getAnimations().get(key);
 	}
+	
+	public static <T> T getAsset(String key, Class<T> clz){
+		return instance().getAssetManager().get(AssetMap.get(key), clz);
+	}
 
 }
