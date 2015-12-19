@@ -112,6 +112,7 @@ public abstract class Main extends Game implements Consumer {
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 	private long nanoUntilTick = 1;
+	private String lastSetNullScreen = "<no data>";
 
 	private Array<String> debugStrings = new Array<>();
 
@@ -325,7 +326,7 @@ public abstract class Main extends Game implements Consumer {
 
 			}
 		}else{
-			defaultFont.draw(batch, "null screen", Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center, false);
+			defaultFont.draw(batch, "null screen: " + lastSetNullScreen, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center, false);
 		}
 		batch.end();
 
@@ -408,7 +409,6 @@ public abstract class Main extends Game implements Consumer {
 	private void loadAssets() {
 		AssetMap.instance(); // load asset map namer thing
 		Localization.instance();
-		addColors();
 
 		// the default assets are already added in StandardAssetLoader
 	}
@@ -423,10 +423,6 @@ public abstract class Main extends Game implements Consumer {
 
 		Main.logger.info("Finished loading all unmanaged assets, took "
 				+ (System.currentTimeMillis() - timeTaken) + " ms");
-	}
-
-	protected void addColors() {
-
 	}
 
 	public static String getRandomUsername() {
@@ -476,6 +472,15 @@ public abstract class Main extends Game implements Consumer {
 		consoletext.setCaretPosition(consoletext.getText().length());
 	}
 
+	@Override
+	public void setScreen(Screen scr){
+		super.setScreen(scr);
+		
+		if(getScreen() == null){
+			lastSetNullScreen = ScreenRegistry.instance().lastNullScreen;
+		}
+	}
+	
 	public void transition(Transition from, Transition to, Screen next) {
 		TransitionScreen transition = ScreenRegistry.get("ionium_transition", TransitionScreen.class);
 
