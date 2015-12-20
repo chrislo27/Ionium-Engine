@@ -12,19 +12,23 @@ public class Character {
 	
 	public String name;
 	public String voice;
+	public String face;
 	
-	public Character(String name, String soundAsset){
+	public Character(String name, String soundAsset, String face){
 		this.name = name;
 		this.voice = soundAsset;
+		this.face = face;
 	}
 	
 	@Override
 	/**
-	 * Returns true if the name matches
+	 * Returns true everything matches
 	 */
 	public boolean equals(Object obj) {
 		if(obj instanceof Character){
-			if(((Character) obj).name.equals(name)) return true;
+			if(((Character) obj).name.equals(name) &&
+					((Character) obj).voice.equals(voice) &&
+					((Character) obj).face.equals(face)) return true;
 		}
 		
 		return super.equals(obj);
