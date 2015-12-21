@@ -156,8 +156,8 @@ public class MathHelper {
 
 	public static boolean intersects(float x, float y, float width, float height, float x2,
 			float y2, float width2, float height2) {
-		fixRectangleToOrigin(rect1.set(x, y, width, height));
-		fixRectangleToOrigin(rect2.set(x2, y2, width2, height2));
+		makeRectangleValuesPositive(rect1.set(x, y, width, height));
+		makeRectangleValuesPositive(rect2.set(x2, y2, width2, height2));
 
 		// true if: rect1 overlaps 2, or either contains
 		return rect1.overlaps(rect2) || rect1.contains(rect2) || rect2.contains(rect1);
@@ -174,7 +174,7 @@ public class MathHelper {
 		return false;
 	}
 
-	public static Rectangle fixRectangleToOrigin(Rectangle rect){
+	public static Rectangle makeRectangleValuesPositive(Rectangle rect){
 		if(rect.width < 0){
 			rect.width = Math.abs(rect.width);
 			rect.x -= rect.width;
