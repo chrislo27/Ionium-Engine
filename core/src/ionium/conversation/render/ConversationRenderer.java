@@ -41,7 +41,7 @@ public class ConversationRenderer {
 			float faceWidth = AssetRegistry
 					.getTexture(AssetMap.get(currentConv.lines[convStage].character.face))
 					.getWidth();
-			
+
 			if (style.shouldFaceBeRightAligned) {
 				textWidth -= faceWidth;
 				textWidth -= style.textPadding;
@@ -57,20 +57,20 @@ public class ConversationRenderer {
 		Main.fillRect(batch, 0, offsetY, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy);
 		batch.setColor(1, 1, 1, 1);
-		
+
 		if (style.shouldFaceBeShown && currentConv.lines[convStage].character.face != null) {
-			
+
 			float faceX = style.textPadding;
 			Texture tex = AssetRegistry
 					.getTexture(AssetMap.get(currentConv.lines[convStage].character.face));
-			
+
 			if (style.shouldFaceBeRightAligned) {
 				faceX += textWidth;
 			}
-			
+
 			batch.draw(tex, faceX, textStartY + offsetY - tex.getHeight());
 		}
-		
+
 		font.setColor(1, 1, 1, 1);
 		font.draw(batch,
 				Localization.get(currentConv.lines[convStage].line).substring(0, convScroll),
@@ -78,6 +78,10 @@ public class ConversationRenderer {
 
 		convScroll = MathUtils.clamp(convScroll + scrollSpeed, 0,
 				Localization.get(currentConv.lines[convStage].line).length());
+	}
+
+	public boolean isInConv() {
+		return currentConv != null;
 	}
 
 	public void finishScrolling() {
