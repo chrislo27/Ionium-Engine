@@ -1,6 +1,7 @@
 package ionium.conversation.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,8 @@ public class ConversationRenderer {
 	private Conversation currentConv;
 	private int convStage = 0;
 	private int convScroll = 0;
+
+	private int selectionIndex = 0;
 
 	public ConversationRenderer() {
 
@@ -80,8 +83,28 @@ public class ConversationRenderer {
 				Localization.get(currentConv.lines[convStage].line).length());
 	}
 
+	public void inputUpdate() {
+		if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			if (isFinishedScrolling()) {
+				advanceStage();
+			} else {
+				finishScrolling();
+			}
+		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.A) || Gdx.input.isKeyJustPressed(Keys.LEFT)) {
+
+		} else if (Gdx.input.isKeyJustPressed(Keys.D) || Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
+
+		}
+	}
+
 	public boolean isInConv() {
 		return currentConv != null;
+	}
+
+	public boolean isFinishedScrolling() {
+		return convScroll == Localization.get(currentConv.lines[convStage].line).length();
 	}
 
 	public void finishScrolling() {
@@ -94,6 +117,7 @@ public class ConversationRenderer {
 		if (currentConv == null) return;
 
 		convScroll = 0;
+		selectionIndex = 0;
 		convStage += 1;
 
 		if (convStage >= currentConv.lines.length) {
@@ -104,6 +128,7 @@ public class ConversationRenderer {
 	public ConversationRenderer setToConv(Conversation conv) {
 		currentConv = conv;
 		convStage = 0;
+		selectionIndex = 0;
 
 		return this;
 	}
