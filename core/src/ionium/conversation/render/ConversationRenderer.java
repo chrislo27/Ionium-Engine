@@ -2,6 +2,7 @@ package ionium.conversation.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 
 import ionium.conversation.Conversation;
+import ionium.conversation.Voice;
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
 import ionium.util.AssetMap;
@@ -22,6 +24,8 @@ public class ConversationRenderer {
 
 	private int selectionIndex = 0;
 
+	private float renderTime = -1;
+
 	public ConversationRenderer() {
 
 	}
@@ -29,6 +33,10 @@ public class ConversationRenderer {
 	public void render(SpriteBatch batch, BitmapFont font, ConvStyle style, ConvSide side,
 			int scrollSpeed) {
 		if (currentConv == null) return;
+		
+		if(renderTime <= -1){
+			renderTime = currentConv.lines[convStage].character.voice.avgLength;
+		}
 
 		float textStartX = style.textPadding;
 		float textStartY = (Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy)
@@ -75,12 +83,33 @@ public class ConversationRenderer {
 		}
 
 		font.setColor(1, 1, 1, 1);
-		font.draw(batch,
-				Localization.get(currentConv.lines[convStage].line).substring(0, convScroll),
-				textStartX, textStartY + offsetY, textWidth, Align.topLeft, true);
+		font.draw(batch, getActualMessage().substring(0, convScroll), textStartX,
+				textStartY + offsetY, textWidth, Align.topLeft, true);
 
-		convScroll = MathUtils.clamp(convScroll + scrollSpeed, 0,
-				Localization.get(currentConv.lines[convStage].line).length());
+		// voice
+		if (style.shouldPlayMumbling && convScroll < getActualMessage().length()) {
+			Voice voice = currentConv.lines[convStage].character.voice;
+			Sound sound = AssetRegistry.getSound(voice.voiceFile);
+
+			if (voice != null) {
+				if (renderTime >= voice.avgLength) {
+					renderTime -= voice.avgLength;
+
+					float pitchOffset = MathUtils.random(0, style.mumblingPitchOffset)
+							* MathUtils.randomSign();
+					if (pitchOffset < 0) {
+						// because it ranges from 0.5 to 2.0, the high end is x2, the low end is x0.5
+						pitchOffset *= 0.5f;
+					}
+
+					sound.play(1f, 1f + pitchOffset, 0);
+				}
+			}
+		}
+
+		// scrolling
+		convScroll = MathUtils.clamp(convScroll + scrollSpeed, 0, getActualMessage().length());
+		renderTime += Gdx.graphics.getDeltaTime();
 	}
 
 	public void inputUpdate() {
@@ -103,14 +132,22 @@ public class ConversationRenderer {
 		return currentConv != null;
 	}
 
+	public String getActualMessage() {
+		if (currentConv == null) return "";
+
+		return Localization.get(currentConv.lines[convStage].line);
+	}
+
 	public boolean isFinishedScrolling() {
-		return convScroll == Localization.get(currentConv.lines[convStage].line).length();
+		if (currentConv == null) return true;
+
+		return convScroll == getActualMessage().length();
 	}
 
 	public void finishScrolling() {
 		if (currentConv == null) return;
 
-		convScroll = Localization.get(currentConv.lines[convStage].line).length();
+		convScroll = getActualMessage().length();
 	}
 
 	public void advanceStage() {
@@ -119,6 +156,7 @@ public class ConversationRenderer {
 		convScroll = 0;
 		selectionIndex = 0;
 		convStage += 1;
+		renderTime = -1;
 
 		if (convStage >= currentConv.lines.length) {
 			setToConv(null);
@@ -128,7 +166,7 @@ public class ConversationRenderer {
 	public ConversationRenderer setToConv(Conversation conv) {
 		currentConv = conv;
 		convStage = 0;
-		selectionIndex = 0;
+		selectionIndex = -1;
 
 		return this;
 	}
