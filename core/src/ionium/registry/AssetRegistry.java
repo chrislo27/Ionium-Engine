@@ -209,7 +209,7 @@ public final class AssetRegistry implements Disposable {
 	 * @return
 	 */
 	public static <T> T getAsset(String key, Class<T> clz){
-		return getAssetRaw(AssetMap.get(key), clz);
+		return getAssetByPath(AssetMap.get(key), clz);
 	}
 	
 	/**
@@ -218,7 +218,7 @@ public final class AssetRegistry implements Disposable {
 	 * @param clz
 	 * @return
 	 */
-	public static <T> T getAssetRaw(String path, Class<T> clz){
+	public static <T> T getAssetByPath(String path, Class<T> clz){
 		return instance().getAssetManager().get(path, clz);
 	}
 	
