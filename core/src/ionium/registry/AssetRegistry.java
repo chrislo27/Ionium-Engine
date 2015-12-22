@@ -202,8 +202,24 @@ public final class AssetRegistry implements Disposable {
 		return instance().getAnimations().get(key);
 	}
 	
+	/**
+	 * Gets an asset, putting the key through AssetMap.get first
+	 * @param key
+	 * @param clz
+	 * @return
+	 */
 	public static <T> T getAsset(String key, Class<T> clz){
-		return instance().getAssetManager().get(AssetMap.get(key), clz);
+		return getAssetRaw(AssetMap.get(key), clz);
+	}
+	
+	/**
+	 * Gets an asset by the path provided
+	 * @param path
+	 * @param clz
+	 * @return
+	 */
+	public static <T> T getAssetRaw(String path, Class<T> clz){
+		return instance().getAssetManager().get(path, clz);
 	}
 	
 	public static TiledMap getTiledMap(String key){
