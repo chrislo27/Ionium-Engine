@@ -33,16 +33,17 @@ public class ConversationRenderer {
 	public void render(SpriteBatch batch, BitmapFont font, ConvStyle style, ConvSide side,
 			int scrollSpeed) {
 		if (currentConv == null) return;
-		
-		if(renderTime <= -1){
+
+		if (renderTime <= -1) {
 			renderTime = currentConv.lines[convStage].character.voice.avgLength;
 		}
 
-		float textStartX = style.textPadding;
+		float textStartX = Gdx.graphics.getWidth() * style.textPaddingX;
 		float textStartY = (Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy)
-				- style.textPadding;
+				- (Gdx.graphics.getHeight() * style.textPaddingY);
 		float offsetY = 0;
-		float textWidth = Gdx.graphics.getWidth() - (style.textPadding * 2);
+		float textWidth = Gdx.graphics.getWidth()
+				- (Gdx.graphics.getWidth() * style.textPaddingX * 2);
 
 		if (side == ConvSide.TOP) {
 			offsetY = (1.0f - style.percentageOfScreenToOccupy) * Gdx.graphics.getHeight();
@@ -54,14 +55,13 @@ public class ConversationRenderer {
 					.getWidth();
 
 			if (style.shouldFaceBeRightAligned) {
-				textWidth -= faceWidth;
-				textWidth -= style.textPadding;
+
 			} else {
 				textStartX += faceWidth;
-				textStartX += style.textPadding;
-
-				textWidth -= faceWidth - style.textPadding;
+				textStartX += Gdx.graphics.getWidth() * style.textPaddingX;
 			}
+
+			textWidth = Gdx.graphics.getWidth() - (textStartX);
 		}
 
 		batch.setColor(0, 0, 0, 0.5f);
@@ -71,7 +71,7 @@ public class ConversationRenderer {
 
 		if (style.shouldFaceBeShown && currentConv.lines[convStage].character.face != null) {
 
-			float faceX = style.textPadding;
+			float faceX = Gdx.graphics.getWidth() * style.textPaddingX;
 			Texture tex = AssetRegistry
 					.getTexture(AssetMap.get(currentConv.lines[convStage].character.face));
 
