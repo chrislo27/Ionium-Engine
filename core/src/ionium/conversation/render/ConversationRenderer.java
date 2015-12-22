@@ -73,8 +73,6 @@ public class ConversationRenderer {
 
 			layoutHeight = layout.height;
 
-			Main.logger.debug("height: " + layoutHeight + ", bgHeight: " + bgHeight);
-
 			alreadySetLayout = true;
 		}
 
