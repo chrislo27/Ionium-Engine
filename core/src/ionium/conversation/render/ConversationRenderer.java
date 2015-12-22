@@ -3,8 +3,10 @@ package ionium.conversation.render;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
@@ -26,6 +28,10 @@ public class ConversationRenderer {
 
 	private float renderTime = -1;
 
+	private GlyphLayout layout = new GlyphLayout();
+	private float layoutHeight = 0;
+	private boolean alreadySetLayout = false;
+
 	public ConversationRenderer() {
 
 	}
@@ -39,15 +45,9 @@ public class ConversationRenderer {
 		}
 
 		float textStartX = Gdx.graphics.getWidth() * style.textPaddingX;
-		float textStartY = (Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy)
-				- (Gdx.graphics.getHeight() * style.textPaddingY);
 		float offsetY = 0;
 		float textWidth = Gdx.graphics.getWidth()
 				- (Gdx.graphics.getWidth() * style.textPaddingX * 2);
-
-		if (side == ConvSide.TOP) {
-			offsetY = (1.0f - style.percentageOfScreenToOccupy) * Gdx.graphics.getHeight();
-		}
 
 		if (style.shouldFaceBeShown && currentConv.lines[convStage].character.face != null) {
 			float faceWidth = AssetRegistry
@@ -64,9 +64,30 @@ public class ConversationRenderer {
 			textWidth = Gdx.graphics.getWidth() - (textStartX);
 		}
 
+		float bgHeight = Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy;
+
+		if (!alreadySetLayout) {
+
+			layout.setText(font, getActualMessage(), font.getColor(), textWidth, Align.topLeft,
+					true);
+
+			layoutHeight = layout.height;
+
+			Main.logger.debug("height: " + layoutHeight + ", bgHeight: " + bgHeight);
+
+			alreadySetLayout = true;
+		}
+
+		if (layoutHeight + (Gdx.graphics.getHeight() * style.textPaddingY) > bgHeight) {
+			bgHeight = layoutHeight + (Gdx.graphics.getHeight() * style.textPaddingY * 2);
+		}
+
+		if (side == ConvSide.TOP) {
+			offsetY = Gdx.graphics.getHeight() - bgHeight;
+		}
+
 		batch.setColor(0, 0, 0, 0.5f);
-		Main.fillRect(batch, 0, offsetY, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy);
+		Main.fillRect(batch, 0, offsetY, Gdx.graphics.getWidth(), bgHeight);
 		batch.setColor(1, 1, 1, 1);
 
 		if (style.shouldFaceBeShown && currentConv.lines[convStage].character.face != null) {
@@ -79,12 +100,13 @@ public class ConversationRenderer {
 				faceX += textWidth;
 			}
 
-			batch.draw(tex, faceX, textStartY + offsetY - tex.getHeight());
+			batch.draw(tex, faceX, (bgHeight * 0.5f) - (tex.getHeight() / 2) + offsetY);
 		}
 
 		font.setColor(1, 1, 1, 1);
 		font.draw(batch, getActualMessage().substring(0, convScroll), textStartX,
-				textStartY + offsetY, textWidth, Align.topLeft, true);
+				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, textWidth,
+				Align.topLeft, true);
 
 		// voice
 		if (style.shouldPlayMumbling && convScroll < getActualMessage().length()) {
@@ -157,6 +179,7 @@ public class ConversationRenderer {
 		selectionIndex = 0;
 		convStage += 1;
 		renderTime = -1;
+		alreadySetLayout = false;
 
 		if (convStage >= currentConv.lines.length) {
 			setToConv(null);
@@ -165,8 +188,8 @@ public class ConversationRenderer {
 
 	public ConversationRenderer setToConv(Conversation conv) {
 		currentConv = conv;
-		convStage = 0;
-		selectionIndex = -1;
+		convStage = -1;
+		advanceStage();
 
 		return this;
 	}
