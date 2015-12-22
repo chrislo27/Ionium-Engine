@@ -11,12 +11,12 @@ public class Character {
 	public static String LocalizedNamePrefix = "character.name.";
 	
 	public String name;
-	public String voice;
+	public Voice voice;
 	public String face;
 	
-	public Character(String name, String soundAsset, String face){
+	public Character(String name, Voice voice, String face){
 		this.name = name;
-		this.voice = soundAsset;
+		this.voice = voice;
 		this.face = face;
 	}
 	
