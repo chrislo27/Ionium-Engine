@@ -20,11 +20,11 @@ import ionium.util.i18n.Localization;
 
 public class ConversationRenderer {
 
-	private Conversation currentConv;
-	private int convStage = 0;
-	private int convScroll = 0;
+	protected Conversation currentConv;
+	protected int convStage = 0;
+	protected int convScroll = 0;
 
-	private int selectionIndex = 0;
+	protected int selectionIndex = 0;
 
 	private float renderTime = -1;
 
