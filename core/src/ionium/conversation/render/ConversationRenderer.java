@@ -111,7 +111,7 @@ public class ConversationRenderer {
 			Voice voice = currentConv.lines[convStage].character.voice;
 			Sound sound = AssetRegistry.getSound(voice.voiceFile);
 
-			if (voice != null) {
+			if (voice != null && sound != null) {
 				if (renderTime >= voice.avgLength) {
 					renderTime -= voice.avgLength;
 
