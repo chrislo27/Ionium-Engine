@@ -33,11 +33,11 @@ public class Fade implements Transition {
 
 		// 0 to startingTime
 		float elapsedTime = (startingTime - timeLeft);
-		// 0 to 1 (alpha)
-		float fadeIn = MathUtils.clamp((elapsedTime / startingTime), 0f, 1f);
+		// 0 going to 1 (alpha)
+		float blacken = MathUtils.clamp((elapsedTime / startingTime), 0f, 1f);
 
 		main.batch.setColor(REUSED.r, REUSED.g, REUSED.b,
-				(fadingOut == false ? 1 - fadeIn : fadeIn));
+				(fadingOut ? blacken : 1f - blacken));
 		Main.fillRect(main.batch, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		main.batch.setColor(1, 1, 1, 1);
 
