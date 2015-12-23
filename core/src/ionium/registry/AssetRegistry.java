@@ -209,6 +209,8 @@ public final class AssetRegistry implements Disposable {
 	 * @return
 	 */
 	public static <T> T getAsset(String key, Class<T> clz){
+		if(AssetMap.get(key) == null) return null;
+		
 		return getAssetByPath(AssetMap.get(key), clz);
 	}
 	
