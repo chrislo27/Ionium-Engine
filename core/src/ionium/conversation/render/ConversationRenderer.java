@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 
 import ionium.conversation.Conversation;
+import ionium.conversation.DialogueLine;
+import ionium.conversation.DialogueLine.Choice;
 import ionium.conversation.Voice;
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
@@ -29,8 +31,11 @@ public abstract class ConversationRenderer {
 	private float renderTime = -1;
 
 	private GlyphLayout layout = new GlyphLayout();
-	private float layoutHeight = 0;
+	private float textHeight = 0;
+	private float choicesHeight = 0;
 	private boolean alreadySetLayout = false;
+	
+	protected Color reusedColor = new Color();
 
 	public ConversationRenderer() {
 
@@ -46,7 +51,7 @@ public abstract class ConversationRenderer {
 		if (currentConv == null) return;
 
 		if (renderTime <= -1) {
-			renderTime = currentConv.lines[convStage].character.voice.avgLength;
+			renderTime = getCurrent().character.voice.avgLength;
 		}
 
 		float textStartX = Gdx.graphics.getWidth() * style.textPaddingX;
@@ -54,9 +59,8 @@ public abstract class ConversationRenderer {
 		float textWidth = Gdx.graphics.getWidth()
 				- (Gdx.graphics.getWidth() * style.textPaddingX * 2);
 
-		if (style.shouldFaceBeShown && currentConv.lines[convStage].character.face != null) {
-			float faceWidth = AssetRegistry
-					.getTexture(AssetMap.get(currentConv.lines[convStage].character.face))
+		if (style.shouldFaceBeShown && getCurrent().character.face != null) {
+			float faceWidth = AssetRegistry.getTexture(AssetMap.get(getCurrent().character.face))
 					.getWidth();
 
 			if (style.shouldFaceBeRightAligned) {
@@ -76,13 +80,37 @@ public abstract class ConversationRenderer {
 			layout.setText(font, getActualMessage(), font.getColor(), textWidth, Align.topLeft,
 					true);
 
-			layoutHeight = layout.height;
+			textHeight = layout.height;
+			choicesHeight = 0;
+
+			if (getCurrent().choices != null) {
+				if (getCurrent().choices.length > 0) {
+					String totalQuestionString = "";
+
+					for (int i = 0; i < getCurrent().choices.length; i++) {
+						Choice c = getCurrent().choices[i];
+
+						totalQuestionString += Localization.get(c.question);
+
+						if (i + 1 < getCurrent().choices.length) {
+							totalQuestionString += "\n";
+						}
+					}
+
+					layout.setText(questioningFont, totalQuestionString, questioningFont.getColor(),
+							textWidth, Align.topLeft, true);
+
+					choicesHeight = layout.height;
+				}
+			}
 
 			alreadySetLayout = true;
 		}
 
-		if (layoutHeight + (Gdx.graphics.getHeight() * style.textPaddingY) > bgHeight) {
-			bgHeight = layoutHeight + (Gdx.graphics.getHeight() * style.textPaddingY * 2);
+		if (textHeight + (Gdx.graphics.getHeight() * style.textPaddingY * 2) + choicesHeight
+				+ questioningFont.getLineHeight() > bgHeight) {
+			bgHeight = textHeight + (Gdx.graphics.getHeight() * style.textPaddingY * 2)
+					+ choicesHeight + questioningFont.getLineHeight();
 		}
 
 		if (side == ConvSide.TOP) {
@@ -93,11 +121,10 @@ public abstract class ConversationRenderer {
 		Main.fillRect(batch, 0, offsetY, Gdx.graphics.getWidth(), bgHeight);
 		batch.setColor(1, 1, 1, 1);
 
-		if (style.shouldFaceBeShown && currentConv.lines[convStage].character.face != null) {
+		if (style.shouldFaceBeShown && getCurrent().character.face != null) {
 
 			float faceX = Gdx.graphics.getWidth() * style.textPaddingX;
-			Texture tex = AssetRegistry
-					.getTexture(AssetMap.get(currentConv.lines[convStage].character.face));
+			Texture tex = AssetRegistry.getTexture(AssetMap.get(getCurrent().character.face));
 
 			if (style.shouldFaceBeRightAligned) {
 				faceX += textWidth;
@@ -111,9 +138,31 @@ public abstract class ConversationRenderer {
 				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, textWidth,
 				Align.topLeft, true);
 
+		if (isFinishedScrolling() && choicesHeight > 0) {
+			// render options if any
+
+			for (int i = 0; i < getCurrent().choices.length; i++) {
+				Choice c = getCurrent().choices[i];
+
+				questioningFont.setColor(1, 1, 1, 1);
+
+				if (i == selectionIndex) {
+					questioningFont.setColor(getSelectionColour(reusedColor));
+				}
+
+				questioningFont.draw(batch, "   > " + Localization.get(c.question), textStartX,
+						(bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY)) - textHeight
+								- questioningFont.getLineHeight() + offsetY
+								- (i * questioningFont.getLineHeight()),
+						textWidth, Align.topLeft, true);
+
+				questioningFont.setColor(1, 1, 1, 1);
+			}
+		}
+
 		// voice
 		if (style.shouldPlayMumbling && convScroll < getActualMessage().length()) {
-			Voice voice = currentConv.lines[convStage].character.voice;
+			Voice voice = getCurrent().character.voice;
 			Sound sound = AssetRegistry.getSound(voice.voiceFile);
 
 			if (voice != null && sound != null) {
@@ -146,14 +195,33 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (Gdx.input.isKeyJustPressed(Keys.A) || Gdx.input.isKeyJustPressed(Keys.LEFT)) {
+		if (isFinishedScrolling() && choicesHeight > 0) {
+			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
+				selectionIndex--;
 
-		} else if (Gdx.input.isKeyJustPressed(Keys.D) || Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
+				if (selectionIndex < 0) {
+					selectionIndex = getCurrent().choices.length - 1;
+				}
+			} else if (Gdx.input.isKeyJustPressed(Keys.S)
+					|| Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+				selectionIndex++;
 
+				if (selectionIndex >= getCurrent().choices.length) {
+					selectionIndex = 0;
+				}
+			}
 		}
 	}
 
 	public abstract Conversation getConversationFromId(String id);
+	
+	public abstract Color getSelectionColour(Color c);
+
+	protected DialogueLine getCurrent() {
+		if (currentConv == null) return null;
+
+		return currentConv.lines[convStage];
+	}
 
 	public boolean isInConv() {
 		return currentConv != null;
@@ -181,15 +249,23 @@ public abstract class ConversationRenderer {
 		if (currentConv == null) return;
 
 		convScroll = 0;
-		selectionIndex = 0;
 		convStage += 1;
 		renderTime = -1;
 		alreadySetLayout = false;
 
 		if (convStage >= currentConv.lines.length) {
-			setToConv(getConversationFromId(
-					currentConv.lines[currentConv.lines.length - 1].gotoNext));
+			if (currentConv.lines[currentConv.lines.length - 1].choices != null) {
+				if (currentConv.lines[currentConv.lines.length - 1].choices.length > 0) {
+					setToConv(getConversationFromId(currentConv.lines[currentConv.lines.length
+							- 1].choices[selectionIndex].gotoNext));
+				}
+			} else {
+				setToConv(getConversationFromId(
+						currentConv.lines[currentConv.lines.length - 1].gotoNext));
+			}
 		}
+
+		selectionIndex = 0;
 	}
 
 	public ConversationRenderer setToConv(Conversation conv) {
