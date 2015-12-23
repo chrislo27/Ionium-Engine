@@ -10,7 +10,7 @@ public abstract class Updateable<T extends Main> implements Screen {
 
 	public T main;
 	public UiContainer container = new UiContainer();
-	
+
 	public Updateable(T m) {
 		main = m;
 	}
@@ -45,6 +45,34 @@ public abstract class Updateable<T extends Main> implements Screen {
 	@Override
 	public abstract void dispose();
 
+	/**
+	 * Called when a transition starts where this screen is the prior one.
+	 */
+	public void onTransitionFromStart() {
+
+	}
+
+	/**
+	 * Called when a transition ends where this screen is the prior one.
+	 */
+	public void onTransitionFromEnd() {
+
+	}
+
+	/**
+	 * Called when a transition starts where this screen is the transitioning-to one.
+	 */
+	public void onTransitionToStart() {
+
+	}
+	
+	/**
+	 * Called when a transition ends where this screen is the transitioning-to one.
+	 */
+	public void onTransitionToEnd() {
+
+	}
+
 	public void debug(String message) {
 		Main.logger.debug(message);
 	}
@@ -76,12 +104,12 @@ public abstract class Updateable<T extends Main> implements Screen {
 	public void warn(String message, Throwable exception) {
 		Main.logger.warn(message, exception);
 	}
-	
+
 	/**
 	 * Called when scrolled. Negative amount means scrolled up.
 	 * @param amount
 	 */
-	public boolean onScrolled(int amount){
+	public boolean onScrolled(int amount) {
 		return false;
 	}
 

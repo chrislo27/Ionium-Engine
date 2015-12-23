@@ -13,71 +13,134 @@ public class TransitionScreen extends Updateable<Main> {
 		super(m);
 	}
 
-	Transition from = null;
-	Transition to = null;
+	Transition fromTransition = null;
+	Transition toTransition = null;
 
 	Screen previousScreen = null;
 	Screen nextScreen = null;
 
-	boolean onTo = false;
+	boolean onToTransition = false;
 
 	@Override
 	public void render(float delta) {
 
-		if (to == null) {
-			if (onTo) main.setScreen(nextScreen);
+		// finish to transition
+		if (toTransition == null) {
+			if (onToTransition) {
+				finishToTransition();
+			}
 		} else {
-			if ((to.finished() && onTo)) main.setScreen(nextScreen);
-		}
-
-		if (from == null) {
-			onTo = true;
-		} else {
-			if (from.finished()) {
-				onTo = true;
+			if ((toTransition.finished() && onToTransition)) {
+				finishToTransition();
 			}
 		}
 
-		if (onTo) {
-			if (nextScreen != null) nextScreen.render(delta);
+		if (!onToTransition) {
+			if (fromTransition == null) {
+				// first transition doesn't exist, skip right ahead
+				finishFromStartToTransition();
+			} else {
+				if (fromTransition.finished()) {
+					finishFromStartToTransition();
+				}
+			}
+		}
+
+		if (onToTransition) {
+			if (nextScreen != null) {
+				nextScreen.render(delta);
+			}
+
 			main.batch.begin();
-			if (to != null) to.render(main);
+			if (toTransition != null) {
+				toTransition.render(main);
+			}
 			main.batch.end();
 		} else {
-			if (previousScreen != null && previousScreen != this) previousScreen.render(delta);
+			if (previousScreen != null && previousScreen != this) {
+				previousScreen.render(delta);
+			}
+
 			main.batch.begin();
-			from.render(main);
+			fromTransition.render(main);
 			main.batch.end();
 		}
 
+	}
+
+	/**
+	 * Called when the first transition is starting, calls the updateable event onTransitionFromStart
+	 */
+	private void startFromTransition(){
+		if (fromTransition == null) {
+			onToTransition = true;
+		} else {
+			if (previousScreen instanceof Updateable) {
+				((Updateable) previousScreen).onTransitionFromStart();
+			}
+		}
+	}
+
+	/**
+	 * Called when the first transition ends and the next begins. Calls the previous updateable event onTransitionFromEnd(),
+	 * and next updateable event onTransitionToStart()
+	 */
+	private void finishFromStartToTransition() {
+		onToTransition = true;
+
+		if (previousScreen != null) {
+			if (previousScreen instanceof Updateable) {
+				((Updateable) previousScreen).onTransitionFromEnd();
+			}
+		}
+
+		if (nextScreen != null) {
+			if (nextScreen instanceof Updateable) {
+				((Updateable) nextScreen).onTransitionToStart();
+			}
+		}
+	}
+	
+	/**
+	 * Called when the final transition ends, calls updateable event onTransitionToEnd()
+	 */
+	private void finishToTransition() {
+		if (nextScreen instanceof Updateable) {
+			((Updateable) nextScreen).onTransitionToEnd();
+		}
+		main.setScreen(nextScreen);
 	}
 
 	@Override
 	public void tickUpdate() {
-		if (onTo) {
-			if (to != null) to.tickUpdate(main);
+		if (onToTransition) {
+			if (toTransition != null) toTransition.tickUpdate(main);
 		} else {
-			if (from != null) from.tickUpdate(main);
+			if (fromTransition != null) fromTransition.tickUpdate(main);
 		}
 	}
 
 	public void prepare(Screen p, Transition f, Transition t, Screen n) {
-		from = f;
+		fromTransition = f;
 		previousScreen = p;
-		to = t;
+		toTransition = t;
 		nextScreen = n;
-		onTo = false;
-		if (from == null) {
-			onTo = true;
-		}
+		onToTransition = false;
+		
+		startFromTransition();
 	}
 
 	@Override
 	public void getDebugStrings(Array<String> array) {
-		array.add("prevScreen: " + (previousScreen == null ? null : previousScreen.getClass().getSimpleName()));
-		array.add("nextScreen: " + (nextScreen == null ? null : nextScreen.getClass().getSimpleName()));
-		array.add("[" + (!onTo ? "GREEN" : "RED") + "]fromTransition: " + (from == null ? null : from.getClass().getSimpleName()) + "[]");
-		array.add("[" + (onTo ? "GREEN" : "RED") + "]toTransition: " + (to == null ? null : to.getClass().getSimpleName()) + "[]");
+		array.add("prevScreen: "
+				+ (previousScreen == null ? null : previousScreen.getClass().getSimpleName()));
+		array.add("nextScreen: "
+				+ (nextScreen == null ? null : nextScreen.getClass().getSimpleName()));
+		array.add("[" + (!onToTransition ? "GREEN" : "RED") + "]fromTransition: "
+				+ (fromTransition == null ? null : fromTransition.getClass().getSimpleName())
+				+ "[]");
+		array.add("[" + (onToTransition ? "GREEN" : "RED") + "]toTransition: "
+				+ (toTransition == null ? null : toTransition.getClass().getSimpleName()) + "[]");
 	}
 
 	@Override
