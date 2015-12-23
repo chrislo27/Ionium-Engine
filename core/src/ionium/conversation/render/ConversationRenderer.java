@@ -34,7 +34,7 @@ public abstract class ConversationRenderer {
 	private float textHeight = 0;
 	private float choicesHeight = 0;
 	private boolean alreadySetLayout = false;
-	
+
 	protected Color reusedColor = new Color();
 
 	public ConversationRenderer() {
@@ -123,14 +123,24 @@ public abstract class ConversationRenderer {
 
 		if (style.shouldFaceBeShown && getCurrent().character.face != null) {
 
-			float faceX = Gdx.graphics.getWidth() * style.textPaddingX;
 			Texture tex = AssetRegistry.getTexture(AssetMap.get(getCurrent().character.face));
+			float faceX = Gdx.graphics.getWidth() * style.textPaddingX;
+			float faceY = (bgHeight * 0.5f) - (tex.getHeight() / 2) + offsetY;
 
 			if (style.shouldFaceBeRightAligned) {
 				faceX += textWidth;
 			}
 
-			batch.draw(tex, faceX, (bgHeight * 0.5f) - (tex.getHeight() / 2) + offsetY);
+			batch.draw(tex, faceX, faceY);
+
+			if (style.shouldRenderNametag) {
+				font.setColor(1, 1, 1, 1);
+				
+				font.draw(batch,
+						Localization.get(ionium.conversation.Character.LocalizedNamePrefix
+								+ getCurrent().character.name),
+						faceX + (tex.getWidth() * 0.5f), faceY - font.getCapHeight(), tex.getWidth(), Align.center, false);
+			}
 		}
 
 		font.setColor(1, 1, 1, 1);
@@ -214,7 +224,7 @@ public abstract class ConversationRenderer {
 	}
 
 	public abstract Conversation getConversationFromId(String id);
-	
+
 	public abstract Color getSelectionColour(Color c);
 
 	protected DialogueLine getCurrent() {

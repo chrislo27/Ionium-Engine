@@ -3,7 +3,7 @@ package ionium.conversation.render;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class ConvStyle {
-	
+
 	public boolean shouldFaceBeShown = true;
 	public boolean shouldFaceBeRightAligned = false;
 	public boolean shouldPlayMumbling = true;
@@ -11,17 +11,18 @@ public class ConvStyle {
 	public float textPaddingX = 32f / 1920f;
 	public float textPaddingY = 18f / 1080f;
 	public float percentageOfScreenToOccupy = 0.25f;
-	
+	public boolean shouldRenderNametag = false;
+
 	/**
 	 * Retain default values
 	 */
-	public ConvStyle(){
-		
+	public ConvStyle() {
+
 	}
 
 	public ConvStyle(boolean shouldFaceBeShown, boolean shouldFaceBeRightAligned,
 			boolean shouldPlayMumbling, float mumblingPitchOffset, float textPaddingX,
-			float textPaddingY, float percentageOfScreenToOccupy) {
+			float textPaddingY, float percentageOfScreenToOccupy, boolean shouldRenderNametag) {
 		this.shouldFaceBeShown = shouldFaceBeShown;
 		this.shouldFaceBeRightAligned = shouldFaceBeRightAligned;
 		this.shouldPlayMumbling = shouldPlayMumbling;
@@ -29,6 +30,7 @@ public class ConvStyle {
 		this.textPaddingX = textPaddingX;
 		this.textPaddingY = textPaddingY;
 		this.percentageOfScreenToOccupy = percentageOfScreenToOccupy;
+		this.shouldRenderNametag = shouldRenderNametag;
 	}
-	
+
 }
