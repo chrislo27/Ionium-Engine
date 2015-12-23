@@ -18,7 +18,7 @@ import ionium.templates.Main;
 import ionium.util.AssetMap;
 import ionium.util.i18n.Localization;
 
-public class ConversationRenderer {
+public abstract class ConversationRenderer {
 
 	protected Conversation currentConv;
 	protected int convStage = 0;
@@ -38,6 +38,11 @@ public class ConversationRenderer {
 
 	public void render(SpriteBatch batch, BitmapFont font, ConvStyle style, ConvSide side,
 			int scrollSpeed) {
+		render(batch, font, font, style, side, scrollSpeed);
+	}
+
+	public void render(SpriteBatch batch, BitmapFont font, BitmapFont questioningFont,
+			ConvStyle style, ConvSide side, int scrollSpeed) {
 		if (currentConv == null) return;
 
 		if (renderTime <= -1) {
@@ -148,6 +153,8 @@ public class ConversationRenderer {
 		}
 	}
 
+	public abstract Conversation getConversationFromId(String id);
+
 	public boolean isInConv() {
 		return currentConv != null;
 	}
@@ -180,7 +187,8 @@ public class ConversationRenderer {
 		alreadySetLayout = false;
 
 		if (convStage >= currentConv.lines.length) {
-			setToConv(null);
+			setToConv(getConversationFromId(
+					currentConv.lines[currentConv.lines.length - 1].gotoNext));
 		}
 	}
 
