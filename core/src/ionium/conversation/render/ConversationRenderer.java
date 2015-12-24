@@ -149,7 +149,8 @@ public abstract class ConversationRenderer {
 				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, textWidth,
 				Align.topLeft, true);
 
-		if (isFinishedScrolling() && choicesHeight > 0 && convScroll == currentConv.lines.length - 1) {
+		if (isFinishedScrolling() && choicesHeight > 0
+				&& convScroll == currentConv.lines.length - 1) {
 			// render options if any
 
 			for (int i = 0; i < currentConv.choices.length; i++) {
@@ -206,7 +207,8 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (isFinishedScrolling() && choicesHeight > 0 && convScroll == currentConv.lines.length - 1) {
+		if (isFinishedScrolling() && choicesHeight > 0
+				&& convScroll == currentConv.lines.length - 1) {
 			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
 				selectionIndex--;
 
@@ -270,8 +272,7 @@ public abstract class ConversationRenderer {
 					setToConv(getConversationFromId(currentConv.choices[selectionIndex].gotoNext));
 				}
 			} else {
-				setToConv(getConversationFromId(
-						currentConv.lines[currentConv.lines.length - 1].gotoNext));
+				setToConv(getConversationFromId(currentConv.gotoNext));
 			}
 		}
 
