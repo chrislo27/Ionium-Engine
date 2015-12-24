@@ -12,8 +12,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 
 import ionium.conversation.Conversation;
+import ionium.conversation.Conversation.Choice;
 import ionium.conversation.DialogueLine;
-import ionium.conversation.DialogueLine.Choice;
 import ionium.conversation.Voice;
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
@@ -83,16 +83,16 @@ public abstract class ConversationRenderer {
 			textHeight = layout.height;
 			choicesHeight = 0;
 
-			if (getCurrent().choices != null) {
-				if (getCurrent().choices.length > 0) {
+			if (currentConv.choices != null) {
+				if (currentConv.choices.length > 0) {
 					String totalQuestionString = "";
 
-					for (int i = 0; i < getCurrent().choices.length; i++) {
-						Choice c = getCurrent().choices[i];
+					for (int i = 0; i < currentConv.choices.length; i++) {
+						Choice c = currentConv.choices[i];
 
 						totalQuestionString += Localization.get(c.question);
 
-						if (i + 1 < getCurrent().choices.length) {
+						if (i + 1 < currentConv.choices.length) {
 							totalQuestionString += "\n";
 						}
 					}
@@ -135,11 +135,12 @@ public abstract class ConversationRenderer {
 
 			if (style.shouldRenderNametag) {
 				font.setColor(1, 1, 1, 1);
-				
+
 				font.draw(batch,
 						Localization.get(ionium.conversation.Character.LocalizedNamePrefix
 								+ getCurrent().character.name),
-						faceX + (tex.getWidth() * 0.5f), faceY - font.getCapHeight(), tex.getWidth(), Align.center, false);
+						faceX + (tex.getWidth() * 0.5f), faceY - font.getCapHeight(),
+						tex.getWidth(), Align.center, false);
 			}
 		}
 
@@ -148,11 +149,11 @@ public abstract class ConversationRenderer {
 				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, textWidth,
 				Align.topLeft, true);
 
-		if (isFinishedScrolling() && choicesHeight > 0) {
+		if (isFinishedScrolling() && choicesHeight > 0 && convScroll == currentConv.lines.length - 1) {
 			// render options if any
 
-			for (int i = 0; i < getCurrent().choices.length; i++) {
-				Choice c = getCurrent().choices[i];
+			for (int i = 0; i < currentConv.choices.length; i++) {
+				Choice c = currentConv.choices[i];
 
 				questioningFont.setColor(1, 1, 1, 1);
 
@@ -205,18 +206,18 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (isFinishedScrolling() && choicesHeight > 0) {
+		if (isFinishedScrolling() && choicesHeight > 0 && convScroll == currentConv.lines.length - 1) {
 			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
 				selectionIndex--;
 
 				if (selectionIndex < 0) {
-					selectionIndex = getCurrent().choices.length - 1;
+					selectionIndex = currentConv.choices.length - 1;
 				}
 			} else if (Gdx.input.isKeyJustPressed(Keys.S)
 					|| Gdx.input.isKeyJustPressed(Keys.DOWN)) {
 				selectionIndex++;
 
-				if (selectionIndex >= getCurrent().choices.length) {
+				if (selectionIndex >= currentConv.choices.length) {
 					selectionIndex = 0;
 				}
 			}
@@ -264,10 +265,9 @@ public abstract class ConversationRenderer {
 		alreadySetLayout = false;
 
 		if (convStage >= currentConv.lines.length) {
-			if (currentConv.lines[currentConv.lines.length - 1].choices != null) {
-				if (currentConv.lines[currentConv.lines.length - 1].choices.length > 0) {
-					setToConv(getConversationFromId(currentConv.lines[currentConv.lines.length
-							- 1].choices[selectionIndex].gotoNext));
+			if (currentConv.choices != null) {
+				if (currentConv.choices.length > 0) {
+					setToConv(getConversationFromId(currentConv.choices[selectionIndex].gotoNext));
 				}
 			} else {
 				setToConv(getConversationFromId(
