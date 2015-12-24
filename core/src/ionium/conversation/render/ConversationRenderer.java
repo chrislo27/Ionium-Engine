@@ -199,14 +199,8 @@ public abstract class ConversationRenderer {
 	}
 
 	public void inputUpdate() {
-		if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			if (isFinishedScrolling()) {
-				advanceStage();
-			} else {
-				finishScrolling();
-			}
-		}
-
+		if (currentConv == null) return;
+		
 		if (isFinishedScrolling() && choicesHeight > 0
 				&& convScroll == currentConv.lines.length - 1) {
 			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
@@ -222,6 +216,14 @@ public abstract class ConversationRenderer {
 				if (selectionIndex >= currentConv.choices.length) {
 					selectionIndex = 0;
 				}
+			}
+		}
+		
+		if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			if (isFinishedScrolling()) {
+				advanceStage();
+			} else {
+				finishScrolling();
 			}
 		}
 	}
