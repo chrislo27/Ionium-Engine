@@ -114,7 +114,7 @@ public abstract class ConversationXmlParser {
 					String next = e.getAttribute("next", null);
 					String text = e.getAttribute("text", null);
 
-					if (order <= -1 || next == null || text == null) {
+					if (order <= -1 || text == null) {
 						parsedConv.conv.choices = null;
 
 						throw new MalformedConversationXmlException(MessageFormat.format(
