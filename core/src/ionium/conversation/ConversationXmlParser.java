@@ -27,22 +27,22 @@ public abstract class ConversationXmlParser {
 		/*
 		 * <conv id="aConversation" next="theNextConvOrNull">
 		 *    <lines>
-		 *         <line order="0"/>
+		 *         <line order='0'/>
 		 *             <speaker>speakerName</speaker>
 		 *             <text>conv.something.0</text>
 		 *         </line>
 		 *         
-		 *         <line order="1"/>
+		 *         <line order='1'/>
 		 *             <speaker>otherSpeakerName</speaker>
 		 *             <text>conv.something.1</text>
 		 *         </line>
 		 *    </lines>
 		 * 	   
 		 *     <choices>
-		 *         <choice order="0" text="conv.something.choice0" next="nextConv" />
-		 *         <choice order="1" text="conv.something.choice1" next="nextConv" />
-		 *         <choice order="2" text="conv.yes" next="nextConv" />
-		 *         <choice order="3" text="conv.no" next="nextConv" />
+		 *         <choice order='0' text="conv.something.choice0" next="nextConv" />
+		 *         <choice order='1' text="conv.something.choice1" next="nextConv" />
+		 *         <choice order='2' text="conv.yes" next="nextConv" />
+		 *         <choice order='3' text="conv.no" next="nextConv" />
 		 *     </choices>
 		 * 
 		 * </conv>
