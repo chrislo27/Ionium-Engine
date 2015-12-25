@@ -143,7 +143,7 @@ public abstract class ConversationXmlParser {
 
 	}
 
-	public static class MalformedConversationXmlException extends Exception {
+	public static class MalformedConversationXmlException extends RuntimeException {
 
 		public MalformedConversationXmlException(String string) {
 			super(string);
