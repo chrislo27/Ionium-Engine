@@ -155,7 +155,7 @@ public abstract class Main extends Game implements Consumer {
 		filltex = new Texture(pix);
 		pix.dispose();
 		filltexRegion = new TextureRegion(filltex);
-		clearPixmap = new Pixmap(8, 8, Format.RGBA8888);
+		clearPixmap = new Pixmap(16, 16, Format.RGBA8888);
 		clearPixmap.setColor(0, 0, 0, 0);
 		clearPixmap.fill();
 
