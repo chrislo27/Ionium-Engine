@@ -150,7 +150,7 @@ public abstract class ConversationRenderer {
 				Align.topLeft, true);
 
 		if (isFinishedScrolling() && choicesHeight > 0
-				&& convScroll == currentConv.lines.length - 1) {
+				&& convStage == currentConv.lines.length - 1) {
 			// render options if any
 
 			for (int i = 0; i < currentConv.choices.length; i++) {
@@ -202,7 +202,7 @@ public abstract class ConversationRenderer {
 		if (currentConv == null) return;
 		
 		if (isFinishedScrolling() && choicesHeight > 0
-				&& convScroll == currentConv.lines.length - 1) {
+				&& convStage == currentConv.lines.length - 1) {
 			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
 				selectionIndex--;
 
