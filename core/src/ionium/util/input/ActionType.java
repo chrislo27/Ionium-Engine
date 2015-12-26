@@ -3,8 +3,8 @@ package ionium.util.input;
 
 public enum ActionType {
 
-	ENTER,
-	BACK,
+	ACCEPT,
+	CANCEL,
 	UP,
 	DOWN,
 	LEFT,

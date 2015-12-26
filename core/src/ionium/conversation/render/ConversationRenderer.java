@@ -216,7 +216,7 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (action == ActionType.ENTER && justPressed) {
+		if (action == ActionType.ACCEPT && justPressed) {
 			if (isFinishedScrolling()) {
 				advanceStage();
 			} else {
