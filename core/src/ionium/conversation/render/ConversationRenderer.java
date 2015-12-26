@@ -197,19 +197,18 @@ public abstract class ConversationRenderer {
 		renderTime += Gdx.graphics.getDeltaTime();
 	}
 
-	public void inputUpdate() {
+	public void inputUpdate(ActionType action) {
 		if (currentConv == null) return;
 
 		if (isFinishedScrolling() && choicesHeight > 0
 				&& convStage == currentConv.lines.length - 1) {
-			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
+			if (action == ActionType.UP) {
 				selectionIndex--;
 
 				if (selectionIndex < 0) {
 					selectionIndex = currentConv.choices.length - 1;
 				}
-			} else if (Gdx.input.isKeyJustPressed(Keys.S)
-					|| Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+			} else if (action == ActionType.DOWN) {
 				selectionIndex++;
 
 				if (selectionIndex >= currentConv.choices.length) {
@@ -218,7 +217,7 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+		if (action == ActionType.ENTER) {
 			if (isFinishedScrolling()) {
 				advanceStage();
 			} else {
@@ -269,7 +268,7 @@ public abstract class ConversationRenderer {
 
 		if (convStage >= currentConv.lines.length) {
 			Conversation current = currentConv;
-			
+
 			if (currentConv.choices != null) {
 				if (currentConv.choices.length > 0) {
 					setToConv(getConversationFromId(currentConv.choices[selectionIndex].gotoNext));
@@ -277,15 +276,15 @@ public abstract class ConversationRenderer {
 			} else {
 				setToConv(getConversationFromId(currentConv.gotoNext));
 			}
-			
+
 			onConvFinish(current);
 		}
 
 		selectionIndex = 0;
 	}
-	
-	public void onConvFinish(Conversation conv){
-		
+
+	public void onConvFinish(Conversation conv) {
+
 	}
 
 	public ConversationRenderer setToConv(Conversation conv) {
@@ -294,6 +293,10 @@ public abstract class ConversationRenderer {
 		advanceStage();
 
 		return this;
+	}
+
+	public enum ActionType {
+		ENTER, UP, DOWN;
 	}
 
 }
