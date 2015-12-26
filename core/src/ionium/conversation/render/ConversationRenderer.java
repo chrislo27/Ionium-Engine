@@ -268,6 +268,8 @@ public abstract class ConversationRenderer {
 		alreadySetLayout = false;
 
 		if (convStage >= currentConv.lines.length) {
+			Conversation current = currentConv;
+			
 			if (currentConv.choices != null) {
 				if (currentConv.choices.length > 0) {
 					setToConv(getConversationFromId(currentConv.choices[selectionIndex].gotoNext));
@@ -275,9 +277,15 @@ public abstract class ConversationRenderer {
 			} else {
 				setToConv(getConversationFromId(currentConv.gotoNext));
 			}
+			
+			onConvFinish(current);
 		}
 
 		selectionIndex = 0;
+	}
+	
+	public void onConvFinish(Conversation conv){
+		
 	}
 
 	public ConversationRenderer setToConv(Conversation conv) {
