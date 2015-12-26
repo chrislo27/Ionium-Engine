@@ -20,4 +20,18 @@ public class AnyKeyPressed {
 		return false;
 	}
 
+	public static KeyPressType getKeyPressType(int[] keys) {
+		if (isAKeyJustPressed(keys)) {
+			return KeyPressType.JUST_PRESSED;
+		} else if (isAKeyPressed(keys)) {
+			return KeyPressType.PRESSED;
+		}
+
+		return KeyPressType.NONE;
+	}
+
+	public enum KeyPressType {
+		JUST_PRESSED, PRESSED, NONE;
+	}
+
 }
