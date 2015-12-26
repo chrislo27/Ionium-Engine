@@ -60,8 +60,7 @@ public abstract class ConversationRenderer {
 				- (Gdx.graphics.getWidth() * style.textPaddingX * 2);
 
 		if (style.shouldFaceBeShown && getCurrent().character.face != null) {
-			float faceWidth = AssetRegistry.getTexture(AssetMap.get(getCurrent().character.face))
-					.getWidth();
+			float faceWidth = AssetRegistry.getTexture(getCurrent().character.face).getWidth();
 
 			if (style.shouldFaceBeRightAligned) {
 
@@ -200,7 +199,7 @@ public abstract class ConversationRenderer {
 
 	public void inputUpdate() {
 		if (currentConv == null) return;
-		
+
 		if (isFinishedScrolling() && choicesHeight > 0
 				&& convStage == currentConv.lines.length - 1) {
 			if (Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)) {
@@ -218,7 +217,7 @@ public abstract class ConversationRenderer {
 				}
 			}
 		}
-		
+
 		if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			if (isFinishedScrolling()) {
 				advanceStage();
