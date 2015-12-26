@@ -1,7 +1,5 @@
 package ionium.util;
 
-import ionium.templates.Main;
-
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +10,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Array;
+
+import ionium.templates.Main;
 
 public class Utils {
 
@@ -32,14 +33,24 @@ public class Utils {
 		return glyphLayout.height;
 	}
 
+	public static <T> T findFirstInstance(Array<T> array, Class<T> clazz) {
+		for (int i = 0; i < array.size; i++) {
+			if (array.get(i).getClass() == clazz) {
+				return array.get(i);
+			}
+		}
+
+		return null;
+	}
+
 	public static void setCursorVisibility(boolean visible) {
 		if (visible) {
 			Gdx.graphics.setCursor(null);
 		} else {
-			if(cursor == null){
+			if (cursor == null) {
 				cursor = Gdx.graphics.newCursor(Main.clearPixmap, 0, 0);
 			}
-			
+
 			Gdx.graphics.setCursor(cursor);
 		}
 	}
@@ -196,22 +207,22 @@ public class Utils {
 
 		return false;
 	}
-	
-	public static boolean isButtonJustReleased(int button){
-		if(!Gdx.input.isButtonPressed(button)){
-			if(pressedButtons.get(button) == null) pressedButtons.put(button, false);
-			
+
+	public static boolean isButtonJustReleased(int button) {
+		if (!Gdx.input.isButtonPressed(button)) {
+			if (pressedButtons.get(button) == null) pressedButtons.put(button, false);
+
 			boolean oldState = pressedButtons.get(button);
-			
-			if(oldState == true){
+
+			if (oldState == true) {
 				pressedButtons.put(button, false);
-				
+
 				return true;
 			}
-		}else{
+		} else {
 			pressedButtons.put(button, true);
 		}
-		
+
 		return false;
 	}
 
