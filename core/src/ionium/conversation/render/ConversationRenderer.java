@@ -1,7 +1,6 @@
 package ionium.conversation.render;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,13 +10,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 
+import ionium.ActionType;
 import ionium.conversation.Conversation;
 import ionium.conversation.Conversation.Choice;
 import ionium.conversation.DialogueLine;
 import ionium.conversation.Voice;
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
-import ionium.util.AssetMap;
 import ionium.util.i18n.Localization;
 
 public abstract class ConversationRenderer {
@@ -293,10 +292,6 @@ public abstract class ConversationRenderer {
 		advanceStage();
 
 		return this;
-	}
-
-	public enum ActionType {
-		ENTER, UP, DOWN;
 	}
 
 }
