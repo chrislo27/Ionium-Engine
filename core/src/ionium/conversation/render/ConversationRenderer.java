@@ -122,7 +122,7 @@ public abstract class ConversationRenderer {
 
 		if (style.shouldFaceBeShown && getCurrent().character.face != null) {
 
-			Texture tex = AssetRegistry.getTexture(AssetMap.get(getCurrent().character.face));
+			Texture tex = AssetRegistry.getTexture(getCurrent().character.face);
 			float faceX = Gdx.graphics.getWidth() * style.textPaddingX;
 			float faceY = (bgHeight * 0.5f) - (tex.getHeight() / 2) + offsetY;
 
