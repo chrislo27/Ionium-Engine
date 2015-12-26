@@ -33,10 +33,10 @@ public class Utils {
 		return glyphLayout.height;
 	}
 
-	public static <T> T findFirstInstance(Array<T> array, Class<T> clazz) {
+	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
 		for (int i = 0; i < array.size; i++) {
 			if (array.get(i).getClass() == clazz) {
-				return array.get(i);
+				return (T) array.get(i);
 			}
 		}
 
