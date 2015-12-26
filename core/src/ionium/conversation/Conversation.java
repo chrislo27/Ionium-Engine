@@ -6,20 +6,22 @@ public class Conversation {
 	public String gotoNext = null;
 	public Choice[] choices = null;
 	public String finishEvent = null;
+	public int cancelChoice = -1;
 
 	public Conversation(DialogueLine[] lines, String next) {
 		this(lines, next, null);
 	}
 
 	public Conversation(DialogueLine[] lines, String next, String finishEvent) {
-		this(lines, next, null, finishEvent);
+		this(lines, next, null, finishEvent, -1);
 	}
 
-	public Conversation(DialogueLine[] lines, String next, Choice[] choices, String finishEvent) {
+	public Conversation(DialogueLine[] lines, String next, Choice[] choices, String finishEvent, int cancel) {
 		this.lines = lines;
 		this.gotoNext = next;
 		this.choices = choices;
 		this.finishEvent = finishEvent;
+		cancelChoice = cancel;
 	}
 
 	public static class Choice {

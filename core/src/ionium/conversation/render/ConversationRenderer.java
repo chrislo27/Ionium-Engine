@@ -199,8 +199,8 @@ public abstract class ConversationRenderer {
 	public void inputUpdate(ActionType action, boolean justPressed) {
 		if (currentConv == null) return;
 
-		if (isFinishedScrolling() && choicesHeight > 0
-				&& convStage == currentConv.lines.length - 1 && justPressed) {
+		if (isFinishedScrolling() && choicesHeight > 0 && convStage == currentConv.lines.length - 1
+				&& justPressed) {
 			if (action == ActionType.UP) {
 				selectionIndex--;
 
@@ -216,8 +216,13 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (action == ActionType.ACCEPT && justPressed) {
+		if ((action == ActionType.ACCEPT || action == ActionType.CANCEL) && justPressed) {
 			if (isFinishedScrolling()) {
+				if (action == ActionType.CANCEL && (currentConv.cancelChoice >= 0
+						&& currentConv.cancelChoice < currentConv.choices.length)) {
+					selectionIndex = currentConv.cancelChoice;
+				}
+
 				advanceStage();
 			} else {
 				finishScrolling();
