@@ -143,9 +143,9 @@ public abstract class ConversationRenderer {
 		}
 
 		font.setColor(1, 1, 1, 1);
-		font.draw(batch, getActualMessage().substring(0, convScroll), textStartX,
-				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, textWidth,
-				Align.topLeft, true);
+		font.draw(batch, getActualMessage(), textStartX,
+				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, 0, convScroll,
+				textWidth, Align.topLeft, true);
 
 		if (isFinishedScrolling() && choicesHeight > 0
 				&& convStage == currentConv.lines.length - 1) {
