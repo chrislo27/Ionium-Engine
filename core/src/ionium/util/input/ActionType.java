@@ -1,4 +1,4 @@
-package ionium;
+package ionium.util.input;
 
 
 public enum ActionType {

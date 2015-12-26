@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 
-import ionium.ActionType;
 import ionium.conversation.Conversation;
 import ionium.conversation.Conversation.Choice;
 import ionium.conversation.DialogueLine;
@@ -18,6 +17,7 @@ import ionium.conversation.Voice;
 import ionium.registry.AssetRegistry;
 import ionium.templates.Main;
 import ionium.util.i18n.Localization;
+import ionium.util.input.ActionType;
 
 public abstract class ConversationRenderer {
 
