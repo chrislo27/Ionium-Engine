@@ -144,8 +144,8 @@ public abstract class ConversationRenderer {
 
 		font.setColor(1, 1, 1, 1);
 		font.draw(batch, getActualMessage(), textStartX,
-				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, 0, convScroll,
-				textWidth, Align.topLeft, true);
+				bgHeight - (Gdx.graphics.getHeight() * style.textPaddingY) + offsetY, 0,
+				getSubstringLength(), textWidth, Align.topLeft, true);
 
 		if (isFinishedScrolling() && choicesHeight > 0
 				&& convStage == currentConv.lines.length - 1) {
@@ -233,6 +233,46 @@ public abstract class ConversationRenderer {
 	public abstract Conversation getConversationFromId(String id);
 
 	public abstract Color getSelectionColour(Color c);
+
+	/**
+	 * Accounts for colour tags like [RED]this is in red[]
+	 * <br>
+	 * Basically checks if the current scroll is inside a bracket set, and moves it
+	 * forward to the nearest outside-of-bracket index.
+	 * @return
+	 */
+	protected int getSubstringLength() {
+
+		// start checking backwards, looking for the [
+		for (int i = convScroll - 1; i >= 0; i--) {
+			// if a ] was found instead, it means we're not in a bracket set
+			if (getActualMessage().charAt(i) == ']') {
+				break;
+			}
+
+			// we found the [
+			if (getActualMessage().charAt(i) == '[') {
+				// if it was escaped with \, keep looking
+				if (i > 0) {
+					if (getActualMessage().charAt(i - 1) == '\\') {
+						continue;
+					}
+				}
+
+				// otherwise, we've found it (it can't be at index 0 since we check before that)
+				// now we go forwards starting at convScroll looking for the ], and return at the ]
+				for (int j = convScroll; j < getActualMessage().length(); j++) {
+					if (getActualMessage().charAt(j) == ']') {
+						return Math.min(j + 1, getActualMessage().length()); 
+					}
+				}
+
+				break;
+			}
+		}
+
+		return convScroll;
+	}
 
 	protected DialogueLine getCurrent() {
 		if (currentConv == null) return null;
