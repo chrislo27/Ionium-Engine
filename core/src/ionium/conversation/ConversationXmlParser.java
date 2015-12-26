@@ -25,7 +25,7 @@ public abstract class ConversationXmlParser {
 
 		// example
 		/*
-		 * <conv id="aConversation" next="theNextConvOrNull">
+		 * <conv id="aConversation" next="theNextConvOrNull" finish="onConvFinish event">
 		 *    <lines>
 		 *         <line order='0'/>
 		 *             <speaker>speakerName</speaker>
@@ -52,11 +52,12 @@ public abstract class ConversationXmlParser {
 		Element root = reader.parse(xml);
 
 		// conv attributes (id, gotoNext)
-		String convId, gotoNext;
+		String convId, gotoNext, finish;
 
 		{
 			convId = root.getAttribute("id", null);
 			gotoNext = root.getAttribute("next", null);
+			finish = root.getAttribute("finish", null);
 
 			if (convId == null) {
 				throw new MalformedConversationXmlException(
@@ -65,6 +66,7 @@ public abstract class ConversationXmlParser {
 
 			parsedConv.id = convId;
 			parsedConv.conv.gotoNext = gotoNext;
+			parsedConv.conv.finishEvent = finish;
 		}
 
 		// getting the lines
