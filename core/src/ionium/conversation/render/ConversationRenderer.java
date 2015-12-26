@@ -196,11 +196,11 @@ public abstract class ConversationRenderer {
 		renderTime += Gdx.graphics.getDeltaTime();
 	}
 
-	public void inputUpdate(ActionType action) {
+	public void inputUpdate(ActionType action, boolean justPressed) {
 		if (currentConv == null) return;
 
 		if (isFinishedScrolling() && choicesHeight > 0
-				&& convStage == currentConv.lines.length - 1) {
+				&& convStage == currentConv.lines.length - 1 && justPressed) {
 			if (action == ActionType.UP) {
 				selectionIndex--;
 
@@ -216,7 +216,7 @@ public abstract class ConversationRenderer {
 			}
 		}
 
-		if (action == ActionType.ENTER) {
+		if (action == ActionType.ENTER && justPressed) {
 			if (isFinishedScrolling()) {
 				advanceStage();
 			} else {
