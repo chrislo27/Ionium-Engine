@@ -243,6 +243,10 @@ public abstract class ConversationRenderer {
 	 */
 	protected int getSubstringLength() {
 
+		if (convScroll == getActualMessage().length()) {
+			return convScroll;
+		}
+
 		// start checking backwards, looking for the [
 		for (int i = convScroll - 1; i >= 0; i--) {
 			// if a ] was found instead, it means we're not in a bracket set
@@ -263,7 +267,7 @@ public abstract class ConversationRenderer {
 				// now we go forwards starting at convScroll looking for the ], and return at the ]
 				for (int j = convScroll; j < getActualMessage().length(); j++) {
 					if (getActualMessage().charAt(j) == ']') {
-						return Math.min(j + 1, getActualMessage().length()); 
+						return Math.min(j + 1, getActualMessage().length());
 					}
 				}
 
