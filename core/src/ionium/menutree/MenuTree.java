@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 
 import ionium.templates.Main;
 import ionium.util.Utils;
+import ionium.util.input.ActionType;
 
 /**
  * The container class for the MenuElements in a screen.
@@ -45,19 +46,18 @@ public class MenuTree {
 		renderSublevel(batch, font, offsetX, offsetY, elements, selected, true, alpha);
 	}
 	
-	public void renderUpdate(){
-		if (Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+	public void renderUpdate(ActionType action){
+		if (action == ActionType.DOWN) {
 			pressDown();
-		} else if (Gdx.input.isKeyJustPressed(Keys.UP)) {
+		} else if (action == ActionType.UP) {
 			pressUp();
-		} else if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
+		} else if (action == ActionType.LEFT) {
 			pressLeft();
-		} else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
+		} else if (action == ActionType.RIGHT) {
 			pressRight();
-		} else if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+		} else if (action == ActionType.ACCEPT) {
 			pressEnter();
-		} else if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE)
-				|| Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+		} else if (action == ActionType.CANCEL) {
 			pressBack();
 		}
 	}
