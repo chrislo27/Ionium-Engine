@@ -2,6 +2,7 @@ package ionium.menutree;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -27,6 +28,8 @@ public class MenuTree {
 	private float indent = 32;
 
 	private Main main;
+	
+	protected Color selectedColor = new Color(0.25f, 0.25f, 0.25f, 1f);
 
 	public MenuTree(Main m, float x, float y, float indent) {
 		main = m;
@@ -95,6 +98,12 @@ public class MenuTree {
 	public void onScreenHide() {
 		
 	}
+	
+	protected Color getSelectionColor(float alpha){
+		selectedColor.a = alpha;
+		
+		return selectedColor;
+	}
 
 	private float renderSublevel(SpriteBatch batch, BitmapFont font, float offsetX, float offsetY,
 			Array<MenuElement> level, int selected, boolean isThisGroupEvenSelected, float alpha) {
@@ -123,7 +132,7 @@ public class MenuTree {
 				font.setColor(0.25f, 0.25f, 0.25f, alpha);
 			} else {
 				if (i == selected) {
-					font.setColor(0.25f, 0.75f, 1f, alpha);
+					font.setColor(getSelectionColor(alpha));
 				}
 			}
 
