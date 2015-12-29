@@ -6,21 +6,23 @@ public class Conversation {
 	public String gotoNext = null;
 	public Choice[] choices = null;
 	public String finishEvent = null;
+	public String startEvent = null;
 	public int cancelChoice = -1;
 
 	public Conversation(DialogueLine[] lines, String next) {
-		this(lines, next, null);
+		this(lines, next, null, null);
 	}
 
-	public Conversation(DialogueLine[] lines, String next, String finishEvent) {
-		this(lines, next, null, finishEvent, -1);
+	public Conversation(DialogueLine[] lines, String next, String startEvent, String finishEvent) {
+		this(lines, next, null, startEvent, finishEvent, -1);
 	}
 
-	public Conversation(DialogueLine[] lines, String next, Choice[] choices, String finishEvent, int cancel) {
+	public Conversation(DialogueLine[] lines, String next, Choice[] choices, String startEvent, String finishEvent, int cancel) {
 		this.lines = lines;
 		this.gotoNext = next;
 		this.choices = choices;
 		this.finishEvent = finishEvent;
+		this.startEvent = startEvent;
 		cancelChoice = cancel;
 	}
 
@@ -28,10 +30,12 @@ public class Conversation {
 
 		public String question;
 		public String gotoNext = null;
+		public String event = null;
 
-		public Choice(String question, String gotoNext) {
+		public Choice(String question, String gotoNext, String event) {
 			this.question = question;
 			this.gotoNext = gotoNext;
+			this.event = event;
 		}
 	}
 

@@ -42,7 +42,7 @@ public abstract class ConversationXmlParser {
 		 *         <choice order='0' text="conv.something.choice0" next="nextConv" />
 		 *         <choice order='1' text="conv.something.choice1" next="nextConv" />
 		 *         <choice order='2' text="conv.yes" next="nextConv" />
-		 *         <choice order='3' text="conv.no" next="nextConv" isCancel="true/1/YeS" />
+		 *         <choice order='3' text="conv.no" next="nextConv" isCancel="true/1/YeS" finish="eventOnFinish"/>
 		 *     </choices>
 		 * 
 		 * </conv>
@@ -116,6 +116,7 @@ public abstract class ConversationXmlParser {
 					String next = e.getAttribute("next", null);
 					String text = e.getAttribute("text", null);
 					String isCancel = e.getAttribute("isCancel", null);
+					String finishEvent = e.getAttribute("finish", null);
 
 					if (order <= -1 || text == null) {
 						parsedConv.conv.choices = null;
@@ -125,7 +126,7 @@ public abstract class ConversationXmlParser {
 								order, next, text));
 					}
 
-					parsedConv.conv.choices[order] = new Choice(text, next);
+					parsedConv.conv.choices[order] = new Choice(text, next, finishEvent);
 
 					if (isCancel != null) {
 						if (isCancel.equalsIgnoreCase("1") || isCancel.equalsIgnoreCase("true")

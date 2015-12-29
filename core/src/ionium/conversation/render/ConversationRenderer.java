@@ -335,10 +335,18 @@ public abstract class ConversationRenderer {
 
 	}
 
+	public void onConvStart(Conversation conv) {
+
+	}
+
 	public ConversationRenderer setToConv(Conversation conv) {
 		currentConv = conv;
 		convStage = -1;
 		advanceStage();
+
+		if (conv != null) {
+			onConvStart(conv);
+		}
 
 		return this;
 	}
