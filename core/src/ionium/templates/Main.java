@@ -97,7 +97,6 @@ public abstract class Main extends Game implements Consumer {
 	public ShaderProgram blurshader;
 	public static ShaderProgram defaultShader;
 	public ShaderProgram invertshader;
-	public ShaderProgram distanceFieldShader;
 	public static ShaderProgram meshShader;
 	public ShaderProgram maskNoiseShader;
 
@@ -186,8 +185,6 @@ public abstract class Main extends Game implements Consumer {
 		maskNoiseShader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKENOISE);
 
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
-		distanceFieldShader = new ShaderProgram(Shaders.VERTDISTANCEFIELD,
-				Shaders.FRAGDISTANCEFIELD);
 		meshShader = new ShaderProgram(Shaders.VERTMESH, Shaders.FRAGMESH);
 
 		loadUnmanagedAssets();
@@ -225,7 +222,6 @@ public abstract class Main extends Game implements Consumer {
 		warpshader.dispose();
 		blurshader.dispose();
 		invertshader.dispose();
-		distanceFieldShader.dispose();
 		meshShader.dispose();
 		maskNoiseShader.dispose();
 		shapes.dispose();
