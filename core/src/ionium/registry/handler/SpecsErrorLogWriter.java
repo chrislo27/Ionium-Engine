@@ -25,7 +25,7 @@ public class SpecsErrorLogWriter implements IErrorLogWriter{
 		builder.append("   Java Version: " + System.getProperty("java.version") + " " + (System.getProperty("sun.arch.data.model")) + " bit" + "\n");
 		builder.append("   OS Name: " + System.getProperty("os.name") + "\n");
 		builder.append("   OS Version: " + System.getProperty("os.version") + "\n");
-		builder.append("   JVM RAM Available: " + (MemoryUtils.getMaxMemory() / 1024) + " MB\n");
+		builder.append("   JVM memory available: " + (MemoryUtils.getMaxMemory() / 1024) + " MB\n");
 		
 		builder.append("\n");
 		
