@@ -68,7 +68,8 @@ public abstract class ConversationRenderer {
 				textStartX += Gdx.graphics.getWidth() * style.textPaddingX;
 			}
 
-			textWidth = Gdx.graphics.getWidth() - (textStartX);
+			textWidth = Gdx.graphics.getWidth() - (textStartX)
+					- (Gdx.graphics.getWidth() * style.textPaddingX);
 		}
 
 		float bgHeight = Gdx.graphics.getHeight() * style.percentageOfScreenToOccupy;
