@@ -30,7 +30,6 @@ public class SpecsErrorLogWriter implements IErrorLogWriter{
 		builder.append("\n");
 		
 		builder.append("Processor Specifications:\n");
-		builder.append("   CPU: TODO FIND A WAY TO GET THIS DATA\n");
 		builder.append("   Cores: " + MemoryUtils.getCores() + "\n");
 		
 		builder.append("\n");
