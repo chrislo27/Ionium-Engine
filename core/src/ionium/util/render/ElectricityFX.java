@@ -38,11 +38,11 @@ public final class ElectricityFX {
 		float lastY = startY;
 		
 		float oldColor = batch.getPackedColor();
-		int segments = (int) (MathHelper.calcDistance(startX, startY, endX, endY) / distanceBetweenPoints);
+		int segments = (int) (MathHelper.calcDistance(startX, startY, endX, endY) / distanceBetweenPoints) + 1;
 
 		batch.setColor(color);
 		
-		for (int i = 0; i < segments + 1; i++) {
+		for (int i = 0; i < segments; i++) {
 			currentX = ((endX - startX) / segments) * i + startX;
 			currentY = ((endY - startY) / segments) * i + startY;
 			
