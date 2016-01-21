@@ -279,11 +279,12 @@ public abstract class Main extends Game implements Consumer {
 					+ new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()).trim()
 					+ ".txt");
 
-			handle.writeString(ErrorLogRegistry.instance().createErrorLog(output.toString()), false);
+			handle.writeString(ErrorLogRegistry.instance().createErrorLog(output.toString()),
+					false);
 
 			resetSystemOut();
-			System.out.println("\n\nThe game crashed. There is an error log at " + handle.path()
-					+ "\n");
+			System.out.println(
+					"\n\nThe game crashed. There is an error log at " + handle.path() + "\n");
 
 			Gdx.app.exit();
 			System.exit(1);
@@ -298,32 +299,36 @@ public abstract class Main extends Game implements Consumer {
 
 		if (DebugSetting.showFPS || DebugSetting.debug) {
 			defaultFont.draw(
-					batch,
-					"FPS: "
+					batch, "FPS: "
 							+ (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
-									.getInt("MAX_FPS") / 4f) ? "[RED]"
-									: (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
-											.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
-							+ Gdx.graphics.getFramesPerSecond() + "[]", 5, Gdx.graphics.getHeight() - (defaultFont.getCapHeight() * 1.25f));
+									.getInt("MAX_FPS") / 4f)
+											? "[RED]"
+											: (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
+													.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
+							+ Gdx.graphics.getFramesPerSecond() + "[]",
+					5, Gdx.graphics.getHeight() - (defaultFont.getCapHeight() * 1.25f));
 		}
 
-		if (this.getScreen() != null) {
-			if (DebugSetting.debug) {
-				// update array
-				this.getDebugStrings();
-				if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
+		if (DebugSetting.debug) {
+			// update array
+			this.getDebugStrings();
+			if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
 
-				float baseHeight = Gdx.graphics.getHeight() - (defaultFont.getCapHeight() * 1.25f * 3f);
+			float baseHeight = Gdx.graphics.getHeight() - (defaultFont.getCapHeight() * 1.25f * 3f);
 
-				for (int i = 0; i < debugStrings.size; i++) {
-					defaultFont.draw(batch, debugStrings.get(i), 5,
-							(baseHeight - ((defaultFont.getCapHeight() * 1.5f) * (i))));
-				}
-
+			for (int i = 0; i < debugStrings.size; i++) {
+				defaultFont.draw(batch, debugStrings.get(i), 5,
+						(baseHeight - ((defaultFont.getCapHeight() * 1.5f) * (i))));
 			}
-		}else{
-			defaultFont.draw(batch, "null screen: " + lastSetNullScreen, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center, false);
+
 		}
+
+		if (this.getScreen() == null) {
+			defaultFont.draw(batch, "null screen: " + lastSetNullScreen,
+					Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center,
+					false);
+		}
+
 		batch.end();
 
 		warpshader.begin();
@@ -337,21 +342,20 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	protected Array<String> getDebugStrings() {
-		if (MemoryUtils.getUsedMemory() > getMostMemory) getMostMemory = MemoryUtils
-				.getUsedMemory();
+		if (MemoryUtils.getUsedMemory() > getMostMemory)
+			getMostMemory = MemoryUtils.getUsedMemory();
 
 		debugStrings.clear();
 
-		debugStrings.add("version: "
-				+ Main.version
-				+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion + "; engineV: "
-						+ IoniumEngineVersion.ENGINE_VERSION));
-		debugStrings.add("memory: "
-				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
-				+ NumberFormat.getInstance().format(MemoryUtils.getMaxMemory()) + " KB (max "
-				+ NumberFormat.getInstance().format(getMostMemory) + " KB) ");
-		debugStrings.add("OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores()
-				+ " cores");
+		debugStrings.add("version: " + Main.version
+				+ (githubVersion == null ? ""
+						: "; latestV: " + Main.githubVersion + "; engineV: "
+								+ IoniumEngineVersion.ENGINE_VERSION));
+		debugStrings.add("memory: " + NumberFormat.getInstance().format(MemoryUtils.getUsedMemory())
+				+ " KB / " + NumberFormat.getInstance().format(MemoryUtils.getMaxMemory())
+				+ " KB (max " + NumberFormat.getInstance().format(getMostMemory) + " KB) ");
+		debugStrings.add(
+				"OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores() + " cores");
 		debugStrings.add("tickDuration: " + (lastTickDurationNano / 1000000f) + " ms");
 		debugStrings.add("delta: " + Gdx.graphics.getDeltaTime());
 		debugStrings.add("state: "
@@ -375,8 +379,8 @@ public abstract class Main extends Game implements Consumer {
 					consolewindow.setVisible(false);
 				} else {
 					consolewindow.setVisible(true);
-					conscrollPane.getVerticalScrollBar().setValue(
-							conscrollPane.getVerticalScrollBar().getMaximum());
+					conscrollPane.getVerticalScrollBar()
+							.setValue(conscrollPane.getVerticalScrollBar().getMaximum());
 				}
 			}
 		}
@@ -469,16 +473,17 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	@Override
-	public void setScreen(Screen scr){
+	public void setScreen(Screen scr) {
 		super.setScreen(scr);
-		
-		if(getScreen() == null){
+
+		if (getScreen() == null) {
 			lastSetNullScreen = ScreenRegistry.instance().lastNullScreen;
 		}
 	}
-	
+
 	public void transition(Transition from, Transition to, Screen next) {
-		TransitionScreen transition = ScreenRegistry.get("ionium_transition", TransitionScreen.class);
+		TransitionScreen transition = ScreenRegistry.get("ionium_transition",
+				TransitionScreen.class);
 
 		transition.prepare(this.getScreen(), from, to, next);
 		setScreen(transition);
@@ -493,10 +498,9 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public static Color getRainbow(long ms, float s, float saturation) {
-		return rainbow.set(
-				Utils.HSBtoRGBA8888(
-						(s < 0 ? 1.0f : 0) - MathHelper.getSawtoothWave(ms, Math.abs(s)),
-						saturation, 0.75f)).clamp();
+		return rainbow.set(Utils.HSBtoRGBA8888(
+				(s < 0 ? 1.0f : 0) - MathHelper.getSawtoothWave(ms, Math.abs(s)), saturation,
+				0.75f)).clamp();
 	}
 
 	public InputMultiplexer getDefaultInput() {
@@ -514,19 +518,21 @@ public abstract class Main extends Game implements Consumer {
 	public static void fillRect(Batch batch, float x, float y, float width, float height) {
 		batch.draw(filltex, x, y, width, height);
 	}
-	
-	public static void drawRect(Batch batch, float x, float y, float width, float height, float thickness){
+
+	public static void drawRect(Batch batch, float x, float y, float width, float height,
+			float thickness) {
 		// bottom
 		batch.draw(filltex, x, y, width, thickness);
-		
+
 		// top
 		batch.draw(filltex, x, y + height, width, -thickness);
-		
+
 		// left
 		batch.draw(filltex, x, y + thickness, thickness, height - (thickness * 2));
-		
+
 		// right
-		batch.draw(filltex, x + width - thickness, y + thickness, thickness, height - (thickness * 2));
+		batch.draw(filltex, x + width - thickness, y + thickness, thickness,
+				height - (thickness * 2));
 	}
 
 	private static float[] gradientverts = new float[20];
@@ -691,8 +697,8 @@ public abstract class Main extends Game implements Consumer {
 	public void setClearColor(int r, int g, int b) {
 		Gdx.gl20.glClearColor(r / 255f, g / 255f, b / 255f, 1f);
 	}
-	
-	public long getNanoUntilTick(){
+
+	public long getNanoUntilTick() {
 		return nanoUntilTick;
 	}
 
