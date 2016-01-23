@@ -13,6 +13,9 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 
 import ionium.templates.Main;
+import ionium.util.resolution.Resolutable;
+import ionium.util.resolution.Resolution;
+import ionium.util.resolution.ResolutionDeterminator;
 
 public class Utils {
 
@@ -31,6 +34,58 @@ public class Utils {
 	public static float getHeight(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
 		return glyphLayout.height;
+	}
+
+	public static void resizeScreenFromSettings(boolean hasBeenSaved, int width, int height,
+			boolean fs, Resolution[] possibleRes) {
+		if (!hasBeenSaved) {
+			Resolutable res = new Resolutable() {
+
+				private int width, height;
+				private boolean fs;
+
+				@Override
+				public void setWidth(int w) {
+					width = w;
+				}
+
+				@Override
+				public void setHeight(int h) {
+					height = h;
+				}
+
+				@Override
+				public void setFullscreen(boolean fs) {
+					this.fs = fs;
+				}
+
+				@Override
+				public int getWidth() {
+					return width;
+				}
+
+				@Override
+				public int getHeight() {
+					return height;
+				}
+
+				@Override
+				public boolean isFullscreen() {
+					return fs;
+				}
+
+			};
+
+			ResolutionDeterminator.determineIdealResolution(res,
+					possibleRes);
+
+			Gdx.graphics.setDisplayMode(res.getWidth(), res.getHeight(), true);
+		} else {
+			if ((Gdx.graphics.getWidth() != width || Gdx.graphics.getHeight() != height
+					|| Gdx.graphics.isFullscreen() != fs)) {
+				Gdx.graphics.setDisplayMode(width, height, fs);
+			}
+		}
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
