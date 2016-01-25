@@ -60,6 +60,9 @@ public class Utils {
 						Gdx.graphics.getMonitor(), width, height, ratios));
 			}
 		}
+
+		Main.logger.info("Set size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
+				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
