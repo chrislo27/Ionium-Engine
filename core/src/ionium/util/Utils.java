@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 
 import ionium.templates.Main;
+import ionium.util.resolution.AspectRatio;
 import ionium.util.resolution.Resolutable;
 import ionium.util.resolution.Resolution;
 import ionium.util.resolution.ResolutionDeterminator;
@@ -37,53 +39,25 @@ public class Utils {
 	}
 
 	public static void resizeScreenFromSettings(boolean hasBeenSaved, int width, int height,
-			boolean fs, Resolution[] possibleRes) {
+			boolean fs, AspectRatio[] ratios) {
+
+		// searches in order of this:
+		// if the res hasn't been set, do fullscreen at the native monitor (or smaller)
+		// otherwise
+		// if it's not fullscreen, set it windowed to the settings
+		// otherwise
+		// do fullscreen at the equal-or-smaller fullscreen
+
 		if (!hasBeenSaved) {
-			Resolutable res = new Resolutable() {
-
-				private int width, height;
-				private boolean fs;
-
-				@Override
-				public void setWidth(int w) {
-					width = w;
-				}
-
-				@Override
-				public void setHeight(int h) {
-					height = h;
-				}
-
-				@Override
-				public void setFullscreen(boolean fs) {
-					this.fs = fs;
-				}
-
-				@Override
-				public int getWidth() {
-					return width;
-				}
-
-				@Override
-				public int getHeight() {
-					return height;
-				}
-
-				@Override
-				public boolean isFullscreen() {
-					return fs;
-				}
-
-			};
-
-			ResolutionDeterminator.determineIdealResolution(res,
-					possibleRes);
-
-			Gdx.graphics.setDisplayMode(res.getWidth(), res.getHeight(), true);
+			Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
+					Gdx.graphics.getMonitor(), Gdx.graphics.getDisplayMode().width,
+					Gdx.graphics.getDisplayMode().height, ratios));
 		} else {
-			if ((Gdx.graphics.getWidth() != width || Gdx.graphics.getHeight() != height
-					|| Gdx.graphics.isFullscreen() != fs)) {
-				Gdx.graphics.setDisplayMode(width, height, fs);
+			if (!fs) {
+				Gdx.graphics.setWindowedMode(width, height);
+			} else {
+				Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
+						Gdx.graphics.getMonitor(), width, height, ratios));
 			}
 		}
 	}
