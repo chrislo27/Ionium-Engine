@@ -38,7 +38,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
-import ionium.application.GenericApplicationListener;
 import ionium.registry.AssetRegistry;
 import ionium.registry.ErrorLogRegistry;
 import ionium.registry.GlobalVariables;
@@ -69,7 +68,7 @@ import ionium.util.version.VersionGetter;
  * Main class, think of it like slick's Main class
  *
  */
-public abstract class Main extends Game implements Consumer, GenericApplicationListener {
+public abstract class Main extends Game implements Consumer {
 
 	public OrthographicCamera camera;
 

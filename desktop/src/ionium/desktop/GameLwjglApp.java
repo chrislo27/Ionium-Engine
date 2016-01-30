@@ -6,23 +6,18 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import ionium.application.GenericApplicationListener;
 import ionium.util.Logger;
 
 public class GameLwjglApp extends LwjglApplication {
 
-	public GameLwjglApp(GenericApplicationListener listener, LwjglApplicationConfiguration config,
+	public GameLwjglApp(ApplicationListener listener, LwjglApplicationConfiguration config,
 			Logger log) {
 		super(listener, config);
 		logger = log;
-
-		genAppListener = listener;
 	}
 
 	private SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
 	private Logger logger;
-
-	private GenericApplicationListener genAppListener;
 
 	public Logger getLogger() {
 		return logger;
