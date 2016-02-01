@@ -6,9 +6,9 @@ import ionium.templates.Main;
 
 public abstract class BackButton extends Button {
 
-	public BackButton(int x, int y, int w, int h) {
-		super(0, 0, 1, 1, null);
-		this.setFixedSize(x, y, w, h);
+	public BackButton(float x, float y, float w, float h) {
+		super(x, y, w, h, null);
+		this.setFixedSize(true);
 	}
 
 	@Override

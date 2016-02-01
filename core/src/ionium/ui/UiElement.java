@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public abstract class UiElement {
 
 	protected boolean fixedSize = false;
-	protected int fixedWidth, fixedHeight, fixedX, fixedY;
+	protected float aspectRatio = 1;
 	
 	protected float x;
 	protected float y;
@@ -35,12 +35,10 @@ public abstract class UiElement {
 		return height;
 	}
 	
-	public UiElement setFixedSize(int x, int y, int w, int h){
-		fixedSize = true;
-		fixedWidth = w;
-		fixedHeight = h;
-		fixedX = x;
-		fixedY = y;
+	public UiElement setFixedSize(boolean b){
+		fixedSize = b;
+		
+		aspectRatio = (width / height);
 		
 		return updateActualSizeFromFixed();
 	}
@@ -66,10 +64,7 @@ public abstract class UiElement {
 	}
 	
 	public UiElement updateActualSizeFromFixed(){
-		width = fixedWidth * 1f / Gdx.graphics.getWidth();
-		height = fixedHeight * 1f / Gdx.graphics.getHeight();
-		x = fixedX * 1f / Gdx.graphics.getWidth();
-		y = fixedY * 1f / Gdx.graphics.getHeight();
+		width = height * aspectRatio;
 		
 		return this;
 	}

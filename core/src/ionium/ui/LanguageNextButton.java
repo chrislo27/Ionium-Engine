@@ -8,9 +8,9 @@ import ionium.util.i18n.Localization;
 
 public abstract class LanguageNextButton extends Button {
 
-	public LanguageNextButton(int x, int y, int w, int h) {
-		super(0, 0, 1, 1, null);
-		this.setFixedSize(x, y, w, h);
+	public LanguageNextButton(float x, float y, float w, float h) {
+		super(x, y, w, h, null);
+		this.setFixedSize(true);
 	}
 
 	@Override
