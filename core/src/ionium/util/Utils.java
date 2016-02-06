@@ -63,8 +63,8 @@ public class Utils {
 
 		Main.logger.info("Set size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
 				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + " (settings were"
-				+ (hasBeenSaved ? "" : "n't") + " saved at " + width + "x" + height + ", " + (fs ? "fullscreen" : "windowed")
-				+ ")");
+				+ (hasBeenSaved ? "" : "n't") + " saved at " + (fs ? "fullscreen" : "windowed")
+				+ " " + width + "x" + height + ")");
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
