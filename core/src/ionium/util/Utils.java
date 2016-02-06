@@ -63,7 +63,7 @@ public class Utils {
 
 		Main.logger.info("Set size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
 				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + " (settings were"
-				+ (hasBeenSaved ? "" : "n't") + " saved at " + width + "x" + height + ", fs " + fs
+				+ (hasBeenSaved ? "" : "n't") + " saved at " + width + "x" + height + ", " + (fs ? "fullscreen" : "windowed")
 				+ ")");
 	}
 
