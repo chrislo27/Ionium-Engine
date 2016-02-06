@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.badlogic.gdx.Gdx;
+
 public class VersionGetter {
 
 	private static VersionGetter instance;
@@ -33,18 +35,18 @@ public class VersionGetter {
 	 */
 	public void getVersionFromServer() {
 		final String path = GlobalVariables.getString("VERSION_URL", null);
-		
-		if(path == null){
+
+		if (path == null) {
 			Main.logger.error("Version URL is null!");
 			return;
 		}
-		
+
 		long start = System.currentTimeMillis();
 		try {
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(new URL(path).openStream()));
 
-			StringBuilder file = new StringBuilder();
+			final StringBuilder file = new StringBuilder();
 			String inputline;
 			while ((inputline = br.readLine()) != null)
 				file.append(inputline);
@@ -54,7 +56,14 @@ public class VersionGetter {
 			Main.logger.info("Finished getting version, took "
 					+ (System.currentTimeMillis() - start) + " ms");
 
-			Main.githubVersion = file.toString();
+			Gdx.app.postRunnable(new Runnable() {
+
+				@Override
+				public void run() {
+					Main.githubVersion = file.toString();
+				}
+
+			});
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
