@@ -1,5 +1,6 @@
 package ionium.projection;
 
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
@@ -36,9 +37,9 @@ public class CoordinateF implements Poolable {
 		return this;
 	}
 
-	public CoordinateF translateToDepth(float width, float height, float xDepth) {
-		x += (width * xDepth);
-		y += (height * xDepth);
+	public CoordinateF translateToDepth(float width, float height, Vector3 depth) {
+		x += (width * depth.x);
+		y += (height * depth.z);
 
 		return this;
 	}

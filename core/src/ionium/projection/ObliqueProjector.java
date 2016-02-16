@@ -2,14 +2,14 @@ package ionium.projection;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector3;
 
 import ionium.projection.CoordinateF.CoordFPool;
 import ionium.util.render.TexturedQuad;
 
 public class ObliqueProjector {
 
-	public float xDepth = 0.5f;
-	public float yDepth = -0.2f;
+	public Vector3 depth = new Vector3(0.5f, -0.2f, 0.5f);
 
 	private final Batch batch;
 
@@ -43,13 +43,13 @@ public class ObliqueProjector {
 		if (face == RenderFace.SIDE) {
 			coord1.set(coord2.x, coord2.y);
 			coord4.set(coord3.x, coord3.y);
-			coord2.translateToDepth(width, height, xDepth);
-			coord3.translateToDepth(width, height, xDepth);
+			coord2.translateToDepth(width, height, depth);
+			coord3.translateToDepth(width, height, depth);
 		} else if (face == RenderFace.TOP) {
 			coord1.setY(coord4.y);
 			coord2.setY(coord3.y);
-			coord3.set(coord2.x, coord2.y).translateToDepth(width, height, xDepth);
-			coord4.set(coord1.x, coord1.y).translateToDepth(width, height, xDepth);
+			coord3.set(coord2.x, coord2.y).translateToDepth(width, height, depth);
+			coord4.set(coord1.x, coord1.y).translateToDepth(width, height, depth);
 		}
 
 		TexturedQuad.renderQuad(batch, tex, coord1.x, coord1.y, coord2.x, coord2.y, coord3.x,
@@ -68,9 +68,9 @@ public class ObliqueProjector {
 	 */
 	public CoordinateF convertToProjected(CoordinateF coord, float x, float y, float z) {
 		coord.setX(x);
-		coord.setY(y + (x * yDepth));
+		coord.setY(y + (x * depth.y));
 
-		coord.set(coord.x + (z * xDepth), coord.y + (z * xDepth));
+		coord.set(coord.x + (z * depth.x), coord.y + (z * depth.x));
 
 		return coord;
 	}
