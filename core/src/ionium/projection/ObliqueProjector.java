@@ -8,7 +8,7 @@ import ionium.util.render.TexturedQuad;
 
 public class ObliqueProjector {
 
-	public float xDepth = 0.25f;
+	public float xDepth = 0.5f;
 	public float yDepth = -0.2f;
 
 	private final Batch batch;
