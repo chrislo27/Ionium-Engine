@@ -35,35 +35,35 @@ public class TexturedQuad {
 		vertices[id++] = x1;
 		vertices[id++] = y1;
 		vertices[id++] = WHITE_FLOAT_BITS;
-		vertices[id++] = u2;
+		vertices[id++] = u1;
 		vertices[id++] = v2;
 
 		// x + w, y (2)
 		vertices[id++] = x2;
 		vertices[id++] = y2;
 		vertices[id++] = WHITE_FLOAT_BITS;
-		vertices[id++] = u1;
+		vertices[id++] = u2;
 		vertices[id++] = v2;
 
 		// x + w, y + h (3)
 		vertices[id++] = x3;
 		vertices[id++] = y3;
 		vertices[id++] = WHITE_FLOAT_BITS;
-		vertices[id++] = u1;
+		vertices[id++] = u2;
 		vertices[id++] = v1;
 
 		// x, y + h (4)
 		vertices[id++] = x4;
 		vertices[id++] = y4;
 		vertices[id++] = WHITE_FLOAT_BITS;
-		vertices[id++] = u2;
+		vertices[id++] = u1;
 		vertices[id++] = v1;
 
 		// x, y (1)
 		vertices[id++] = x1;
 		vertices[id++] = y1;
 		vertices[id++] = WHITE_FLOAT_BITS;
-		vertices[id++] = u2;
+		vertices[id++] = u1;
 		vertices[id++] = v2;
 
 		batch.draw(tex, vertices, 0, vertices.length);
