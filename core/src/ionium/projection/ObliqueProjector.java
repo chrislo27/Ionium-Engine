@@ -41,13 +41,11 @@ public class ObliqueProjector {
 		CoordinateF coord4 = convertToProjected(x, y + height, z);
 
 		if (face == RenderFace.SIDE) {
-			coord1.set(coord2.x, coord2.y);
-			coord4.set(coord3.x, coord3.y);
+			coord2.set(coord1.x, coord1.y);
+			coord3.set(coord4.x, coord4.y);
 			coord2.translateToDepth(width, height, depth);
 			coord3.translateToDepth(width, height, depth);
 		} else if (face == RenderFace.TOP) {
-			coord1.setY(coord4.y);
-			coord2.setY(coord3.y);
 			coord3.set(coord2.x, coord2.y).translateToDepth(width, height, depth);
 			coord4.set(coord1.x, coord1.y).translateToDepth(width, height, depth);
 		}
