@@ -9,8 +9,19 @@ import ionium.util.render.TexturedQuad;
 
 public class ObliqueProjector {
 
+	/**
+	 * Flat orthographic view (no depth at all).
+	 */
 	public static final Vector3 DEPTH_FLAT = new Vector3(0, 0, 0);
+	
+	/**
+	 * Cabinet view (depth is half length at a 45 degree angle).
+	 */
 	public static final Vector3 DEPTH_CABINET = new Vector3(0.5f, 0, 0.5f);
+	
+	/**
+	 * Cavalier view (depth is full length at a 45 degree angle).
+	 */
 	public static final Vector3 DEPTH_CAVALIER = new Vector3(1f, 0, 1f);
 
 	public Vector3 depth = DEPTH_CABINET.cpy();
