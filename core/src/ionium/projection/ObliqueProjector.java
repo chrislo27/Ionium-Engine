@@ -48,8 +48,30 @@ public class ObliqueProjector {
 	 * @param width
 	 * @param height
 	 */
+	public void render(RenderFace face, Texture tex, float x, float y, float z, float width, float height){
+		render(face, tex, x, y, z, width, height, 0, 0, 0, 0, 0, 0, 0, 0);
+	}
+	
+	/**
+	 * Parameters passed in act like an orthographic view. Includes arguments to offset the positions.
+	 * @param face
+	 * @param tex
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param width
+	 * @param height
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @param x3
+	 * @param y3
+	 * @param x4
+	 * @param y4
+	 */
 	public void render(RenderFace face, Texture tex, float x, float y, float z, float width,
-			float height) {
+			float height, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
 		CoordinateF coord1 = convertToProjected(x, y, z);
 		CoordinateF coord2 = convertToProjected(x + width, y, z);
 		CoordinateF coord3 = convertToProjected(x + width, y + height, z);
@@ -65,8 +87,8 @@ public class ObliqueProjector {
 			coord4.set(coord1.x, coord1.y).translateToDepth(width, height, depth);
 		}
 
-		TexturedQuad.renderQuad(batch, tex, coord1.x, coord1.y, coord2.x, coord2.y, coord3.x,
-				coord3.y, coord4.x, coord4.y, 0, 0, 1, 1);
+		TexturedQuad.renderQuad(batch, tex, coord1.x + x1, coord1.y + y1, coord2.x + x2, coord2.y + y2, coord3.x + x3,
+				coord3.y + y3, coord4.x + x4, coord4.y + y4, 0, 0, 1, 1);
 
 		CoordFPool.pool.free(coord1);
 		CoordFPool.pool.free(coord2);
