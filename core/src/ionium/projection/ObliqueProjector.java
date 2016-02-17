@@ -9,7 +9,11 @@ import ionium.util.render.TexturedQuad;
 
 public class ObliqueProjector {
 
-	public Vector3 depth = new Vector3(0.5f, -0.2f, 0.5f);
+	public static final Vector3 DEPTH_FLAT = new Vector3(0, 0, 0);
+	public static final Vector3 DEPTH_CABINET = new Vector3(0.5f, 0, 0.5f);
+	public static final Vector3 DEPTH_CAVALIER = new Vector3(1f, 0, 1f);
+
+	public Vector3 depth = DEPTH_CABINET.cpy();
 
 	private final Batch batch;
 
