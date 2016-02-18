@@ -115,7 +115,7 @@ public class ObliqueProjector {
 		coord.setX(x);
 		coord.setY(y + (x * depth.y));
 
-		coord.set(coord.x + (z * depth.x), coord.y + (z * depth.x));
+		coord.set(coord.x + (z * depth.x), coord.y + (z * depth.z));
 
 		return coord;
 	}
