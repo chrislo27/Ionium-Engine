@@ -52,6 +52,14 @@ public class MathHelper {
 				- MathUtils.clamp(0.50000001f, 1f, 0.5f);
 	}
 
+	public static boolean isEven(int num) {
+		return (num & 1) == 0;
+	}
+
+	public static boolean isOdd(int num) {
+		return !isEven(num);
+	}
+
 	public static double calcDistance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 	}
@@ -174,17 +182,17 @@ public class MathHelper {
 		return false;
 	}
 
-	public static Rectangle makeRectangleValuesPositive(Rectangle rect){
-		if(rect.width < 0){
+	public static Rectangle makeRectangleValuesPositive(Rectangle rect) {
+		if (rect.width < 0) {
 			rect.width = Math.abs(rect.width);
 			rect.x -= rect.width;
 		}
-		
-		if(rect.height < 0){
+
+		if (rect.height < 0) {
 			rect.height = Math.abs(rect.height);
 			rect.y -= rect.height;
 		}
-		
+
 		return rect;
 	}
 
