@@ -1,4 +1,4 @@
-package ionium.audio;
+package ionium.audio.captioned;
 
 
 public interface Captioned {

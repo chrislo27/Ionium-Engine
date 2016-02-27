@@ -16,10 +16,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 import ionium.animation.Animation;
-import ionium.audio.Captioned;
-import ionium.audio.CaptionedLoader;
-import ionium.audio.CaptionedMusic;
-import ionium.audio.CaptionedSound;
+import ionium.audio.captioned.Captioned;
+import ionium.audio.captioned.CaptionedLoader;
+import ionium.audio.captioned.CaptionedMusic;
+import ionium.audio.captioned.CaptionedSound;
 import ionium.registry.handler.IAssetLoader;
 import ionium.registry.handler.StockAssetLoader;
 import ionium.util.AssetMap;
