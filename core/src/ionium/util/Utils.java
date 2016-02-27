@@ -220,12 +220,6 @@ public class Utils {
 		program.setUniformf("intensity", (float) (percentage * 2.5f));
 	}
 
-	public static boolean isPowerOfTwo(int num) {
-		if (num <= 0) return false;
-
-		return (num & (num - 1)) == 0;
-	}
-
 	public static String repeat(String s, int times) {
 		String r = "";
 		for (int i = 0; i < times; i++) {
