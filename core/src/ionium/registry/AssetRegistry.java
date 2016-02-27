@@ -276,7 +276,7 @@ public final class AssetRegistry implements Disposable {
 		}
 
 		for (Music m : tempMusicArray) {
-			m.play();
+			if (m.getPosition() > 0) m.play();
 		}
 	}
 
