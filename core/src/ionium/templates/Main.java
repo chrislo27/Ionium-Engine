@@ -80,6 +80,7 @@ public abstract class Main extends Game implements Consumer {
 
 	public BitmapFont defaultFont;
 	public BitmapFont arial;
+	public BitmapFont debugFont;
 
 	private static Color rainbow = new Color();
 	private static Color inverseRainbow = new Color();
@@ -226,6 +227,7 @@ public abstract class Main extends Game implements Consumer {
 		maskNoiseShader.dispose();
 		shapes.dispose();
 		clearPixmap.dispose();
+		debugFont.dispose();
 
 		// dispose screens
 		ScreenRegistry.instance().dispose();
@@ -295,10 +297,10 @@ public abstract class Main extends Game implements Consumer {
 	protected void postRender() {
 		batch.begin();
 
-		defaultFont.setColor(1, 1, 1, 1);
+		debugFont.setColor(1, 1, 1, 1);
 
 		if (DebugSetting.showFPS || DebugSetting.debug) {
-			defaultFont.draw(
+			debugFont.draw(
 					batch, "FPS: "
 							+ (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
 									.getInt("MAX_FPS") / 4f)
@@ -306,7 +308,7 @@ public abstract class Main extends Game implements Consumer {
 											: (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
 													.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
 							+ Gdx.graphics.getFramesPerSecond() + "[]",
-					5, Gdx.graphics.getHeight() - (defaultFont.getCapHeight() * 1.25f));
+					5, Gdx.graphics.getHeight() - (debugFont.getCapHeight() * 1.25f));
 		}
 
 		if (DebugSetting.debug) {
@@ -314,17 +316,17 @@ public abstract class Main extends Game implements Consumer {
 			this.getDebugStrings();
 			if (getScreen() != null) ((Updateable) getScreen()).getDebugStrings(debugStrings);
 
-			float baseHeight = Gdx.graphics.getHeight() - (defaultFont.getCapHeight() * 1.25f * 3f);
+			float baseHeight = Gdx.graphics.getHeight() - (debugFont.getCapHeight() * 1.25f * 3f);
 
 			for (int i = 0; i < debugStrings.size; i++) {
-				defaultFont.draw(batch, debugStrings.get(i), 5,
-						(baseHeight - ((defaultFont.getCapHeight() * 1.5f) * (i))));
+				debugFont.draw(batch, debugStrings.get(i), 5,
+						(baseHeight - ((debugFont.getCapHeight() * 1.5f) * (i))));
 			}
 
 		}
 
 		if (this.getScreen() == null) {
-			defaultFont.draw(batch, "null screen: " + lastSetNullScreen,
+			debugFont.draw(batch, "null screen: " + lastSetNullScreen,
 					Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center,
 					false);
 		}
@@ -402,6 +404,11 @@ public abstract class Main extends Game implements Consumer {
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		defaultFont = ttfGenerator.generateFont(ttfParam);
 		defaultFont.getData().markupEnabled = true;
+		
+		ttfParam.borderColor = new Color(0, 0, 0, 1);
+		ttfParam.borderWidth = 1.5f;
+		debugFont = ttfGenerator.generateFont(ttfParam);
+		debugFont.getData().markupEnabled = true;
 
 		ttfGenerator.dispose();
 	}
