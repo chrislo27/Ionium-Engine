@@ -18,8 +18,6 @@ import com.badlogic.gdx.utils.Disposable;
 import ionium.animation.Animation;
 import ionium.audio.captioned.Captioned;
 import ionium.audio.captioned.CaptionedLoader;
-import ionium.audio.captioned.CaptionedMusic;
-import ionium.audio.captioned.CaptionedSound;
 import ionium.registry.handler.IAssetLoader;
 import ionium.registry.handler.StockAssetLoader;
 import ionium.util.AssetMap;
@@ -50,9 +48,12 @@ public final class AssetRegistry implements Disposable {
 
 	private Texture missingTexture;
 
+	private Array<Sound> tempSoundArray;
+	private Array<Music> tempMusicArray;
+
 	private void onInstantiate() {
 		manager.setLoader(Captioned.class, new CaptionedLoader(new InternalFileHandleResolver()));
-		
+
 		addAssetLoader(new StockAssetLoader());
 	}
 
@@ -78,7 +79,7 @@ public final class AssetRegistry implements Disposable {
 		// add the managed textures to the asset manager, the unmanaged textures are loaded separately
 		l.addManagedAssets(manager);
 		l.addUnmanagedAnimations(animations);
-		
+
 		return this;
 	}
 
@@ -102,8 +103,8 @@ public final class AssetRegistry implements Disposable {
 		if (animationLoadingIterator.hasNext()) {
 			long time = System.currentTimeMillis();
 			while (true) {
-				if(System.currentTimeMillis() - time >= animationTimeShare) break;
-				if(!animationLoadingIterator.hasNext()) break;
+				if (System.currentTimeMillis() - time >= animationTimeShare) break;
+				if (!animationLoadingIterator.hasNext()) break;
 				animationLoadingIterator.next().getValue().load();
 			}
 		}
@@ -124,7 +125,8 @@ public final class AssetRegistry implements Disposable {
 	public boolean finishedLoading() {
 		createAnimationLoadingIterator();
 
-		return (getAssetManager().getProgress() >= 1 && animationLoadingIterator.hasNext() == false);
+		return (getAssetManager().getProgress() >= 1
+				&& animationLoadingIterator.hasNext() == false);
 	}
 
 	@Override
@@ -201,31 +203,91 @@ public final class AssetRegistry implements Disposable {
 	public static Animation getAnimation(String key) {
 		return instance().getAnimations().get(key);
 	}
-	
+
 	/**
 	 * Gets an asset, putting the key through AssetMap.get first
 	 * @param key
 	 * @param clz
 	 * @return
 	 */
-	public static <T> T getAsset(String key, Class<T> clz){
-		if(AssetMap.get(key) == null) return null;
-		
+	public static <T> T getAsset(String key, Class<T> clz) {
+		if (AssetMap.get(key) == null) return null;
+
 		return getAssetByPath(AssetMap.get(key), clz);
 	}
-	
+
 	/**
 	 * Gets an asset by the path provided
 	 * @param path
 	 * @param clz
 	 * @return
 	 */
-	public static <T> T getAssetByPath(String path, Class<T> clz){
+	public static <T> T getAssetByPath(String path, Class<T> clz) {
 		return instance().getAssetManager().get(path, clz);
 	}
-	
-	public static TiledMap getTiledMap(String key){
+
+	public static TiledMap getTiledMap(String key) {
 		return getAsset(key, TiledMap.class);
+	}
+
+	public void pauseAllSound() {
+		if (tempSoundArray == null) {
+			tempSoundArray = manager.getAll(Sound.class, new Array<Sound>());
+		}
+
+		for (Sound s : tempSoundArray) {
+			s.pause();
+		}
+	}
+
+	public void resumeAllSound() {
+		if (tempSoundArray == null) {
+			tempSoundArray = manager.getAll(Sound.class, new Array<Sound>());
+		}
+
+		for (Sound s : tempSoundArray) {
+			s.resume();
+		}
+	}
+
+	public void stopAllSound() {
+		if (tempSoundArray == null) {
+			tempSoundArray = manager.getAll(Sound.class, new Array<Sound>());
+		}
+
+		for (Sound s : tempSoundArray) {
+			s.stop();
+		}
+	}
+
+	public void pauseAllMusic() {
+		if (tempMusicArray == null) {
+			tempMusicArray = manager.getAll(Music.class, new Array<Music>());
+		}
+
+		for (Music m : tempMusicArray) {
+			m.pause();
+		}
+	}
+
+	public void resumeAllMusic() {
+		if (tempMusicArray == null) {
+			tempMusicArray = manager.getAll(Music.class, new Array<Music>());
+		}
+
+		for (Music m : tempMusicArray) {
+			m.play();
+		}
+	}
+
+	public void stopAllMusic() {
+		if (tempMusicArray == null) {
+			tempMusicArray = manager.getAll(Music.class, new Array<Music>());
+		}
+
+		for (Music m : tempMusicArray) {
+			m.stop();
+		}
 	}
 
 }
