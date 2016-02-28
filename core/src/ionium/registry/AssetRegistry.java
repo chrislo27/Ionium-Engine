@@ -11,6 +11,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -228,6 +229,10 @@ public final class AssetRegistry implements Disposable {
 
 	public static TiledMap getTiledMap(String key) {
 		return getAsset(key, TiledMap.class);
+	}
+
+	public static TextureAtlas getTextureAtlas(String key) {
+		return getAsset(key, TextureAtlas.class);
 	}
 
 	public void pauseAllSound() {
