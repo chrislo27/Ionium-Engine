@@ -9,7 +9,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl.audio.OpenALMusic;
 
-import ionium.runnables.AudioPitchChange;
+import ionium.runnables.AudioChangePitch;
 import ionium.util.Logger;
 
 public class GameLwjglApp extends LwjglApplication {
@@ -50,8 +50,8 @@ public class GameLwjglApp extends LwjglApplication {
 	protected boolean checkSpecialRunnables(Runnable r) {
 		r.run();
 
-		if (r instanceof AudioPitchChange) {
-			AudioPitchChange apc = (AudioPitchChange) r;
+		if (r instanceof AudioChangePitch) {
+			AudioChangePitch apc = (AudioChangePitch) r;
 
 			AL10.alSourcef(((OpenALMusic) apc.mus).getSourceId(), AL10.AL_PITCH, apc.pitch);
 
