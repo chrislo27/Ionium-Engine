@@ -57,6 +57,8 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				int i = Integer.parseInt(value);
 
 				this.width = i;
+				
+				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
 
 			}
@@ -66,6 +68,8 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				int i = Integer.parseInt(value);
 
 				this.height = i;
+				
+				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
 
 			}
@@ -76,8 +80,12 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 
 				if (i == 0) {
 					this.fullscreen = false;
+				
+					Utils.setArgumentsOverrideSettings(true);
 				} else if (i == 1) {
 					this.fullscreen = true;
+				
+					Utils.setArgumentsOverrideSettings(true);
 				}
 			} catch (NumberFormatException ex) {
 
@@ -89,8 +97,12 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 
 				if (i == 0) {
 					this.vSyncEnabled = false;
+				
+					Utils.setArgumentsOverrideSettings(true);
 				} else if (i == 1) {
 					this.vSyncEnabled = true;
+				
+					Utils.setArgumentsOverrideSettings(true);
 				}
 			} catch (NumberFormatException ex) {
 
@@ -102,6 +114,8 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 
 				this.foregroundFPS = i;
 				this.backgroundFPS = i;
+				
+				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
 
 			}
@@ -111,6 +125,8 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				int i = Integer.parseInt(value);
 
 				this.samples = i;
+				
+				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
 
 			}
@@ -121,8 +137,12 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 
 				if (i == 0) {
 					this.resizable = false;
+				
+					Utils.setArgumentsOverrideSettings(true);
 				} else if (i == 1) {
 					this.resizable = true;
+				
+					Utils.setArgumentsOverrideSettings(true);
 				}
 			} catch (NumberFormatException ex) {
 
