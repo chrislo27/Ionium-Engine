@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import ionium.util.Utils;
 import ionium.util.resolution.Resolutable;
 
 public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguration implements Resolutable {
