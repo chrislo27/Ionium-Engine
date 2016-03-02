@@ -261,7 +261,7 @@ public class Utils {
 	}
 
 	/**
-	 * packets 2 ints into a long
+	 * packs 2 ints into a long
 	 * @param ms most significant 32 bits
 	 * @param ls least significant 32 bits
 	 * @return
