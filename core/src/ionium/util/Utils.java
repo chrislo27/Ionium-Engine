@@ -38,33 +38,24 @@ public class Utils {
 		return glyphLayout.height;
 	}
 
-	public static void resizeScreenFromSettings(boolean hasBeenSaved, int width, int height,
+	public static void resizeScreenFromSettings(int width, int height,
 			boolean fs, AspectRatio[] ratios) {
 
 		// searches in order of this:
-		// if the res hasn't been set, do fullscreen at the native monitor (or smaller)
-		// otherwise
 		// if it's not fullscreen, set it windowed to the settings
 		// otherwise
-		// do fullscreen at the equal-or-smaller fullscreen
+		// do fullscreen at the equal-or-smaller fullscreen to the settings
 
-		if (!hasBeenSaved) {
-			Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
-					Gdx.graphics.getMonitor(), Gdx.graphics.getDisplayMode().width,
-					Gdx.graphics.getDisplayMode().height, ratios));
+		if (!fs) {
+			Gdx.graphics.setWindowedMode(width, height);
 		} else {
-			if (!fs) {
-				Gdx.graphics.setWindowedMode(width, height);
-			} else {
-				Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
-						Gdx.graphics.getMonitor(), width, height, ratios));
-			}
+			Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
+					Gdx.graphics.getMonitor(), width, height, ratios));
 		}
+		
 
 		Main.logger.info("Set window size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
-				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + " (settings were"
-				+ (hasBeenSaved ? "" : " NOT ") + " saved at " + (fs ? "fullscreen" : "windowed")
-				+ " " + width + "x" + height + ")");
+				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
