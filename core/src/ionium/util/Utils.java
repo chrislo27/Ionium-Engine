@@ -27,6 +27,8 @@ public class Utils {
 	private static GlyphLayout glyphLayout = new GlyphLayout();
 	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
 	private static Cursor cursor = null;
+	
+	private static argumentsOverrode = false;
 
 	public static float getWidth(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
@@ -37,6 +39,10 @@ public class Utils {
 		glyphLayout.setText(font, text);
 		return glyphLayout.height;
 	}
+	
+	public static void setArgumentsOverrideSettings(boolean b){
+		argumentsOverrode = b;
+	}
 
 	public static void resizeScreenFromSettings(int width, int height,
 			boolean fs, AspectRatio[] ratios) {
@@ -46,16 +52,21 @@ public class Utils {
 		// otherwise
 		// do fullscreen at the equal-or-smaller fullscreen to the settings
 
-		if (!fs) {
-			Gdx.graphics.setWindowedMode(width, height);
-		} else {
-			Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
-					Gdx.graphics.getMonitor(), width, height, ratios));
+		if (!argumentsOverrode) {
+			if (!fs) {
+				Gdx.graphics.setWindowedMode(width, height);
+			} else {
+				Gdx.graphics.setFullscreenMode(ResolutionDeterminator.findMostIdealDisplayMode(
+						Gdx.graphics.getMonitor(), width, height, ratios));
+			}
 		}
 		
-
 		Main.logger.info("Set window size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
-				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
+				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + 
+				(argumentsOverrode ? " (arguments overrode old settings of [w, h, fs]: [" +
+				width + ", " + height + ", " + fullscreen + "])" : ""));
+				
+		argumentsOverrode = false;
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
