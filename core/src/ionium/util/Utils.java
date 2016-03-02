@@ -28,7 +28,7 @@ public class Utils {
 	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
 	private static Cursor cursor = null;
 	
-	private static boolean argumentsOverrode = false;
+	public static boolean argumentsOverrode = false;
 
 	public static float getWidth(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
@@ -65,8 +65,6 @@ public class Utils {
 				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + 
 				(argumentsOverrode ? " (arguments overrode old settings of [w, h, fs]: [" +
 				width + ", " + height + ", " + fs + "])" : ""));
-				
-		argumentsOverrode = false;
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {

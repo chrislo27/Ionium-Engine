@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import ionium.templates.Main;
 import ionium.util.Utils;
 import ionium.util.resolution.Resolutable;
 
@@ -45,6 +46,10 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 		}
 
 	}
+	
+	private void inferenceFail(String key, String value){
+		System.err.println("Failed to infer argument " + value + " for key " + key);
+	}
 
 	private void checkKeyAndValue(String key, String value) {
 		if (!key.startsWith("-")) return;
@@ -61,7 +66,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				
 				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		case "height":
@@ -72,7 +77,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				
 				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		case "fullscreen":
@@ -89,7 +94,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 					Utils.setArgumentsOverrideSettings(true);
 				}
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		case "vsync":
@@ -106,7 +111,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 					Utils.setArgumentsOverrideSettings(true);
 				}
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		case "fpslock":
@@ -118,7 +123,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				
 				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		case "msaasamples":
@@ -129,7 +134,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 				
 				Utils.setArgumentsOverrideSettings(true);
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		case "resizeable":
@@ -146,7 +151,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 					Utils.setArgumentsOverrideSettings(true);
 				}
 			} catch (NumberFormatException ex) {
-
+				inferenceFail(key.toLowerCase(), value);
 			}
 			break;
 		}
