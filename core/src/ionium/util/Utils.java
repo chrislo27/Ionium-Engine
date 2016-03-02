@@ -28,7 +28,7 @@ public class Utils {
 	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
 	private static Cursor cursor = null;
 	
-	private static argumentsOverrode = false;
+	private static boolean argumentsOverrode = false;
 
 	public static float getWidth(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
@@ -64,7 +64,7 @@ public class Utils {
 		Main.logger.info("Set window size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
 				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + 
 				(argumentsOverrode ? " (arguments overrode old settings of [w, h, fs]: [" +
-				width + ", " + height + ", " + fullscreen + "])" : ""));
+				width + ", " + height + ", " + fs + "])" : ""));
 				
 		argumentsOverrode = false;
 	}
