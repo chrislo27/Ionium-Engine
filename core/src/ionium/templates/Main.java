@@ -50,7 +50,6 @@ import ionium.util.AssetMap;
 import ionium.util.CaptureStream;
 import ionium.util.CaptureStream.Consumer;
 import ionium.util.DebugSetting;
-import ionium.util.IoniumEngineVersion;
 import ionium.util.Logger;
 import ionium.util.MathHelper;
 import ionium.util.MemoryUtils;
@@ -326,9 +325,8 @@ public abstract class Main extends Game implements Consumer {
 		}
 
 		if (this.getScreen() == null) {
-			debugFont.draw(batch, "null screen: " + lastSetNullScreen,
-					Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 0.4f, 0, Align.center,
-					false);
+			debugFont.draw(batch, "null screen: " + lastSetNullScreen, Gdx.graphics.getWidth() / 2,
+					Gdx.graphics.getHeight() * 0.4f, 0, Align.center, false);
 		}
 
 		batch.end();
@@ -350,9 +348,7 @@ public abstract class Main extends Game implements Consumer {
 		debugStrings.clear();
 
 		debugStrings.add("version: " + Main.version
-				+ (githubVersion == null ? ""
-						: "; latestV: " + Main.githubVersion + "; engineV: "
-								+ IoniumEngineVersion.ENGINE_VERSION));
+				+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion));
 		debugStrings.add("memory: " + NumberFormat.getInstance().format(MemoryUtils.getUsedMemory())
 				+ " KB / " + NumberFormat.getInstance().format(MemoryUtils.getMaxMemory())
 				+ " KB (max " + NumberFormat.getInstance().format(getMostMemory) + " KB) ");
@@ -404,7 +400,7 @@ public abstract class Main extends Game implements Consumer {
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		defaultFont = ttfGenerator.generateFont(ttfParam);
 		defaultFont.getData().markupEnabled = true;
-		
+
 		ttfParam.borderColor = new Color(0, 0, 0, 1);
 		ttfParam.borderWidth = 1.5f;
 		debugFont = ttfGenerator.generateFont(ttfParam);
