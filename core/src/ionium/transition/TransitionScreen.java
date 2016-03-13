@@ -149,7 +149,7 @@ public class TransitionScreen extends Updateable<Main> {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(main.getDefaultInput());
+		
 	}
 
 	@Override
