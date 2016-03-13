@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -79,7 +80,7 @@ public class Utils {
 
 	public static void setCursorVisibility(boolean visible) {
 		if (visible) {
-			Gdx.graphics.setCursor(null);
+			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
 		} else {
 			if (cursor == null) {
 				cursor = Gdx.graphics.newCursor(Main.clearPixmap, 0, 0);
