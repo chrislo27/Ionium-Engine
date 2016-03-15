@@ -35,8 +35,16 @@ public class MusicTransitioner {
 		}
 	}
 
+	public static void addTransition(MusicTransition t) {
+		instance().instance.addTransition(t);
+	}
+
 	public static void fade(Music music, float initialVol, float endVol, float duration) {
-		instance().transitions.add(new MusicFade(music, initialVol, endVol, duration));
+		addTransition(new MusicFade(music, initialVol, endVol, duration));
+	}
+
+	public static void pitchGradual(Music music, float initial, float end, float duration) {
+		addTransition(new MusicPitchGradual(music, initial, end, duration));
 	}
 
 }
