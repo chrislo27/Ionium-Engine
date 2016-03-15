@@ -36,7 +36,7 @@ public class MusicTransitioner {
 	}
 
 	public static void addTransition(MusicTransition t) {
-		instance().instance.addTransition(t);
+		instance().transitions.add(t);
 	}
 
 	public static void fade(Music music, float initialVol, float endVol, float duration) {
