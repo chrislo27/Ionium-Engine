@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Music;
 public class AudioChangePitch implements Runnable {
 
 	public final Music mus;
-	public final float pitch;
+	public float pitch;
 	
 	public AudioChangePitch(Music mus, float pitch) {
 		this.mus = mus;
