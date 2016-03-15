@@ -13,6 +13,10 @@ public class MathHelper {
 
 	public static final double rootTwo = Math.sqrt(2f);
 
+	public static float lerp(float x, float y, float alpha) {
+		return x + alpha * (y - x);
+	}
+
 	public static double getScaleFactor(float iMasterSize, float iTargetSize) {
 		double dScale = 1;
 		if (iMasterSize > iTargetSize) {
