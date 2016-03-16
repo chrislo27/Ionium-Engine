@@ -26,7 +26,8 @@ public class MusicFade extends MusicTransition {
 	public void update(float delta) {
 		elapsed += delta;
 
-		music.setVolume(MathHelper.lerp(init, end, MathUtils.clamp(elapsed / time, 0f, 1f)));
+		music.setVolume(MathHelper.lerp(init, end,
+				MathUtils.clamp(elapsed / (time <= 0 ? 1 : time), 0f, 1f)));
 	}
 
 	@Override

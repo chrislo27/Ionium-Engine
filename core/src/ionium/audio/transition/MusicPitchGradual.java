@@ -32,7 +32,8 @@ public class MusicPitchGradual extends MusicTransition {
 	public void update(float delta) {
 		elapsed += delta;
 
-		runnable.pitch = MathHelper.lerp(init, end, MathUtils.clamp(elapsed / time, 0f, 1f));
+		runnable.pitch = MathHelper.lerp(init, end,
+				MathUtils.clamp(elapsed / (time <= 0 ? 1 : 0), 0f, 1f));
 		Gdx.app.postRunnable(runnable);
 	}
 
