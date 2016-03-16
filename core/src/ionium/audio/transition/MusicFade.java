@@ -28,6 +28,8 @@ public class MusicFade extends MusicTransition {
 
 		music.setVolume(MathHelper.lerp(init, end,
 				MathUtils.clamp(elapsed / (time <= 0 ? 1 : time), 0f, 1f)));
+
+		if (music.getVolume() <= 0) music.stop();
 	}
 
 	@Override
