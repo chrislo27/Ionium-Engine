@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
 
+import ionium.templates.Main;
+
 /**
  * Helps determine resolution.
  * 
@@ -36,9 +38,13 @@ public class ResolutionDeterminator {
 				largestSoFar = i;
 			} else if ((dm.width > Gdx.graphics.getDisplayModes(mon)[largestSoFar].width
 					|| dm.height > Gdx.graphics.getDisplayModes(mon)[largestSoFar].height)) {
+				// bigger than largest
+
+				// fits in target width/height
 				if (dm.width <= width && dm.height <= height) {
+					// matchs aspect ratio
 					if (matchesAnAspectRatio(dm.width, dm.height, ratios)) {
-						largestSoFar = -1;
+						largestSoFar = i;
 					}
 				}
 			}
