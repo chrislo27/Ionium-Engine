@@ -130,7 +130,7 @@ public abstract class Main extends Game implements Consumer {
 
 	@Override
 	public void create() {
-		Gdx.graphics.setTitle(getTitle() + " - " + Splashes.getRandomSplash());
+		Gdx.graphics.setTitle(getTitle(version) + " - " + Splashes.getRandomSplash());
 		redirectSysOut();
 
 		ShaderProgram.pedantic = false;
@@ -435,8 +435,8 @@ public abstract class Main extends Game implements Consumer {
 		return "Player" + MathUtils.random(9999);
 	}
 
-	public static String getTitle() {
-		return (Localization.get("gamename") + " " + Main.version);
+	public static String getTitle(String version) {
+		return (Localization.get("gamename") + " " + version);
 	}
 
 	@Override
