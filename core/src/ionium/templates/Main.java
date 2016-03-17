@@ -130,7 +130,6 @@ public abstract class Main extends Game implements Consumer {
 
 	@Override
 	public void create() {
-		Gdx.graphics.setTitle(getTitle(version) + " - " + Splashes.getRandomSplash());
 		redirectSysOut();
 
 		ShaderProgram.pedantic = false;
