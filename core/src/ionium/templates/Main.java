@@ -85,7 +85,7 @@ public abstract class Main extends Game implements Consumer {
 	private static Color rainbow = new Color();
 	private static Color inverseRainbow = new Color();
 
-	public static final String version = "v0.1.0-alpha";
+	public static String version = "v0.1.0-alpha";
 	public static String githubVersion = null;
 
 	public static Texture filltex;
@@ -264,7 +264,7 @@ public abstract class Main extends Game implements Consumer {
 			}
 
 			MusicTransitioner.instance().update();
-			
+
 			// render updates
 			if (getScreen() != null) {
 				((Updateable) getScreen()).renderUpdate();
@@ -430,11 +430,7 @@ public abstract class Main extends Game implements Consumer {
 				+ (System.currentTimeMillis() - timeTaken) + " ms");
 	}
 
-	public static String getRandomUsername() {
-		return "Player" + MathUtils.random(9999);
-	}
-
-	public static String getTitle(String version) {
+	public static String getTitle() {
 		return (Localization.get("gamename") + " " + version);
 	}
 
