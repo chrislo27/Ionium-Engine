@@ -28,8 +28,9 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	@Override
 	public void render(float delta) {
 		AssetManager manager = AssetRegistry.instance().getAssetManager();
-		
-		AssetRegistry.instance().loadManagedAssets(((int) (1000f / GlobalVariables.getInt("MAX_FPS"))));
+
+		AssetRegistry.instance()
+				.loadManagedAssets(((int) (1000f / GlobalVariables.getInt("MAX_FPS"))));
 		do {
 			if (AssetRegistry.instance().finishedLoading()) {
 				if (!waitedAFrame) {
@@ -48,14 +49,14 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 		main.batch.begin();
 		main.batch.setColor(1, 1, 1, 1);
-		Main.fillRect(main.batch, Gdx.graphics.getWidth() / 2 - 128, Gdx.graphics.getHeight() / 2 - 10,
-				256 * manager.getProgress(), 20);
-
-		Main.fillRect(main.batch, Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 260, 1);
-		Main.fillRect(main.batch, Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 + 11, 260, 1);
-
-		Main.fillRect(main.batch, Gdx.graphics.getWidth() / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
-		Main.fillRect(main.batch, Gdx.graphics.getWidth() / 2 + 132, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
+		
+		Main.drawRect(main.batch, Gdx.graphics.getWidth() * 0.25f - 4,
+				Gdx.graphics.getHeight() * 0.5f - 8 - 4,
+				Gdx.graphics.getWidth() * 0.5f + 8, 16 + 8, 2);
+		
+		Main.fillRect(main.batch, Gdx.graphics.getWidth() * 0.25f,
+				Gdx.graphics.getHeight() * 0.5f - 8,
+				Gdx.graphics.getWidth() * 0.5f * manager.getProgress(), 16);
 
 		if (manager.getAssetNames().size > 0) {
 			main.drawTextBg(main.defaultFont, output.getLastMsg(),
@@ -100,7 +101,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 	@Override
 	public void getDebugStrings(Array<String> array) {
-		
+
 	}
 
 	@Override
