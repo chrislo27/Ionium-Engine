@@ -49,25 +49,32 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 		main.batch.begin();
 		main.batch.setColor(1, 1, 1, 1);
-		
+
 		Main.drawRect(main.batch, Gdx.graphics.getWidth() * 0.25f - 4,
-				Gdx.graphics.getHeight() * 0.5f - 8 - 4,
-				Gdx.graphics.getWidth() * 0.5f + 8, 16 + 8, 2);
-		
+				Gdx.graphics.getHeight() * 0.5f - 8 - 4, Gdx.graphics.getWidth() * 0.5f + 8, 16 + 8,
+				2);
+
 		Main.fillRect(main.batch, Gdx.graphics.getWidth() * 0.25f,
 				Gdx.graphics.getHeight() * 0.5f - 8,
 				Gdx.graphics.getWidth() * 0.5f * manager.getProgress(), 16);
 
 		if (manager.getAssetNames().size > 0) {
 			main.drawTextBg(main.defaultFont, output.getLastMsg(),
-					Gdx.graphics.getWidth() / 2
-							- (Utils.getWidth(main.defaultFont, output.getLastMsg()) / 2),
-					Gdx.graphics.getHeight() / 2 - 35);
+					Gdx.graphics.getWidth() * 0.5f
+							- (Utils.getWidth(main.defaultFont, output.getLastMsg()) * 0.5f),
+					Gdx.graphics.getHeight() * 0.5f - 35);
 		}
+
+		String outOf = manager.getLoadedAssets() + " / "
+				+ (manager.getLoadedAssets() + manager.getQueuedAssets());
+		main.drawTextBg(main.defaultFont, outOf,
+				Gdx.graphics.getWidth() * 0.5f - (Utils.getWidth(main.defaultFont, outOf) * 0.5f),
+				Gdx.graphics.getHeight() * 0.5f - 60);
+
 		String percent = String.format("%.0f", (manager.getProgress() * 100f)) + "%";
 		main.drawTextBg(main.defaultFont, percent,
-				Gdx.graphics.getWidth() / 2 - (Utils.getWidth(main.defaultFont, percent) / 2),
-				Gdx.graphics.getHeight() / 2 - 60);
+				Gdx.graphics.getWidth() * 0.5f - (Utils.getWidth(main.defaultFont, percent) * 0.5f),
+				Gdx.graphics.getHeight() * 0.5f - 85);
 
 		main.batch.end();
 	}
