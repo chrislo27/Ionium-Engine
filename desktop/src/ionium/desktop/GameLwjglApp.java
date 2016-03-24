@@ -53,6 +53,8 @@ public class GameLwjglApp extends LwjglApplication {
 		if (r instanceof AudioChangePitch) {
 			AudioChangePitch apc = (AudioChangePitch) r;
 
+			if (!apc.mus.isPlaying()) return true;
+
 			AL10.alSourcef(((OpenALMusic) apc.mus).getSourceId(), AL10.AL_PITCH, apc.pitch);
 
 			return true;
