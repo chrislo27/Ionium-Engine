@@ -48,7 +48,7 @@ public final class AssetRegistry implements Disposable {
 	private AssetManager manager = new AssetManager();
 	private HashMap<String, Texture> unmanagedTextures = new HashMap<>();
 	private HashMap<String, Animation> animations = new HashMap<>();
-	private HashMap<String, Array<TextureAtlas.AtlasRegion>> atlasRegions = new HashMap<>();
+	private HashMap<String, HashMap<String, AtlasRegion>> atlasRegions = new HashMap<>();
 
 	private Texture missingTexture;
 
@@ -258,17 +258,27 @@ public final class AssetRegistry implements Disposable {
 		return getAsset(key, TextureAtlas.class);
 	}
 
-	public static Array<AtlasRegion> getAllAtlasRegions(String key) {
-		Array<AtlasRegion> array = instance().atlasRegions.get(key);
+	public static HashMap<String, AtlasRegion> getAllAtlasRegions(String key) {
+		HashMap<String, AtlasRegion> map = instance().atlasRegions.get(key);
 
-		if (array != null) {
-			return array;
+		if (map != null) {
+			return map;
 		} else {
-			instance().atlasRegions.put(key, array = getTextureAtlas(key).getRegions());
+			map = new HashMap<>();
+
+			Array<AtlasRegion> array = getTextureAtlas(key).getRegions();
+
+			for (AtlasRegion ar : array) {
+				map.put(ar.name + (ar.index != -1 ? ar.index : ""), ar);
+			}
 		}
 
-		return array;
+		return map;
 	}
+
+	//	public static AtlasRegion getAtlasRegion(String atlasKey, String section){
+	//		return getTextureAtlas
+	//	}
 
 	public void pauseAllSound() {
 		if (tempSoundArray == null) {
