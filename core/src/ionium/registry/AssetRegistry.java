@@ -276,9 +276,9 @@ public final class AssetRegistry implements Disposable {
 		return map;
 	}
 
-	//	public static AtlasRegion getAtlasRegion(String atlasKey, String section){
-	//		return getTextureAtlas
-	//	}
+	public static AtlasRegion getAtlasRegion(String atlasKey, String section) {
+		return getAllAtlasRegions(atlasKey).get(section);
+	}
 
 	public void pauseAllSound() {
 		if (tempSoundArray == null) {
