@@ -270,7 +270,11 @@ public final class AssetRegistry implements Disposable {
 
 			for (AtlasRegion ar : array) {
 				map.put(ar.name + (ar.index != -1 ? ar.index : ""), ar);
+				Main.logger
+						.debug("added atlasregion " + ar.name + (ar.index != -1 ? ar.index : ""));
 			}
+
+			instance().atlasRegions.put(key, map);
 		}
 
 		return map;
