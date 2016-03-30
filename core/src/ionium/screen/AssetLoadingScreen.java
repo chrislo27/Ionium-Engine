@@ -34,6 +34,8 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		do {
 			if (AssetRegistry.instance().finishedLoading()) {
 				if (!waitedAFrame) {
+					AssetRegistry.instance().optionalOnFinish();
+					
 					waitedAFrame = true;
 					break;
 				}

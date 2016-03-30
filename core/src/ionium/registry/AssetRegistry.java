@@ -22,6 +22,7 @@ import ionium.audio.captioned.Captioned;
 import ionium.audio.captioned.CaptionedLoader;
 import ionium.registry.handler.IAssetLoader;
 import ionium.registry.handler.StockAssetLoader;
+import ionium.templates.Main;
 import ionium.util.AssetMap;
 import ionium.util.GameException;
 
@@ -101,7 +102,7 @@ public final class AssetRegistry implements Disposable {
 				: millis);
 		int animationTimeShare = (manager.getProgress() >= 1 ? millis : millis - managerTimeShare);
 
-		if (manager.getProgress() < 1){
+		if (manager.getProgress() < 1) {
 			manager.update(managerTimeShare);
 		}
 
@@ -111,6 +112,24 @@ public final class AssetRegistry implements Disposable {
 				if (System.currentTimeMillis() - time >= animationTimeShare) break;
 				if (!animationLoadingIterator.hasNext()) break;
 				animationLoadingIterator.next().getValue().load();
+			}
+		}
+	}
+
+	/**
+	 * Optional to call, but you should call this when you're done so it can load some extra things such
+	 * as the atlas regions for any TextureAtlas ahead of time
+	 */
+	public void optionalOnFinish() {
+		if (finishedLoading() == false) return;
+
+		Array<String> allNames = manager.getAssetNames();
+
+		for (String s : allNames) {
+			if (manager.getAssetType(s) == TextureAtlas.class) {
+				if (AssetMap.containsValue(s)) {
+					getAtlasRegions(AssetMap.getFromValue(s));
+				}
 			}
 		}
 	}
