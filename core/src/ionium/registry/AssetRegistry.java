@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -46,6 +47,7 @@ public final class AssetRegistry implements Disposable {
 	private AssetManager manager = new AssetManager();
 	private HashMap<String, Texture> unmanagedTextures = new HashMap<>();
 	private HashMap<String, Animation> animations = new HashMap<>();
+	private HashMap<String, Array<TextureAtlas.AtlasRegion>> atlasRegions = new HashMap<>();
 
 	private Texture missingTexture;
 
@@ -93,13 +95,15 @@ public final class AssetRegistry implements Disposable {
 	 * @param millis
 	 */
 	public synchronized void loadManagedAssets(int millis) {
-		createAnimationLoadingIterator();
+		if (animationLoadingIterator == null) createAnimationLoadingIterator();
 
 		int managerTimeShare = (animationLoadingIterator.hasNext() ? (millis / 2 + millis % 2)
 				: millis);
 		int animationTimeShare = (manager.getProgress() >= 1 ? millis : millis - managerTimeShare);
 
-		if (manager.getProgress() < 1) manager.update(managerTimeShare);
+		if (manager.getProgress() < 1){
+			manager.update(managerTimeShare);
+		}
 
 		if (animationLoadingIterator.hasNext()) {
 			long time = System.currentTimeMillis();
@@ -124,7 +128,7 @@ public final class AssetRegistry implements Disposable {
 	}
 
 	public boolean finishedLoading() {
-		createAnimationLoadingIterator();
+		if (animationLoadingIterator == null) createAnimationLoadingIterator();
 
 		return (getAssetManager().getProgress() >= 1
 				&& animationLoadingIterator.hasNext() == false);
@@ -233,6 +237,18 @@ public final class AssetRegistry implements Disposable {
 
 	public static TextureAtlas getTextureAtlas(String key) {
 		return getAsset(key, TextureAtlas.class);
+	}
+
+	public static Array<AtlasRegion> getAtlasRegions(String key) {
+		Array<AtlasRegion> array = instance().atlasRegions.get(key);
+
+		if (array != null) {
+			return array;
+		} else {
+			instance().atlasRegions.put(key, array = getTextureAtlas(key).getRegions());
+		}
+
+		return array;
 	}
 
 	public void pauseAllSound() {
