@@ -128,7 +128,7 @@ public final class AssetRegistry implements Disposable {
 		for (String s : allNames) {
 			if (manager.getAssetType(s) == TextureAtlas.class) {
 				if (AssetMap.containsValue(s)) {
-					getAtlasRegions(AssetMap.getFromValue(s));
+					getAllAtlasRegions(AssetMap.getFromValue(s));
 				}
 			}
 		}
@@ -258,7 +258,7 @@ public final class AssetRegistry implements Disposable {
 		return getAsset(key, TextureAtlas.class);
 	}
 
-	public static Array<AtlasRegion> getAtlasRegions(String key) {
+	public static Array<AtlasRegion> getAllAtlasRegions(String key) {
 		Array<AtlasRegion> array = instance().atlasRegions.get(key);
 
 		if (array != null) {
