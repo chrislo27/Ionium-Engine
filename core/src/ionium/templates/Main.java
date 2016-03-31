@@ -277,7 +277,7 @@ public abstract class Main extends Game implements Consumer {
 
 			Gdx.files.local("crash/").file().mkdir();
 			FileHandle handle = Gdx.files.local("crash/crash-log_"
-					+ new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()).trim()
+					+ new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()).trim()
 					+ ".txt");
 
 			handle.writeString(ErrorLogRegistry.instance().createErrorLog(output.toString()),
