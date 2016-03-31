@@ -4,20 +4,18 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 
 import ionium.templates.Main;
 import ionium.util.resolution.AspectRatio;
-import ionium.util.resolution.Resolutable;
-import ionium.util.resolution.Resolution;
 import ionium.util.resolution.ResolutionDeterminator;
 
 public class Utils {
@@ -28,7 +26,7 @@ public class Utils {
 	private static GlyphLayout glyphLayout = new GlyphLayout();
 	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
 	private static Cursor cursor = null;
-	
+
 	public static boolean argumentsOverrode = false;
 
 	public static float getWidth(BitmapFont font, String text) {
@@ -40,13 +38,13 @@ public class Utils {
 		glyphLayout.setText(font, text);
 		return glyphLayout.height;
 	}
-	
-	public static void setArgumentsOverrideSettings(boolean b){
+
+	public static void setArgumentsOverrideSettings(boolean b) {
 		argumentsOverrode = b;
 	}
 
-	public static void resizeScreenFromSettings(int width, int height,
-			boolean fs, AspectRatio[] ratios) {
+	public static void resizeScreenFromSettings(int width, int height, boolean fs,
+			AspectRatio[] ratios) {
 
 		// searches in order of this:
 		// if it's not fullscreen, set it windowed to the settings
@@ -61,11 +59,12 @@ public class Utils {
 						Gdx.graphics.getMonitor(), width, height, ratios));
 			}
 		}
-		
-		Main.logger.info("Set window size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
-				+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight() + 
-				(argumentsOverrode ? " (arguments overrode old settings of [w, h, fs]: [" +
-				width + ", " + height + ", " + fs + "])" : ""));
+
+		Main.logger.info(
+				"Set window size to " + (Gdx.graphics.isFullscreen() ? "fullscreen" : "windowed")
+						+ " " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight()
+						+ (argumentsOverrode ? " (arguments overrode old settings of [w, h, fs]: ["
+								+ width + ", " + height + ", " + fs + "])" : ""));
 	}
 
 	public static <T> T findFirstInstance(Array array, Class<T> clazz) {
@@ -114,13 +113,14 @@ public class Utils {
 
 	public static void drawRotatedCentered(Batch batch, Texture tex, float x, float y, float width,
 			float height, float rotation, boolean clockwise) {
-		drawRotated(batch, tex, x - width / 2f, y - width / 2f, width, height, rotation, clockwise);
+		drawRotated(batch, tex, x - width * 0.5f, y - width * 0.5f, width, height, rotation,
+				clockwise);
 	}
 
 	public static void drawRotated(Batch batch, Texture tex, float x, float y, float width,
 			float height, float rotation, boolean clockwise) {
-		drawRotated(batch, tex, x, y, width, height, width / 2f, height / 2f, rotation, clockwise,
-				0, 0, tex.getWidth(), tex.getHeight());
+		drawRotated(batch, tex, x, y, width, height, width * 0.5f, height * 0.5f, rotation,
+				clockwise, 0, 0, tex.getWidth(), tex.getHeight());
 	}
 
 	public static void drawRotated(Batch batch, Texture tex, float x, float y, float width,
@@ -130,10 +130,27 @@ public class Utils {
 	}
 
 	public static void drawRotated(Batch batch, Texture tex, float x, float y, float width,
-			float height, float centerX, float centerY, float rotation, boolean clockwise, int u,
-			int v, int uwidth, int vheight) {
+			float height, float centerX, float centerY, float rotation, boolean clockwise, int srcX,
+			int srcY, int srcWidth, int srcHeight) {
 		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1,
-				rotation * (clockwise ? -1f : 1f), u, v, uwidth, vheight, false, false);
+				rotation * (clockwise ? -1f : 1f), srcX, srcY, srcWidth, srcHeight, false, false);
+	}
+
+	public static void drawRotated(Batch batch, TextureRegion tex, float x, float y, float width,
+			float height, float centerX, float centerY, float rotation, boolean clockwise) {
+		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1, rotation, clockwise);
+	}
+
+	public static void drawRotated(Batch batch, TextureRegion tex, float x, float y, float width,
+			float height, float rotation, boolean clockwise) {
+		drawRotated(batch, tex, x, y, width, height, width * 0.5f, height * 0.5f, rotation,
+				clockwise);
+	}
+
+	public static void drawRotatedCentered(Batch batch, TextureRegion tex, float x, float y,
+			float width, float height, float rotation, boolean clockwise) {
+		drawRotated(batch, tex, x - width * 0.5f, y - height * 0.5f, width, height, rotation,
+				clockwise);
 	}
 
 	public static int HSBtoRGBA8888(float hue, float saturation, float brightness) {
