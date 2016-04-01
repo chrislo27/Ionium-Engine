@@ -107,6 +107,7 @@ public abstract class Main extends Game implements Consumer {
 
 	private long lastKnownNano = System.nanoTime();
 	public float totalSeconds = 0f;
+	public int totalFrames = 0;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 	private long nanoUntilTick = 1;
@@ -271,6 +272,8 @@ public abstract class Main extends Game implements Consumer {
 			preRender();
 			super.render();
 			postRender();
+			
+			totalFrames += 1;
 
 		} catch (Exception e) {
 			e.printStackTrace();
