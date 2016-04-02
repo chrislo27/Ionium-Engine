@@ -106,8 +106,8 @@ public abstract class Main extends Game implements Consumer {
 	private JScrollPane conscrollPane;
 
 	private long lastKnownNano = System.nanoTime();
-	public float totalSeconds = 0f;
-	public int totalFrames = 0;
+	public static float totalSeconds = 0f;
+	public static int totalFrames = 0;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 	private long nanoUntilTick = 1;
