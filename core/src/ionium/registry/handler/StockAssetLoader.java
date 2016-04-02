@@ -14,9 +14,6 @@ public class StockAssetLoader implements IAssetLoader {
 
 	@Override
 	public void addManagedAssets(AssetManager manager) {
-		// missing
-		manager.load(AssetMap.add("missingtexture", "images/missing.png"), Texture.class);
-		
 		// ui
 		manager.load(AssetMap.add("guilanguage", "images/ui/button/language.png"), Texture.class);
 		manager.load(AssetMap.add("guisettings", "images/ui/button/settings.png"), Texture.class);
