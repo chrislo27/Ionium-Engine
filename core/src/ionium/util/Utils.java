@@ -1,6 +1,5 @@
 package ionium.util;
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
 
 import ionium.templates.Main;
 import ionium.util.resolution.AspectRatio;
@@ -24,7 +24,8 @@ public class Utils {
 	}
 
 	private static GlyphLayout glyphLayout = new GlyphLayout();
-	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
+	private static IntMap<Boolean> pressedButtons = new IntMap<>();
+	private static IntMap<Boolean> pressedKeys = new IntMap<>();
 	private static Cursor cursor = null;
 
 	public static boolean argumentsOverrode = false;
@@ -273,6 +274,22 @@ public class Utils {
 			}
 		} else {
 			pressedButtons.put(button, true);
+		}
+
+		return false;
+	}
+
+	public static boolean isKeyJustReleased(int key) {
+		if (!Gdx.input.isKeyPressed(key)) {
+			if (pressedKeys.get(key) == null) pressedKeys.put(key, false);
+
+			if (pressedKeys.get(key) == true) {
+				pressedKeys.put(key, false);
+
+				return true;
+			}
+		} else {
+			pressedKeys.put(key, true);
 		}
 
 		return false;
