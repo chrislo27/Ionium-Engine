@@ -134,12 +134,12 @@ public class Utils {
 			float height, float centerX, float centerY, float rotation, boolean clockwise, int srcX,
 			int srcY, int srcWidth, int srcHeight) {
 		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1,
-				rotation * (clockwise ? -1f : 1f), srcX, srcY, srcWidth, srcHeight, false, false);
+				rotation * (clockwise ? -1 : 1), srcX, srcY, srcWidth, srcHeight, false, false);
 	}
 
 	public static void drawRotated(Batch batch, TextureRegion tex, float x, float y, float width,
 			float height, float centerX, float centerY, float rotation, boolean clockwise) {
-		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1, rotation, clockwise);
+		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1, rotation * (clockwise ? -1 : 1), false);
 	}
 
 	public static void drawRotated(Batch batch, TextureRegion tex, float x, float y, float width,
