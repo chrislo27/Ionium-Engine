@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.Array;
  * <br>
  * Modified to use libgdx
  */
-public class QuadTree<T> {
+public class QuadTree<T extends QuadRectangleable> {
 
 	// the current nodes
-	Array<QuadNode<T>> nodes;
+	Array<T> nodes;
 
 	// current rectangle zone
 	private Rectangle zone;
@@ -37,9 +37,12 @@ public class QuadTree<T> {
 	public static final int REGION_SW = 2;
 	public static final int REGION_SE = 3;
 
+	private Array<T> tempArray = new Array<>();
+	private Rectangle tempRect = new Rectangle();
+
 	public QuadTree(Rectangle definition, int level, int maxLevel, int maxItems) {
 		zone = definition;
-		nodes = new Array<QuadNode<T>>();
+		nodes = new Array<>();
 		this.level = level;
 		this.maxItemByNode = maxItems;
 		this.maxLevel = maxLevel;
@@ -49,7 +52,7 @@ public class QuadTree<T> {
 		return this.zone;
 	}
 
-	private int findRegion(Rectangle r) {
+	private int findRegion(T rect) {
 		int region = REGION_SELF;
 		if (nodes.size >= maxItemByNode && this.level < maxLevel) {
 			if (regions == null) {
@@ -57,13 +60,13 @@ public class QuadTree<T> {
 				this.split();
 			}
 
-			if (regions[REGION_NW].getZone().contains(r)) {
+			if (regions[REGION_NW].getZone().contains(rect.getX(), rect.getY())) {
 				region = REGION_NW;
-			} else if (regions[REGION_NE].getZone().contains(r)) {
+			} else if (regions[REGION_NE].getZone().contains(rect.getX(), rect.getY())) {
 				region = REGION_NE;
-			} else if (regions[REGION_SW].getZone().contains(r)) {
+			} else if (regions[REGION_SW].getZone().contains(rect.getX(), rect.getY())) {
 				region = REGION_SW;
-			} else if (regions[REGION_SE].getZone().contains(r)) {
+			} else if (regions[REGION_SE].getZone().contains(rect.getX(), rect.getY())) {
 				region = REGION_SE;
 			}
 		}
@@ -79,52 +82,52 @@ public class QuadTree<T> {
 		float newHeight = zone.height / 2;
 		int newLevel = level + 1;
 
-		regions[REGION_NW] = new QuadTree<T>(
+		regions[REGION_NW] = new QuadTree<>(
 				new Rectangle(zone.x, zone.y + zone.height / 2, newWidth, newHeight), newLevel,
 				maxLevel, maxItemByNode);
 
-		regions[REGION_NE] = new QuadTree<T>(new Rectangle(zone.x + zone.width / 2,
+		regions[REGION_NE] = new QuadTree<>(new Rectangle(zone.x + zone.width / 2,
 				zone.y + zone.height / 2, newWidth, newHeight), newLevel, maxLevel, maxItemByNode);
 
-		regions[REGION_SW] = new QuadTree<T>(new Rectangle(zone.x, zone.y, newWidth, newHeight),
+		regions[REGION_SW] = new QuadTree<>(new Rectangle(zone.x, zone.y, newWidth, newHeight),
 				newLevel, maxLevel, maxItemByNode);
 
-		regions[REGION_SE] = new QuadTree<T>(
+		regions[REGION_SE] = new QuadTree<>(
 				new Rectangle(zone.x + zone.width / 2, zone.y, newWidth, newHeight), newLevel,
 				maxLevel, maxItemByNode);
 	}
 
-	public void insert(Rectangle r, T element) {
-		int region = this.findRegion(r);
+	public void insert(T element) {
+		int region = this.findRegion(element);
 		if (region == REGION_SELF || this.level == maxLevel) {
-			nodes.add(new QuadNode<T>(r, element));
+			nodes.add(element);
 			return;
 		} else {
-			regions[region].insert(r, element);
+			regions[region].insert(element);
 		}
 
 		if (nodes.size >= maxItemByNode && this.level < maxLevel) {
 			// redispatch the elements
-			ArrayList<QuadNode<T>> tempNodes = new ArrayList<QuadNode<T>>();
-			for (QuadNode<T> node : nodes) {
-				tempNodes.add(node);
+			tempArray.clear();
+			for (T node : nodes) {
+				tempArray.add(node);
 			}
 			nodes.clear();
-			for (QuadNode<T> node : tempNodes) {
-				this.insert(node.r, node.element);
+			for (T node : tempArray) {
+				this.insert(node);
 			}
 		}
 	}
 
-	public ArrayList<T> getElements(ArrayList<T> list, Rectangle r) {
-		int region = this.findRegion(r);
+	public Array<T> getElements(Array<T> list, T element) {
+		int region = this.findRegion(element);
 
-		for (QuadNode<T> node : nodes) {
-			list.add(node.element);
+		for (T node : nodes) {
+			list.add(node);
 		}
 
 		if (region != REGION_SELF) {
-			regions[region].getElements(list, r);
+			regions[region].getElements(list, element);
 		} else {
 			getAllElements(list, true);
 		}
@@ -132,7 +135,7 @@ public class QuadTree<T> {
 		return list;
 	}
 
-	public ArrayList<T> getAllElements(ArrayList<T> list, boolean firstCall) {
+	public Array<T> getAllElements(Array<T> list, boolean firstCall) {
 		if (regions != null) {
 			regions[REGION_NW].getAllElements(list, false);
 			regions[REGION_NE].getAllElements(list, false);
@@ -141,8 +144,8 @@ public class QuadTree<T> {
 		}
 
 		if (!firstCall) {
-			for (QuadNode<T> node : nodes) {
-				list.add(node.element);
+			for (T node : nodes) {
+				list.add(node);
 			}
 		}
 
