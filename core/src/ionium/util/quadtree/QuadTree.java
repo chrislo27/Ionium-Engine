@@ -20,11 +20,10 @@ public class QuadTree<T> {
 	// current rectangle zone
 	private Rectangle zone;
 
-	// GLOBAL CONFIGRATION
 	// if this is reached,
 	// the zone is subdivised
-	public static int maxItemByNode = 5;
-	public static int maxLevel = 10;
+	public int maxItemByNode = 5;
+	public int maxLevel = 10;
 
 	int level;
 
@@ -38,10 +37,12 @@ public class QuadTree<T> {
 	public static final int REGION_SW = 2;
 	public static final int REGION_SE = 3;
 
-	public QuadTree(Rectangle definition, int level) {
+	public QuadTree(Rectangle definition, int level, int maxLevel, int maxItems) {
 		zone = definition;
 		nodes = new Array<QuadNode<T>>();
 		this.level = level;
+		this.maxItemByNode = maxItems;
+		this.maxLevel = maxLevel;
 	}
 
 	protected Rectangle getZone() {
@@ -79,16 +80,18 @@ public class QuadTree<T> {
 		int newLevel = level + 1;
 
 		regions[REGION_NW] = new QuadTree<T>(
-				new Rectangle(zone.x, zone.y + zone.height / 2, newWidth, newHeight), newLevel);
+				new Rectangle(zone.x, zone.y + zone.height / 2, newWidth, newHeight), newLevel,
+				maxLevel, maxItemByNode);
 
 		regions[REGION_NE] = new QuadTree<T>(new Rectangle(zone.x + zone.width / 2,
-				zone.y + zone.height / 2, newWidth, newHeight), newLevel);
+				zone.y + zone.height / 2, newWidth, newHeight), newLevel, maxLevel, maxItemByNode);
 
 		regions[REGION_SW] = new QuadTree<T>(new Rectangle(zone.x, zone.y, newWidth, newHeight),
-				newLevel);
+				newLevel, maxLevel, maxItemByNode);
 
 		regions[REGION_SE] = new QuadTree<T>(
-				new Rectangle(zone.x + zone.width / 2, zone.y, newWidth, newHeight), newLevel);
+				new Rectangle(zone.x + zone.width / 2, zone.y, newWidth, newHeight), newLevel,
+				maxLevel, maxItemByNode);
 	}
 
 	public void insert(Rectangle r, T element) {
