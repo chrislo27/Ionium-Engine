@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.Array;
  * <br>
  * Modified to use libgdx
  */
-public class QuadTree<T extends QuadRectangleable> {
+public class QuadTree<E extends QuadRectangleable> {
 
 	// the current nodes
-	Array<T> nodes;
+	Array<E> nodes;
 
 	// current rectangle zone
 	private Rectangle zone;
@@ -29,7 +29,7 @@ public class QuadTree<T extends QuadRectangleable> {
 
 	// the four sub regions,
 	// may be null if not needed
-	QuadTree<T>[] regions;
+	QuadTree<E>[] regions;
 
 	public static final int REGION_SELF = -1;
 	public static final int REGION_NW = 0;
@@ -37,7 +37,7 @@ public class QuadTree<T extends QuadRectangleable> {
 	public static final int REGION_SW = 2;
 	public static final int REGION_SE = 3;
 
-	private Array<T> tempArray = new Array<>();
+	private Array<E> tempArray = new Array<>();
 	private Rectangle tempRect = new Rectangle();
 
 	public QuadTree(Rectangle definition, int level, int maxLevel, int maxItems) {
@@ -52,7 +52,7 @@ public class QuadTree<T extends QuadRectangleable> {
 		return this.zone;
 	}
 
-	private int findRegion(T rect) {
+	private int findRegion(E rect) {
 		int region = REGION_SELF;
 		if (nodes.size >= maxItemByNode && this.level < maxLevel) {
 			if (regions == null) {
@@ -97,7 +97,11 @@ public class QuadTree<T extends QuadRectangleable> {
 				maxLevel, maxItemByNode);
 	}
 
-	public void insert(T element) {
+	/**
+	 * Inserts an element.
+	 * @param element
+	 */
+	public void insert(E element) {
 		int region = this.findRegion(element);
 		if (region == REGION_SELF || this.level == maxLevel) {
 			nodes.add(element);
@@ -109,20 +113,36 @@ public class QuadTree<T extends QuadRectangleable> {
 		if (nodes.size >= maxItemByNode && this.level < maxLevel) {
 			// redispatch the elements
 			tempArray.clear();
-			for (T node : nodes) {
+			for (E node : nodes) {
 				tempArray.add(node);
 			}
 			nodes.clear();
-			for (T node : tempArray) {
+			for (E node : tempArray) {
 				this.insert(node);
 			}
 		}
 	}
 
-	public Array<T> getElements(Array<T> list, T element) {
+	/**
+	 * Gets all elements in the area of E using a temp array.
+	 * @param element
+	 * @return
+	 */
+	public Array<E> getElements(E element) {
+		tempArray.clear();
+		return getElements(tempArray, element);
+	}
+
+	/**
+	 * Gets all elements using a supplied array in the area of E. The array isn't cleared before use.
+	 * @param list
+	 * @param element
+	 * @return
+	 */
+	public Array<E> getElements(Array<E> list, E element) {
 		int region = this.findRegion(element);
 
-		for (T node : nodes) {
+		for (E node : nodes) {
 			list.add(node);
 		}
 
@@ -135,7 +155,15 @@ public class QuadTree<T extends QuadRectangleable> {
 		return list;
 	}
 
-	public Array<T> getAllElements(Array<T> list, boolean firstCall) {
+	/**
+	 * Gets all the element in the entire tree into a supplied array. If firstCall is true,
+	 * it also adds the quadtree's base elements into the list.
+	 * 
+	 * @param list
+	 * @param firstCall
+	 * @return
+	 */
+	public Array<E> getAllElements(Array<E> list, boolean firstCall) {
 		if (regions != null) {
 			regions[REGION_NW].getAllElements(list, false);
 			regions[REGION_NE].getAllElements(list, false);
@@ -144,7 +172,7 @@ public class QuadTree<T extends QuadRectangleable> {
 		}
 
 		if (!firstCall) {
-			for (T node : nodes) {
+			for (E node : nodes) {
 				list.add(node);
 			}
 		}
@@ -152,6 +180,10 @@ public class QuadTree<T extends QuadRectangleable> {
 		return list;
 	}
 
+	/**
+	 * Returns all rectangle bounding areas.
+	 * @param list
+	 */
 	public void getAllZones(Array<Rectangle> list) {
 		list.add(this.zone);
 		if (regions != null) {
