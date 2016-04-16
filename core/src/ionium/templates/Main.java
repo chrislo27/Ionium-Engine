@@ -193,7 +193,7 @@ public abstract class Main extends Game implements Consumer {
 
 		prepareStates();
 
-		this.setScreen(ScreenRegistry.get("ionium_assetloading"));
+		this.setScreen(getAssetLoadingScreenToUse());
 
 		new Thread("version checker") {
 
@@ -208,6 +208,10 @@ public abstract class Main extends Game implements Consumer {
 		ScreenRegistry reg = ScreenRegistry.instance();
 		reg.add("ionium_assetloading", new AssetLoadingScreen(this));
 		reg.add("ionium_transition", new TransitionScreen(this));
+	}
+
+	public Screen getAssetLoadingScreenToUse() {
+		return ScreenRegistry.get("ionium_assetloading");
 	}
 
 	@Override
@@ -272,7 +276,7 @@ public abstract class Main extends Game implements Consumer {
 			preRender();
 			super.render();
 			postRender();
-			
+
 			totalFrames += 1;
 
 		} catch (Exception e) {
