@@ -35,7 +35,8 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 			if (AssetRegistry.instance().finishedLoading()) {
 				if (!waitedAFrame) {
 					AssetRegistry.instance().optionalOnFinish();
-					
+					onFinishLoading();
+
 					waitedAFrame = true;
 					break;
 				}
@@ -79,6 +80,10 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				Gdx.graphics.getHeight() * 0.5f - 85);
 
 		main.batch.end();
+	}
+
+	public void onFinishLoading() {
+
 	}
 
 	@Override
