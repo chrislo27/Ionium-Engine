@@ -324,6 +324,8 @@ public abstract class Main extends Game implements Consumer {
 
 			float baseHeight = Gdx.graphics.getHeight() - (debugFont.getCapHeight() * 1.25f * 3f);
 
+			debugFont.setColor(1, 1, 1, 1);
+			
 			for (int i = 0; i < debugStrings.size; i++) {
 				debugFont.draw(batch, debugStrings.get(i), 5,
 						(baseHeight - ((debugFont.getCapHeight() * 1.5f) * (i))));
@@ -375,6 +377,7 @@ public abstract class Main extends Game implements Consumer {
 	public void inputUpdate() {
 		if (Gdx.input.isKeyJustPressed(DebugSetting.DEBUG_KEY)) {
 			DebugSetting.debug = !DebugSetting.debug;
+			Main.logger.debug("dawdwad " + DebugSetting.debug);
 		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
