@@ -377,7 +377,6 @@ public abstract class Main extends Game implements Consumer {
 	public void inputUpdate() {
 		if (Gdx.input.isKeyJustPressed(DebugSetting.DEBUG_KEY)) {
 			DebugSetting.debug = !DebugSetting.debug;
-			Main.logger.debug("dawdwad " + DebugSetting.debug);
 		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
