@@ -711,6 +711,6 @@ public abstract class Main extends Game implements Consumer {
 		return nanoUntilTick;
 	}
 
-	public abstract String getScreenToSwitchToAfterLoadingAssets();
+	public abstract Screen getScreenToSwitchToAfterLoadingAssets();
 
 }
