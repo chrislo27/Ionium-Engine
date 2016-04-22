@@ -14,6 +14,10 @@ public class MathHelper {
 	public static final double rootTwo = Math.sqrt(2f);
 
 	public static float lerp(float x, float y, float alpha) {
+		return (float) lerp((double) x, y, alpha);
+	}
+
+	public static double lerp(double x, double y, double alpha) {
 		return x + alpha * (y - x);
 	}
 
