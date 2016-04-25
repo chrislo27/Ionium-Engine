@@ -1,13 +1,12 @@
 package ionium.aabbcollision;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
-import ionium.templates.Main;
 import ionium.util.MathHelper;
 
-public class PhysicsBody {
+public class PhysicsBody implements Poolable {
 
 	private static final Rectangle pathHitTempRect = new Rectangle();
 
@@ -49,6 +48,11 @@ public class PhysicsBody {
 	@Override
 	public String toString() {
 		return "[" + bounds.toString() + ", " + velocity.toString() + "]";
+	}
+
+	@Override
+	public void reset() {
+		setVelocity(0, 0);
 	}
 
 }
