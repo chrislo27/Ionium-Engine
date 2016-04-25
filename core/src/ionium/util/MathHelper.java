@@ -206,15 +206,7 @@ public class MathHelper {
 	}
 
 	public static Rectangle makeRectangleValuesPositive(Rectangle rect) {
-		if (rect.width < 0) {
-			rect.width = Math.abs(rect.width);
-			rect.x -= rect.width;
-		}
-
-		if (rect.height < 0) {
-			rect.height = Math.abs(rect.height);
-			rect.y -= rect.height;
-		}
+		MathHelper.normalizeRectangle(rect);
 
 		return rect;
 	}
