@@ -10,6 +10,7 @@ public class CollisionResolver {
 
 	private final Vector2 tempVector = new Vector2();
 	private final Array<PhysicsBody> tempBodies = new Array<>();
+	private final DirectionalSorter sorter = new DirectionalSorter();
 
 	public float timeScale = 1;
 
@@ -27,6 +28,10 @@ public class CollisionResolver {
 		// set final position if no collision occurs
 		tempVector.set(target.bounds.x + target.velocity.x * timeScale,
 				target.bounds.y + target.velocity.y * timeScale);
+
+		sorter.velox = target.velocity.x;
+		sorter.veloy = target.velocity.y;
+		otherBodies.sort(sorter);
 
 		for (PhysicsBody b : otherBodies) {
 			if (b.mayBeHitInPath(timeScale, target)) {
