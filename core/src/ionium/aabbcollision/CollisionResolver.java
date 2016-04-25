@@ -13,6 +13,7 @@ public class CollisionResolver {
 	private final DirectionalSorter sorter = new DirectionalSorter();
 
 	public float timeScale = 1;
+	private boolean wasLastResolutionACollision = false;
 
 	public CollisionResolver(float timeScale) {
 		this.timeScale = timeScale;
@@ -28,6 +29,7 @@ public class CollisionResolver {
 		// set final position if no collision occurs
 		tempVector.set(target.bounds.x + target.velocity.x * timeScale,
 				target.bounds.y + target.velocity.y * timeScale);
+		wasLastResolutionACollision = false;
 
 		sorter.velox = target.velocity.x;
 		sorter.veloy = target.velocity.y;
@@ -50,6 +52,7 @@ public class CollisionResolver {
 						|| hitY == b.bounds.y + b.bounds.height
 						|| hitY + target.bounds.height == b.bounds.y) {
 					tempVector.set(hitX, hitY);
+					wasLastResolutionACollision = true;
 
 					break;
 				}
@@ -57,6 +60,10 @@ public class CollisionResolver {
 		}
 
 		return tempVector;
+	}
+
+	public boolean wasLastResolutionACollision() {
+		return wasLastResolutionACollision;
 	}
 
 	private float calcHitX(PhysicsBody target, PhysicsBody other, final float hitY,
