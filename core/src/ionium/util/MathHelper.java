@@ -21,6 +21,21 @@ public class MathHelper {
 		return x + alpha * (y - x);
 	}
 
+	/**
+	 * Normalizes a rectangle to have positive width and height
+	 */
+	public static void normalizeRectangle(Rectangle r) {
+		if (r.width < 0) {
+			r.width = Math.abs(r.width);
+			r.x -= r.width;
+		}
+
+		if (r.height < 0) {
+			r.height = Math.abs(r.height);
+			r.y -= r.height;
+		}
+	}
+
 	public static double getScaleFactor(float iMasterSize, float iTargetSize) {
 		double dScale = 1;
 		if (iMasterSize > iTargetSize) {
