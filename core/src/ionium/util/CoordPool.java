@@ -1,5 +1,6 @@
 package ionium.util;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
 public class CoordPool {
@@ -26,6 +27,14 @@ public class CoordPool {
 
 	public static Coordinate obtain() {
 		return instance().getPool().obtain();
+	}
+
+	public static void free(Coordinate c) {
+		instance().getPool().free(c);
+	}
+
+	public static void freeAll(Array<Coordinate> array) {
+		instance().getPool().freeAll(array);
 	}
 
 	public Pool<Coordinate> getPool() {
