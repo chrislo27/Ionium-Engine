@@ -2,47 +2,31 @@ package ionium.aabbcollision;
 
 import java.util.Comparator;
 
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import ionium.templates.Main;
+
 public class DirectionalSorter implements Comparator<PhysicsBody> {
 
-	public float velox = 0;
-	public float veloy = 0;
+	private static final Vector2 temp = new Vector2();
+	private static final Vector2 temp2 = new Vector2();
+
+	public Vector2 position = new Vector2();
 
 	@Override
 	public int compare(PhysicsBody arg0, PhysicsBody arg1) {
-		if (arg1.bounds.x - arg0.bounds.x != 0) {
-			if (velox > 0) {
-				if (arg1.bounds.x - arg0.bounds.x > 0) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
+		arg0.bounds.getCenter(temp);
+		arg1.bounds.getCenter(temp2);
 
-			if (velox < 0) {
-				if (arg1.bounds.x - arg0.bounds.x < 0) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-		}
+		float distance1 = position.dst2(temp);
+		float distance2 = position.dst2(temp2);
 
-		if (arg1.bounds.y - arg0.bounds.y != 0) {
-			if (veloy > 0) {
-				if (arg1.bounds.y - arg0.bounds.y > 0) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-
-			if (veloy < 0) {
-				if (arg1.bounds.y - arg0.bounds.y < 0) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
+		if (distance1 > distance2) {
+			return 1;
+		} else if (distance1 < distance2) {
+			return -1;
 		}
 
 		return 0;

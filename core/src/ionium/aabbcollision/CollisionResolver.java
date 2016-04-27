@@ -34,8 +34,7 @@ public class CollisionResolver {
 				target.bounds.y + target.velocity.y * timeScale);
 		wasLastResolutionACollision = false;
 
-		sorter.velox = target.velocity.x;
-		sorter.veloy = target.velocity.y;
+		target.bounds.getCenter(sorter.position);
 		otherBodies.sort(sorter);
 
 		for (PhysicsBody b : otherBodies) {
@@ -51,10 +50,21 @@ public class CollisionResolver {
 					hitX = calcHitX(target, b, hitY, false);
 				}
 
-				if (MathUtils.isEqual(hitX, b.bounds.x + b.bounds.width, tolerance)
+				Main.logger
+						.debug("body at " + b.bounds + " with hit position " + hitX + ", " + hitY);
+
+				if ((MathUtils.isEqual(hitX, b.bounds.x + b.bounds.width, tolerance)
 						|| MathUtils.isEqual(hitX + target.bounds.width, b.bounds.x, tolerance)
 						|| MathUtils.isEqual(hitY, b.bounds.y + b.bounds.height)
-						|| MathUtils.isEqual(hitY + target.bounds.height, b.bounds.y, tolerance)) {
+						|| MathUtils.isEqual(hitY + target.bounds.height, b.bounds.y, tolerance))
+						|| (MathUtils.isEqual(target.bounds.x, b.bounds.x + b.bounds.width,
+								tolerance)
+								|| MathUtils.isEqual(target.bounds.x + target.bounds.width,
+										b.bounds.x, tolerance)
+								|| MathUtils.isEqual(target.bounds.y, b.bounds.y + b.bounds.height,
+										tolerance)
+								|| MathUtils.isEqual(target.bounds.y + target.bounds.height,
+										b.bounds.y, tolerance))) {
 
 					tempVector.set(hitX, hitY);
 					wasLastResolutionACollision = true;
@@ -63,6 +73,9 @@ public class CollisionResolver {
 				}
 			}
 		}
+
+		Main.logger.debug((wasLastResolutionACollision == false ? "no " : "") + "collision at "
+				+ tempVector + " t=" + Main.totalTicks);
 
 		return tempVector;
 	}

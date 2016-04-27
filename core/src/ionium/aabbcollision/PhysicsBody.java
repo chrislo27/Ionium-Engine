@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
+import ionium.templates.Main;
 import ionium.util.MathHelper;
 
 public class PhysicsBody implements Poolable {
@@ -34,9 +35,6 @@ public class PhysicsBody implements Poolable {
 	}
 
 	public boolean mayBeHitInPath(float timeScale, PhysicsBody other) {
-		// not moving = not going to get hit
-		if (other.velocity.isZero()) return false;
-
 		pathHitTempRect.set(other.getAreaOfTravel(timeScale));
 
 		return bounds.overlaps(pathHitTempRect) || pathHitTempRect.overlaps(bounds);
