@@ -51,7 +51,8 @@ public class TickBenchmark {
 
 	public void stop(String id) {
 		if (isStarted && benchmarkTimes.get(id) != null) {
-			actualTimes.put(id, System.nanoTime() - benchmarkTimes.get(id));
+			actualTimes.put(id,
+					actualTimes.get(id, 0L) + System.nanoTime() - benchmarkTimes.get(id));
 
 			benchmarkTimes.remove(id);
 		}
