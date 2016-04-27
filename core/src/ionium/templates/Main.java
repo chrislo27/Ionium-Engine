@@ -38,6 +38,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import ionium.audio.transition.MusicTransitioner;
+import ionium.benchmarking.TickBenchmark;
 import ionium.registry.AssetRegistry;
 import ionium.registry.ErrorLogRegistry;
 import ionium.registry.GlobalVariables;
@@ -258,9 +259,18 @@ public abstract class Main extends Game implements Consumer {
 			while (nanoUntilTick >= (1_000_000_000 / GlobalVariables.getInt("TICKS"))) {
 				long nano = System.nanoTime();
 
-				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
+				TickBenchmark.instance().startBenchmarking();
 
+				if (getScreen() != null) {
+					((Updateable) getScreen()).tickUpdate();
+				}
+
+				TickBenchmark.instance().start("ionium");
 				tickUpdate();
+				TickBenchmark.instance().stop("ionium");
+
+				TickBenchmark.instance().stopBenchmarking();
+
 				totalTicks++;
 
 				lastTickDurationNano = System.nanoTime() - nano;
