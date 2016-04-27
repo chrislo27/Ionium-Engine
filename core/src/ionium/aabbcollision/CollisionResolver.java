@@ -1,5 +1,6 @@
 package ionium.aabbcollision;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -13,10 +14,12 @@ public class CollisionResolver {
 	private final DirectionalSorter sorter = new DirectionalSorter();
 
 	public float timeScale = 1;
+	public float tolerance = 1f / 100f;
 	private boolean wasLastResolutionACollision = false;
 
-	public CollisionResolver(float timeScale) {
+	public CollisionResolver(float timeScale, float tolerance) {
 		this.timeScale = timeScale;
+		this.tolerance = tolerance;
 	}
 
 	/**
@@ -48,9 +51,11 @@ public class CollisionResolver {
 					hitX = calcHitX(target, b, hitY, false);
 				}
 
-				if (hitX == b.bounds.x + b.bounds.width || hitX + target.bounds.width == b.bounds.x
-						|| hitY == b.bounds.y + b.bounds.height
-						|| hitY + target.bounds.height == b.bounds.y) {
+				if (MathUtils.isEqual(hitX, b.bounds.x + b.bounds.width, tolerance)
+						|| MathUtils.isEqual(hitX + target.bounds.width, b.bounds.x, tolerance)
+						|| MathUtils.isEqual(hitY, b.bounds.y + b.bounds.height)
+						|| MathUtils.isEqual(hitY + target.bounds.height, b.bounds.y, tolerance)) {
+
 					tempVector.set(hitX, hitY);
 					wasLastResolutionACollision = true;
 
