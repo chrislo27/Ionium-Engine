@@ -107,7 +107,8 @@ public abstract class Main extends Game implements Consumer {
 
 	private long lastKnownNano = System.nanoTime();
 	public static float totalSeconds = 0f;
-	public static int totalFrames = 0;
+	public static long totalFrames = 0;
+	public static long totalTicks = 0;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 	private long nanoUntilTick = 1;
@@ -260,6 +261,7 @@ public abstract class Main extends Game implements Consumer {
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
 
 				tickUpdate();
+				totalTicks++;
 
 				lastTickDurationNano = System.nanoTime() - nano;
 
@@ -325,7 +327,7 @@ public abstract class Main extends Game implements Consumer {
 			float baseHeight = Gdx.graphics.getHeight() - (debugFont.getCapHeight() * 1.25f * 3f);
 
 			debugFont.setColor(1, 1, 1, 1);
-			
+
 			for (int i = 0; i < debugStrings.size; i++) {
 				debugFont.draw(batch, debugStrings.get(i), 5,
 						(baseHeight - ((debugFont.getCapHeight() * 1.5f) * (i))));
