@@ -1,11 +1,11 @@
 package ionium.aabbcollision;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import ionium.templates.Main;
-import ionium.util.MathHelper;
 
 public class CollisionResolver {
 
@@ -27,8 +27,8 @@ public class CollisionResolver {
 	 * @param target
 	 * @return
 	 */
-	public Vector2 resolveCollisionBetweenBodies(PhysicsBody target,
-			Array<PhysicsBody> otherBodies) {
+	public Vector2 resolveCollisionBetweenBodies(PhysicsBody target, Array<PhysicsBody> otherBodies,
+			Rectangle pathBounds) {
 		// set final position if no collision occurs
 		tempVector.set(target.bounds.x + target.velocity.x * timeScale,
 				target.bounds.y + target.velocity.y * timeScale);
@@ -38,7 +38,7 @@ public class CollisionResolver {
 		otherBodies.sort(sorter);
 
 		for (PhysicsBody b : otherBodies) {
-			if (b.mayBeHitInPath(timeScale, target)) {
+			if (b.bounds.overlaps(pathBounds)) {
 				float hitX;
 				float hitY;
 
@@ -49,9 +49,6 @@ public class CollisionResolver {
 					hitY = calcHitY(target, b, 0, true);
 					hitX = calcHitX(target, b, hitY, false);
 				}
-
-				Main.logger
-						.debug("body at " + b.bounds + " with hit position " + hitX + ", " + hitY);
 
 				if ((MathUtils.isEqual(hitX, b.bounds.x + b.bounds.width, tolerance)
 						|| MathUtils.isEqual(hitX + target.bounds.width, b.bounds.x, tolerance)
@@ -73,9 +70,6 @@ public class CollisionResolver {
 				}
 			}
 		}
-
-		Main.logger.debug((wasLastResolutionACollision == false ? "no " : "") + "collision at "
-				+ tempVector + " t=" + Main.totalTicks);
 
 		return tempVector;
 	}
