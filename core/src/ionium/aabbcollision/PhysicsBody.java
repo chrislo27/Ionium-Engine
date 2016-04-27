@@ -37,12 +37,17 @@ public class PhysicsBody implements Poolable {
 		// not moving = not going to get hit
 		if (other.velocity.isZero()) return false;
 
-		pathHitTempRect.set(other.bounds.x, other.bounds.y,
-				other.velocity.x * timeScale + other.bounds.width,
-				other.velocity.y * timeScale + other.bounds.height);
-		MathHelper.normalizeRectangle(pathHitTempRect);
+		pathHitTempRect.set(other.getAreaOfTravel(timeScale));
 
 		return bounds.overlaps(pathHitTempRect) || pathHitTempRect.overlaps(bounds);
+	}
+
+	public Rectangle getAreaOfTravel(float timeScale) {
+		pathHitTempRect.set(bounds.x, bounds.y, velocity.x * timeScale + bounds.width,
+				velocity.y * timeScale + bounds.height);
+		MathHelper.normalizeRectangle(pathHitTempRect);
+
+		return pathHitTempRect;
 	}
 
 	@Override
