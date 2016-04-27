@@ -1,6 +1,10 @@
 package ionium.benchmarking;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entries;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
+
+import ionium.templates.Main;
 
 public class TickBenchmark {
 
@@ -40,12 +44,22 @@ public class TickBenchmark {
 		if (isStarted) {
 			isStarted = false;
 			lastTime = System.nanoTime() - startTime;
+
+			actualTimes.put("misc", 0L);
+
+			long addedUpTime = 0;
+			for (Entry<String, Long> entry : actualTimes.entries()) {
+				addedUpTime += entry.value;
+			}
+
+			actualTimes.put("misc", lastTime - addedUpTime);
 		}
 	}
 
 	public void start(String id) {
 		if (isStarted) {
 			benchmarkTimes.put(id, System.nanoTime());
+			actualTimes.put(id, 0L);
 		}
 	}
 
@@ -64,6 +78,10 @@ public class TickBenchmark {
 
 	public long getTotalTime() {
 		return lastTime;
+	}
+
+	public Entries<String, Long> getAllEntries() {
+		return actualTimes.entries();
 	}
 
 }

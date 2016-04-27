@@ -19,6 +19,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -36,6 +37,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 import ionium.audio.transition.MusicTransitioner;
 import ionium.benchmarking.TickBenchmark;
@@ -116,6 +118,10 @@ public abstract class Main extends Game implements Consumer {
 	private String lastSetNullScreen = "<no data>";
 
 	private Array<String> debugStrings = new Array<>();
+	private Array<String> persistentDebugStrings = new Array<>();
+	private Array<String> tickBenchmarkColors = new Array<>();
+	private int lineToRenderDebugTickGraph = 0;
+	private static final float TICK_BENCHMARK_GRAPH_WIDTH = 256;
 
 	public static Gears gears;
 
@@ -202,6 +208,7 @@ public abstract class Main extends Game implements Consumer {
 			@Override
 			public void run() {
 				VersionGetter.instance().getVersionFromServer();
+				persistentDebugStrings.clear();
 			}
 		}.start();
 	}
@@ -339,8 +346,27 @@ public abstract class Main extends Game implements Consumer {
 			debugFont.setColor(1, 1, 1, 1);
 
 			for (int i = 0; i < debugStrings.size; i++) {
-				debugFont.draw(batch, debugStrings.get(i), 5,
-						(baseHeight - ((debugFont.getCapHeight() * 1.5f) * (i))));
+				float height = (baseHeight - ((debugFont.getCapHeight() * 1.5f) * (i)));
+
+				debugFont.draw(batch, debugStrings.get(i), 5, height);
+
+				if (DebugSetting.showTickBenchmarks && i == lineToRenderDebugTickGraph) {
+					int colorNum = 0;
+					float currentPercentage = 0;
+					for (Entry<String, Long> entry : TickBenchmark.instance().getAllEntries()) {
+						float percentage = entry.value * 1f
+								/ TickBenchmark.instance().getTotalTime();
+
+						batch.setColor(Colors.get(tickBenchmarkColors.get(colorNum)));
+						Main.fillRect(batch, 5 + currentPercentage * TICK_BENCHMARK_GRAPH_WIDTH,
+								height, percentage * TICK_BENCHMARK_GRAPH_WIDTH,
+								-debugFont.getLineHeight());
+						batch.setColor(1, 1, 1, 1);
+
+						colorNum++;
+						currentPercentage += percentage;
+					}
+				}
 			}
 
 		}
@@ -368,17 +394,65 @@ public abstract class Main extends Game implements Consumer {
 
 		debugStrings.clear();
 
-		debugStrings.add("version: " + Main.version
-				+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion));
+		if (persistentDebugStrings.size == 0) {
+			StringBuffer keysInfo = new StringBuffer();
+
+			keysInfo.append("Detached console: " + Keys.toString(DebugSetting.CONSOLE_KEY));
+			keysInfo.append(" | Re-init I18N: " + Keys.toString(DebugSetting.REINIT_LOCALIZATION_KEY));
+			keysInfo.append(" | Tick percentages: " + Keys.toString(DebugSetting.TICK_PERCENTAGE_KEY));
+
+			persistentDebugStrings.add("Debug info: " + Keys.toString(DebugSetting.DEBUG_KEY));
+			persistentDebugStrings.add(keysInfo.toString());
+			persistentDebugStrings.add("");
+			persistentDebugStrings.add("version: " + Main.version
+					+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion));
+			persistentDebugStrings.add("OS: " + System.getProperty("os.name") + ", "
+					+ MemoryUtils.getCores() + " cores");
+		}
+
+		for (String s : persistentDebugStrings) {
+			debugStrings.add(s);
+		}
+
 		debugStrings.add("memory: " + NumberFormat.getInstance().format(MemoryUtils.getUsedMemory())
 				+ " KB / " + NumberFormat.getInstance().format(MemoryUtils.getMaxMemory())
 				+ " KB (max " + NumberFormat.getInstance().format(getMostMemory) + " KB) ");
-		debugStrings.add(
-				"OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores() + " cores");
 		debugStrings.add("tickDuration: " + (lastTickDurationNano / 1000000f) + " ms");
-		debugStrings.add("delta: " + Gdx.graphics.getDeltaTime());
+		debugStrings.add("frame delta: " + Gdx.graphics.getDeltaTime());
 		debugStrings.add("state: "
 				+ (getScreen() == null ? "null" : getScreen().getClass().getSimpleName()));
+
+		if (DebugSetting.showTickBenchmarks) {
+			debugStrings.add("");
+			debugStrings.add("Tick benchmarks:");
+
+			if (tickBenchmarkColors.size == 0) {
+				Colors.getColors().keys().toArray(tickBenchmarkColors);
+			}
+
+			int colorNum = 0;
+			for (Entry<String, Long> entry : TickBenchmark.instance().getAllEntries()) {
+				float msTime = entry.value / 1_000_000f;
+
+				debugStrings.add("[" + tickBenchmarkColors.get(colorNum) + "]" + entry.key + ": "
+						+ String.format("%.5f", msTime) + " ms ("
+						+ String.format("%.1f",
+								(entry.value * 100f / TickBenchmark.instance().getTotalTime()))
+						+ "%)");
+
+				colorNum++;
+			}
+
+			debugStrings.add("Total time: "
+					+ String.format("%.5f", TickBenchmark.instance().getTotalTime() / 1_000_000f)
+					+ " ms");
+
+			// this is where the bar graph goes
+			debugStrings.add("");
+			lineToRenderDebugTickGraph = debugStrings.size - 1;
+
+			debugStrings.add("");
+		}
 
 		// newline before screen debug
 		debugStrings.add("");
@@ -387,13 +461,12 @@ public abstract class Main extends Game implements Consumer {
 	}
 
 	public void inputUpdate() {
-		if (Gdx.input.isKeyJustPressed(DebugSetting.DEBUG_KEY)) {
-			DebugSetting.debug = !DebugSetting.debug;
-		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
+		if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
+
 		if (Gdx.input.isKeyPressed(DebugSetting.DEBUG_KEY)) {
-			if (Gdx.input.isKeyJustPressed(Keys.C)) {
+			if (Gdx.input.isKeyJustPressed(DebugSetting.CONSOLE_KEY)) {
 				if (consolewindow.isVisible()) {
 					consolewindow.setVisible(false);
 				} else {
@@ -401,6 +474,13 @@ public abstract class Main extends Game implements Consumer {
 					conscrollPane.getVerticalScrollBar()
 							.setValue(conscrollPane.getVerticalScrollBar().getMaximum());
 				}
+			} else if (Gdx.input.isKeyPressed(DebugSetting.REINIT_LOCALIZATION_KEY)) {
+				Localization.instance().reloadFromFile();
+				Main.logger.debug("Reloaded I18N from files");
+			} else if (Gdx.input.isKeyJustPressed(DebugSetting.TICK_PERCENTAGE_KEY)) {
+				DebugSetting.showTickBenchmarks = !DebugSetting.showTickBenchmarks;
+			} else if (Gdx.input.isKeyJustPressed(DebugSetting.DEBUG_KEY)) {
+				DebugSetting.debug = !DebugSetting.debug;
 			}
 		}
 
