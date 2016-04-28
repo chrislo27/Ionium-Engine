@@ -83,7 +83,7 @@ public class Utils {
 			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
 		} else {
 			if (cursor == null) {
-				cursor = Gdx.graphics.newCursor(Main.clearPixmap, 0, 0);
+				cursor = Gdx.graphics.newCursor(Main.clearPixmapCursor, 0, 0);
 			}
 
 			Gdx.graphics.setCursor(cursor);

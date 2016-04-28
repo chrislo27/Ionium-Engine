@@ -91,7 +91,11 @@ public abstract class Main extends Game implements Consumer {
 
 	public static Texture filltex;
 	public static TextureRegion filltexRegion;
-	public static Pixmap clearPixmap;
+	
+	/**
+	 * Pixmap used to "hide" the cursor.
+	 */
+	public static Pixmap clearPixmapCursor;
 
 	public ShaderProgram maskshader;
 	public ShaderProgram greyshader;
@@ -161,9 +165,9 @@ public abstract class Main extends Game implements Consumer {
 		filltex = new Texture(pix);
 		pix.dispose();
 		filltexRegion = new TextureRegion(filltex);
-		clearPixmap = new Pixmap(16, 16, Format.RGBA8888);
-		clearPixmap.setColor(0, 0, 0, 0);
-		clearPixmap.fill();
+		clearPixmapCursor = new Pixmap(16, 16, Format.RGBA8888);
+		clearPixmapCursor.setColor(0, 0, 0, 0);
+		clearPixmapCursor.fill();
 
 		shapes = new ShapeRenderer();
 
@@ -237,7 +241,7 @@ public abstract class Main extends Game implements Consumer {
 		meshShader.dispose();
 		maskNoiseShader.dispose();
 		shapes.dispose();
-		clearPixmap.dispose();
+		clearPixmapCursor.dispose();
 		debugFont.dispose();
 
 		// dispose screens
