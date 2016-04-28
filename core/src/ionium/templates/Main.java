@@ -116,6 +116,7 @@ public abstract class Main extends Game implements Consumer {
 	public static float totalSeconds = 0f;
 	public static long totalFrames = 0;
 	public static long totalTicks = 0;
+	public static float tickDeltaTime = 0;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 	private long nanoUntilTick = 1;
@@ -264,6 +265,7 @@ public abstract class Main extends Game implements Consumer {
 		totalSeconds += Gdx.graphics.getDeltaTime();
 		nanoUntilTick += (System.nanoTime() - lastKnownNano);
 		lastKnownNano = System.nanoTime();
+		tickDeltaTime += Gdx.graphics.getDeltaTime();
 
 		try {
 			// ticks
@@ -283,6 +285,7 @@ public abstract class Main extends Game implements Consumer {
 				TickBenchmark.instance().stopBenchmarking();
 
 				totalTicks++;
+				tickDeltaTime = 0;
 
 				lastTickDurationNano = System.nanoTime() - nano;
 
