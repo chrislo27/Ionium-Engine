@@ -91,7 +91,7 @@ public abstract class Main extends Game implements Consumer {
 
 	public static Texture filltex;
 	public static TextureRegion filltexRegion;
-	
+
 	/**
 	 * Pixmap used to "hide" the cursor.
 	 */
@@ -402,8 +402,10 @@ public abstract class Main extends Game implements Consumer {
 			StringBuffer keysInfo = new StringBuffer();
 
 			keysInfo.append("Detached console: " + Keys.toString(DebugSetting.CONSOLE_KEY));
-			keysInfo.append(" | Re-init I18N: " + Keys.toString(DebugSetting.REINIT_LOCALIZATION_KEY));
-			keysInfo.append(" | Tick percentages: " + Keys.toString(DebugSetting.TICK_PERCENTAGE_KEY));
+			keysInfo.append(
+					" | Re-init I18N: " + Keys.toString(DebugSetting.REINIT_LOCALIZATION_KEY));
+			keysInfo.append(
+					" | Tick percentages: " + Keys.toString(DebugSetting.TICK_PERCENTAGE_KEY));
 
 			persistentDebugStrings.add("Debug info: " + Keys.toString(DebugSetting.DEBUG_KEY));
 			persistentDebugStrings.add(keysInfo.toString());
@@ -644,6 +646,7 @@ public abstract class Main extends Game implements Consumer {
 
 	public static void drawGradient(SpriteBatch batch, float x, float y, float width, float height,
 			Color bl, Color br, Color tr, Color tl) {
+
 		tempGradientColor.set((bl.r + br.r + tr.r + tl.r) / 4f, (bl.g + br.g + tr.g + tl.g) / 4f,
 				(bl.b + br.b + tr.b + tl.b) / 4f, (bl.a + br.a + tr.a + tl.a) / 4f);
 
