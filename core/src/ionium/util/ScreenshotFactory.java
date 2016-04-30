@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
+import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class ScreenshotFactory {
@@ -25,8 +26,6 @@ public class ScreenshotFactory {
 			} while (fh.exists());
 			Pixmap pixmap = getScreenshot(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 					true);
-			pixmap.setColor(0, 0, 0, 1);
-			pixmap.fill();
 			PixmapIO.writePNG(fh, pixmap);
 			pixmap.dispose();
 		} catch (Exception e) {
@@ -34,22 +33,12 @@ public class ScreenshotFactory {
 	}
 
 	public static Pixmap getScreenshot(int x, int y, int w, int h, boolean yDown) {
-		final Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(x, y, w, h);
+		byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(),
+				Gdx.graphics.getBackBufferHeight(), true);
 
-		if (yDown) {
-			// Flip the pixmap upside down
-			ByteBuffer pixels = pixmap.getPixels();
-			int numBytes = w * h * 4;
-			byte[] lines = new byte[numBytes];
-			int numBytesPerLine = w * 4;
-			for (int i = 0; i < h; i++) {
-				pixels.position((h - i - 1) * numBytesPerLine);
-				pixels.get(lines, i * numBytesPerLine, numBytesPerLine);
-			}
-			pixels.clear();
-			pixels.put(lines);
-		}
-
+		Pixmap pixmap = new Pixmap(Gdx.graphics.getBackBufferWidth(),
+				Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
+		BufferUtils.copy(pixels, 0, pixmap.getPixels(), pixels.length);
 		return pixmap;
 	}
 }
