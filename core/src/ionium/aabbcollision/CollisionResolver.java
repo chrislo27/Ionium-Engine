@@ -53,15 +53,7 @@ public class CollisionResolver {
 				if ((MathUtils.isEqual(hitX, b.bounds.x + b.bounds.width, tolerance)
 						|| MathUtils.isEqual(hitX + target.bounds.width, b.bounds.x, tolerance)
 						|| MathUtils.isEqual(hitY, b.bounds.y + b.bounds.height)
-						|| MathUtils.isEqual(hitY + target.bounds.height, b.bounds.y, tolerance))
-						|| (MathUtils.isEqual(target.bounds.x, b.bounds.x + b.bounds.width,
-								tolerance)
-								|| MathUtils.isEqual(target.bounds.x + target.bounds.width,
-										b.bounds.x, tolerance)
-								|| MathUtils.isEqual(target.bounds.y, b.bounds.y + b.bounds.height,
-										tolerance)
-								|| MathUtils.isEqual(target.bounds.y + target.bounds.height,
-										b.bounds.y, tolerance))) {
+						|| MathUtils.isEqual(hitY + target.bounds.height, b.bounds.y, tolerance))) {
 
 					tempVector.set(hitX, hitY);
 					wasLastResolutionACollision = true;
