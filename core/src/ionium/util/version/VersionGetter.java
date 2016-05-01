@@ -34,7 +34,7 @@ public class VersionGetter {
 	 * NOTE: This method blocks until it fails or completes
 	 */
 	public void getVersionFromServer() {
-		final String path = GlobalVariables.getString("VERSION_URL", null);
+		final String path = GlobalVariables.versionUrl;
 
 		if (path == null) {
 			Main.logger.error("Version URL is null!");

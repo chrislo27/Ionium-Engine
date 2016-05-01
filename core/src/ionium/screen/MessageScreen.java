@@ -13,7 +13,7 @@ import ionium.templates.Main;
 public class MessageScreen extends Updateable<Main> {
 
 	private BitmapFont font;
-	
+
 	public MessageScreen(Main m, BitmapFont font) {
 		super(m);
 		this.font = font;
@@ -32,10 +32,10 @@ public class MessageScreen extends Updateable<Main> {
 
 		main.batch.begin();
 
-		float width = (GlobalVariables.getInt("DEFAULT_WIDTH") / 3f) * 2f;
+		float width = (GlobalVariables.defaultWidth / 3f) * 2f;
 		main.defaultFont.draw(main.batch, getRenderMessage(),
-				(GlobalVariables.getInt("DEFAULT_WIDTH") - width) / 2f,
-				Main.convertY((GlobalVariables.getInt("DEFAULT_HEIGHT") / 3f)), width, Align.center, true);
+				(GlobalVariables.defaultWidth - width) / 2f,
+				Main.convertY((GlobalVariables.defaultHeight / 3f)), width, Align.center, true);
 
 		container.render(main, font);
 		main.defaultFont.setColor(Color.WHITE);
@@ -62,7 +62,7 @@ public class MessageScreen extends Updateable<Main> {
 
 	@Override
 	public void getDebugStrings(Array<String> array) {
-		
+
 	}
 
 	@Override

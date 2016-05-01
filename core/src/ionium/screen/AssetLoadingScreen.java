@@ -29,8 +29,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	public void render(float delta) {
 		AssetManager manager = AssetRegistry.instance().getAssetManager();
 
-		AssetRegistry.instance()
-				.loadManagedAssets(((int) (1000f / GlobalVariables.getInt("MAX_FPS"))));
+		AssetRegistry.instance().loadManagedAssets(((int) (1000f / GlobalVariables.maxFps)));
 		do {
 			if (AssetRegistry.instance().finishedLoading()) {
 				if (!waitedAFrame) {

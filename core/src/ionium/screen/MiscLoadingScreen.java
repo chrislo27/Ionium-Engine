@@ -19,7 +19,7 @@ public class MiscLoadingScreen extends Updateable<Main> {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		main.batch.begin();
-		Main.gears.render(main, GlobalVariables.getInt("DEFAULT_WIDTH") - (192), 0);
+		Main.gears.render(main, GlobalVariables.defaultWidth - (192), 0);
 		main.batch.end();
 	}
 
@@ -29,7 +29,7 @@ public class MiscLoadingScreen extends Updateable<Main> {
 
 	@Override
 	public void getDebugStrings(Array<String> array) {
-		
+
 	}
 
 	@Override

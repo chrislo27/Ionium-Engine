@@ -190,7 +190,7 @@ public abstract class Main extends Game implements Consumer {
 		blurshader = new ShaderProgram(Shaders.VERTBLUR, Shaders.FRAGBLUR);
 		blurshader.begin();
 		blurshader.setUniformf("dir", 1f, 0f);
-		blurshader.setUniformf("resolution", GlobalVariables.getInt("DEFAULT_WIDTH"));
+		blurshader.setUniformf("resolution", GlobalVariables.defaultWidth);
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
 
@@ -269,7 +269,7 @@ public abstract class Main extends Game implements Consumer {
 
 		try {
 			// ticks
-			while (nanoUntilTick >= (1_000_000_000 / GlobalVariables.getInt("TICKS"))) {
+			while (nanoUntilTick >= (1_000_000_000 / GlobalVariables.ticks)) {
 				long nano = System.nanoTime();
 
 				TickBenchmark.instance().startBenchmarking();
@@ -289,7 +289,7 @@ public abstract class Main extends Game implements Consumer {
 
 				lastTickDurationNano = System.nanoTime() - nano;
 
-				nanoUntilTick -= (1_000_000_000 / GlobalVariables.getInt("TICKS"));
+				nanoUntilTick -= (1_000_000_000 / GlobalVariables.ticks);
 			}
 
 			MusicTransitioner.instance().update();
@@ -334,11 +334,11 @@ public abstract class Main extends Game implements Consumer {
 		if (DebugSetting.showFPS || DebugSetting.debug) {
 			debugFont.draw(
 					batch, "FPS: "
-							+ (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
-									.getInt("MAX_FPS") / 4f)
-											? "[RED]"
-											: (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables
-													.getInt("MAX_FPS") / 2f) ? "[YELLOW]" : ""))
+							+ (Gdx.graphics.getFramesPerSecond() <= (GlobalVariables.maxFps / 4f)
+									? "[RED]"
+									: (Gdx.graphics
+											.getFramesPerSecond() <= (GlobalVariables.maxFps / 2f)
+													? "[YELLOW]" : ""))
 							+ Gdx.graphics.getFramesPerSecond() + "[]",
 					5, Gdx.graphics.getHeight() - (debugFont.getCapHeight() * 1.25f));
 		}

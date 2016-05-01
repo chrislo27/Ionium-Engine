@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  *
  */
 public class PostProcessing {
-	
+
 	/**
 	 * gaussian blur on the entire screen
 	 * 
@@ -32,20 +32,20 @@ public class PostProcessing {
 		batch.setShader(blurshader);
 		blurshader.setUniformf("radius", radius);
 		blurshader.setUniformf("dir", 1f, 0f);
-		batch.draw(buffer.getColorBufferTexture(), x, y, drawWidth, drawHeight, u, v, width,
-				height, false, false);
+		batch.draw(buffer.getColorBufferTexture(), x, y, drawWidth, drawHeight, u, v, width, height,
+				false, false);
 		batch.flush();
 		buffer.end();
 
 		buffer.begin();
 		blurshader.setUniformf("dir", 0f, 1f);
-		batch.draw(buffer.getColorBufferTexture(), x, y, drawWidth, drawHeight, u, v, width,
-				height, false, false);
+		batch.draw(buffer.getColorBufferTexture(), x, y, drawWidth, drawHeight, u, v, width, height,
+				false, false);
 		batch.setShader(null);
 		buffer.end();
 
-		batch.draw(buffer.getColorBufferTexture(), 0, GlobalVariables.getInt("DEFAULT_HEIGHT"), GlobalVariables.getInt("DEFAULT_WIDTH"),
-				-GlobalVariables.getInt("DEFAULT_HEIGHT"));
+		batch.draw(buffer.getColorBufferTexture(), 0, GlobalVariables.defaultHeight,
+				GlobalVariables.defaultWidth, -GlobalVariables.defaultHeight);
 		batch.flush();
 	}
 
@@ -63,18 +63,16 @@ public class PostProcessing {
 		batch.setColor(Main.getRainbow(System.currentTimeMillis(), 0.5f, saturation).r,
 				Main.getRainbow(System.currentTimeMillis(), 0.5f, saturation).g,
 				Main.getRainbow(System.currentTimeMillis(), 0.5f, saturation).b, saturation);
-		batch.draw(buffer.getColorBufferTexture(),
-				(displace * 2 * MathHelper.getTriangleWave(1f)), Gdx.graphics.getHeight(),
+		batch.draw(buffer.getColorBufferTexture(), (displace * 2 * MathHelper.getTriangleWave(1f)),
+				Gdx.graphics.getHeight(), buffer.getWidth(), -buffer.getHeight());
+		batch.draw(buffer.getColorBufferTexture(), 0,
+				Gdx.graphics.getHeight() + (displace * 2 * MathHelper.getTriangleWave(1f)),
 				buffer.getWidth(), -buffer.getHeight());
-		batch.draw(buffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight()
-				+ (displace * 2 * MathHelper.getTriangleWave(1f)), buffer.getWidth(),
-				-buffer.getHeight());
-		batch.draw(buffer.getColorBufferTexture(),
-				(-displace * 2 * MathHelper.getTriangleWave(1f)), Gdx.graphics.getHeight(),
+		batch.draw(buffer.getColorBufferTexture(), (-displace * 2 * MathHelper.getTriangleWave(1f)),
+				Gdx.graphics.getHeight(), buffer.getWidth(), -buffer.getHeight());
+		batch.draw(buffer.getColorBufferTexture(), 0,
+				Gdx.graphics.getHeight() - (displace * 2 * MathHelper.getTriangleWave(1f)),
 				buffer.getWidth(), -buffer.getHeight());
-		batch.draw(buffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight()
-				- (displace * 2 * MathHelper.getTriangleWave(1f)), buffer.getWidth(),
-				-buffer.getHeight());
 		batch.flush();
 		batch.setColor(1, 1, 1, 1);
 	}

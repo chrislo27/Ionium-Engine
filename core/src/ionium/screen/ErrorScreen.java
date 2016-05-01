@@ -17,8 +17,8 @@ public class ErrorScreen extends MessageScreen {
 	public ErrorScreen(Main m, BitmapFont font) {
 		super(m, font);
 
-		container.elements.add(new Button((GlobalVariables.getInt("DEFAULT_WIDTH") / 2) - 80, 128,
-				160, 32, "menu.backmainmenu") {
+		container.elements.add(new Button((GlobalVariables.defaultWidth / 2) - 80, 128, 160, 32,
+				"menu.backmainmenu") {
 
 			@Override
 			public boolean onLeftClick() {
