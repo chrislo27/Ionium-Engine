@@ -427,6 +427,7 @@ public abstract class Main extends Game implements Consumer {
 				+ " KB / " + NumberFormat.getInstance().format(MemoryUtils.getMaxMemory())
 				+ " KB (max " + NumberFormat.getInstance().format(getMostMemory) + " KB) ");
 		debugStrings.add("tickDuration: " + (lastTickDurationNano / 1000000f) + " ms");
+		debugStrings.add("tick delta: " + tickDeltaTime);
 		debugStrings.add("frame delta: " + Gdx.graphics.getDeltaTime());
 		debugStrings.add("state: "
 				+ (getScreen() == null ? "null" : getScreen().getClass().getSimpleName()));
