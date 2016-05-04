@@ -187,11 +187,23 @@ public class MathHelper {
 
 	public static boolean intersects(float x, float y, float width, float height, float x2,
 			float y2, float width2, float height2) {
+		return intersects(x, y, width, height, x2, y2, width2, height2, false);
+	}
+
+	public static boolean intersects(float x, float y, float width, float height, float x2,
+			float y2, float width2, float height2, boolean touchingIsIntersecting) {
 		makeRectangleValuesPositive(rect1.set(x, y, width, height));
 		makeRectangleValuesPositive(rect2.set(x2, y2, width2, height2));
 
+		if (touchingIsIntersecting) {
+			if (rect1.x + rect1.width == rect2.x) return true;
+			if (rect1.x == rect2.x + rect2.width) return true;
+			if (rect1.y + rect1.height == rect2.y) return true;
+			if (rect1.y == rect2.y + rect2.height) return true;
+		}
+
 		// true if: rect1 overlaps 2, or either contains
-		return rect1.overlaps(rect2) || rect1.contains(rect2) || rect2.contains(rect1);
+		return rect1.overlaps(rect2);
 	}
 
 	public static boolean isPointInRectangle(float rectX, float rectY, float rectW, float rectH,
