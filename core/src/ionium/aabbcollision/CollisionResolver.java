@@ -86,6 +86,8 @@ public class CollisionResolver {
 			}
 		}
 
+		result.normal.setZero();
+
 		// stepping
 		outerLoop: while (true) {
 			result.stepsTaken++;
@@ -122,13 +124,13 @@ public class CollisionResolver {
 					// normals
 					normal.setZero();
 
-					if (Math.abs(xOverlap) <= Math.abs(yOverlap)
-							|| (yOverlap == 0 && xOverlap != 0)) {
+					if ((Math.abs(xOverlap) <= Math.abs(yOverlap)
+							|| (yOverlap == 0 && xOverlap != 0))) {
 						normal.x = -Math.signum(xOverlap);
 					}
 
-					if (Math.abs(yOverlap) <= Math.abs(xOverlap)
-							|| (xOverlap == 0 && yOverlap != 0)) {
+					if ((Math.abs(yOverlap) <= Math.abs(xOverlap)
+							|| (xOverlap == 0 && yOverlap != 0))) {
 						normal.y = -Math.signum(yOverlap);
 					}
 
@@ -163,11 +165,18 @@ public class CollisionResolver {
 				}
 
 				// check for direct touches
-
 				if (positionY + target.bounds.height > b.bounds.y
 						&& positionY < b.bounds.y + b.bounds.height) {
 					if ((positionX + target.bounds.width == b.bounds.x && remainingVeloX > 0)
 							|| (positionX == b.bounds.x + b.bounds.width && remainingVeloX < 0)) {
+
+						if ((positionX + target.bounds.width == b.bounds.x && remainingVeloX > 0)
+								&& result.normal.x == 0) {
+							result.normal.x = -1;
+						} else if ((positionX == b.bounds.x + b.bounds.width && remainingVeloX < 0)
+								&& result.normal.x == 0) {
+							result.normal.x = 1;
+						}
 						remainingVeloX = 0;
 						target.velocity.x = 0;
 						moveAmountX = 0;
@@ -179,6 +188,15 @@ public class CollisionResolver {
 						&& positionX < b.bounds.x + b.bounds.width) {
 					if ((positionY + target.bounds.height == b.bounds.y && remainingVeloY > 0)
 							|| (positionY == b.bounds.y + b.bounds.height && remainingVeloY < 0)) {
+
+						if ((positionY + target.bounds.height == b.bounds.y && remainingVeloY > 0)
+								&& result.normal.y == 0) {
+							result.normal.y = -1;
+						} else if ((positionY == b.bounds.y + b.bounds.height && remainingVeloY < 0)
+								&& result.normal.y == 0) {
+							result.normal.y = 1;
+						}
+
 						remainingVeloY = 0;
 						target.velocity.y = 0;
 						moveAmountY = 0;
