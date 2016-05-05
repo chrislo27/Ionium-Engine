@@ -1,5 +1,7 @@
 package ionium.aabbcollision;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
 import ionium.templates.Main;
+import ionium.util.DebugSetting;
 import ionium.util.MathHelper;
 
 public class CollisionResolver {
@@ -53,11 +56,38 @@ public class CollisionResolver {
 		float positionY = target.bounds.y;
 		float halfWidth = target.bounds.width * 0.5f;
 		float halfHeight = target.bounds.height * 0.5f;
+		float moveAmountX = 0;
+		float moveAmountY = 0;
+		boolean lastIteration = false;
 
-		// a step is moving at max half size or remainder of the velocity
-		// the steps must still follow slope though
+		if (Math.abs(remainingVeloX) >= Math.abs(remainingVeloY)) {
+			if (Math.abs(remainingVeloX) > Math.abs(halfWidth)) {
+				// use halfWidth
+				moveAmountX = halfWidth * Math.signum(remainingVeloX);
+			} else {
+				moveAmountX = remainingVeloX;
+			}
 
-		outerLoop: while (Math.abs(remainingVeloX) > 0 || Math.abs(remainingVeloY) > 0) {
+			if (Math.abs(remainingVeloY) > 0) {
+				moveAmountY = remainingVeloY
+						* (remainingVeloX == 0 ? 1 : Math.abs(remainingVeloY / remainingVeloX));
+			}
+		} else {
+			if (Math.abs(remainingVeloY) > Math.abs(halfHeight)) {
+				// use halfHeight
+				moveAmountY = halfHeight * Math.signum(remainingVeloY);
+			} else {
+				moveAmountY = remainingVeloY;
+			}
+
+			if (Math.abs(remainingVeloX) > 0) {
+				moveAmountX = remainingVeloX
+						* (remainingVeloY == 0 ? 1 : Math.abs(remainingVeloX / remainingVeloY));
+			}
+		}
+
+		// stepping
+		outerLoop: while (true) {
 			result.stepsTaken++;
 
 			// scan bodies for collision
@@ -107,55 +137,81 @@ public class CollisionResolver {
 						positionX = b.bounds.x + b.bounds.width;
 						remainingVeloX = 0;
 						target.velocity.x = 0;
+						moveAmountX = 0;
 					} else if (normal.x == -1) {
 						positionX = b.bounds.x - target.bounds.width;
 						remainingVeloX = 0;
 						target.velocity.x = 0;
+						moveAmountX = 0;
 					}
 
 					if (normal.y == 1) {
 						positionY = b.bounds.y + b.bounds.height;
 						remainingVeloY = 0;
 						target.velocity.y = 0;
+						moveAmountY = 0;
 					} else if (normal.y == -1) {
 						positionY = b.bounds.y - target.bounds.height;
 						remainingVeloY = 0;
 						target.velocity.y = 0;
+						moveAmountY = 0;
 					}
 
 					break outerLoop;
-				} else {
-					// check for direct touches
+				}
 
-					if (positionY + target.bounds.height > b.bounds.y
-							&& positionY < b.bounds.y + b.bounds.height) {
-						if ((positionX + target.bounds.width == b.bounds.x && remainingVeloX > 0)
-								|| (positionX == b.bounds.x + b.bounds.width
-										&& remainingVeloX < 0)) {
-							remainingVeloX = 0;
-							target.velocity.x = 0;
-						}
-					}
+				// check for direct touches
 
-					if (positionX + target.bounds.width > b.bounds.x
-							&& positionX < b.bounds.x + b.bounds.width) {
-						if ((positionY + target.bounds.height == b.bounds.y && remainingVeloY > 0)
-								|| (positionY == b.bounds.y + b.bounds.height
-										&& remainingVeloY < 0)) {
-							remainingVeloY = 0;
-							target.velocity.y = 0;
-						}
+				if (positionY + target.bounds.height > b.bounds.y
+						&& positionY < b.bounds.y + b.bounds.height) {
+					if ((positionX + target.bounds.width == b.bounds.x && remainingVeloX > 0)
+							|| (positionX == b.bounds.x + b.bounds.width && remainingVeloX < 0)) {
+						remainingVeloX = 0;
+						target.velocity.x = 0;
+						moveAmountX = 0;
 					}
 				}
+
+				if (positionX + target.bounds.width > b.bounds.x
+						&& positionX < b.bounds.x + b.bounds.width) {
+					if ((positionY + target.bounds.height == b.bounds.y && remainingVeloY > 0)
+							|| (positionY == b.bounds.y + b.bounds.height && remainingVeloY < 0)) {
+						remainingVeloY = 0;
+						target.velocity.y = 0;
+						moveAmountY = 0;
+					}
+				}
+
 			}
 
-			// move position and remaining velocity
-			// temp
-			positionX += remainingVeloX;
-			positionY += remainingVeloY;
+			if (!lastIteration) {
+				// recalc move amount when nearing end
+				if (Math.abs(remainingVeloX) < Math.abs(moveAmountX)) {
+					moveAmountX = remainingVeloX;
+				}
+				if (Math.abs(remainingVeloY) < Math.abs(moveAmountY)) {
+					moveAmountY = remainingVeloY;
+				}
 
-			remainingVeloX = 0;
-			remainingVeloY = 0;
+				// move position and remaining velocity
+				positionX += moveAmountX;
+				positionY += moveAmountY;
+
+				remainingVeloX -= moveAmountX;
+				remainingVeloY -= moveAmountY;
+			}
+
+			// break out of infinite loop after last iteration
+			// the last iteration is to make sure the final movement also has checking
+			if (MathUtils.isEqual(0, remainingVeloX, tolerance)
+					&& MathUtils.isEqual(0, remainingVeloY, tolerance) && !lastIteration) {
+				lastIteration = true;
+				remainingVeloX = 0;
+				remainingVeloY = 0;
+
+			} else if (lastIteration) {
+				break;
+			}
 		}
 
 		// set position on result
