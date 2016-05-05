@@ -157,6 +157,8 @@ public class CollisionResolver {
 						moveAmountY = 0;
 					}
 
+					result.didCollide = true;
+
 					break outerLoop;
 				}
 
@@ -169,6 +171,7 @@ public class CollisionResolver {
 						remainingVeloX = 0;
 						target.velocity.x = 0;
 						moveAmountX = 0;
+						result.didCollide = true;
 					}
 				}
 
@@ -179,6 +182,7 @@ public class CollisionResolver {
 						remainingVeloY = 0;
 						target.velocity.y = 0;
 						moveAmountY = 0;
+						result.didCollide = true;
 					}
 				}
 
