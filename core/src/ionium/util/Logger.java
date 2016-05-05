@@ -3,7 +3,12 @@ package ionium.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import ionium.templates.Main;
+
 public class Logger extends com.badlogic.gdx.utils.Logger {
+
+	public boolean includeTicks = true;
+	private SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
 
 	public Logger(String tag) {
 		super(tag);
@@ -13,10 +18,9 @@ public class Logger extends com.badlogic.gdx.utils.Logger {
 		super(tag, lvl);
 	}
 
-	private SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
-
 	private String getDateStamp() {
-		return "[" + dateformat.format(Calendar.getInstance().getTime()) + "]";
+		return "[" + dateformat.format(Calendar.getInstance().getTime()) + "]"
+				+ (!includeTicks ? "" : " [Tick " + Main.totalTicks + "]");
 	}
 
 	@Override
