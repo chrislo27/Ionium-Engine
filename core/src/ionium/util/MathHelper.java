@@ -182,7 +182,7 @@ public class MathHelper {
 	}
 
 	public static float getJumpVelo(double gravity, double distance) {
-		return (float) (gravity * Math.sqrt((2 * distance) / gravity));
+		return (float) (Math.sqrt(2 * distance * gravity));
 	}
 
 	public static boolean intersects(float x, float y, float width, float height, float x2,
