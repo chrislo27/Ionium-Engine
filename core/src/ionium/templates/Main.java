@@ -545,11 +545,17 @@ public abstract class Main extends Game implements Consumer {
 
 	@Override
 	public void resize(int width, int height) {
+		super.resize(width, height);
+
 		camera.setToOrtho(false, width, height);
 		shapes.setProjectionMatrix(camera.combined);
 
 		for (Updateable up : ScreenRegistry.instance().getAll()) {
 			up.container.onResize();
+
+			if (getScreen() != null && getScreen() == up) continue;
+
+			up.resize(width, height);
 		}
 	}
 
