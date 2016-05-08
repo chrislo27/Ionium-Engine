@@ -321,7 +321,6 @@ public abstract class Main extends Game implements Consumer {
 					"\n\nThe game crashed. There is an error log at " + handle.path() + "\n");
 
 			Gdx.app.exit();
-			System.exit(1);
 		}
 
 	}
