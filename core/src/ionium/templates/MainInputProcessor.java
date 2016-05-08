@@ -25,9 +25,6 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		if (main.getScreen() != null) {
-			if (((Updateable) main.getScreen()).container.onKeyTyped(character)) return true;
-		}
 
 		return false;
 	}
@@ -39,14 +36,7 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if (main.getScreen() != null) {
-			if (button == Buttons.LEFT) {
-				if (((Updateable) main.getScreen()).container.onLeftClick()) return true;
-			} else if (button == Buttons.RIGHT) {
-				if (((Updateable) main.getScreen()).container.onRightClick()) return true;
-			}
-		}
-		
+
 		return false;
 	}
 

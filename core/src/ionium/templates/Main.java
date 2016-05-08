@@ -550,8 +550,6 @@ public abstract class Main extends Game implements Consumer {
 		shapes.setProjectionMatrix(camera.combined);
 
 		for (Updateable up : ScreenRegistry.instance().getAll()) {
-			up.container.onResize();
-
 			if (getScreen() != null && getScreen() == up) continue;
 
 			up.resize(width, height);

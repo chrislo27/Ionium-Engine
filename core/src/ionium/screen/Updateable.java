@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Array;
 public abstract class Updateable<T extends Main> implements Screen {
 
 	public T main;
-	public UiContainer container = new UiContainer();
 
 	public Updateable(T m) {
 		main = m;
