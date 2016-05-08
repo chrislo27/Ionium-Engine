@@ -1,10 +1,9 @@
 package ionium.screen;
 
-import ionium.templates.Main;
-import ionium.ui.UiContainer;
-
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
+
+import ionium.templates.Main;
 
 public abstract class Updateable<T extends Main> implements Screen {
 
