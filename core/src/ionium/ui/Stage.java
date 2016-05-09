@@ -16,9 +16,19 @@ public class Stage {
 	}
 
 	public <T extends Actor> T addActor(T actor) {
+		if (actor == null) return actor;
+
 		actors.add(actor);
 
 		return actor;
+	}
+
+	public <T extends Actor> T removeActor(T actor) {
+		if (actor == null) return null;
+
+		if (actors.removeValue(actor, true)) return actor;
+
+		return null;
 	}
 
 	public void render(SpriteBatch batch) {
