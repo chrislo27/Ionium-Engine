@@ -45,18 +45,18 @@ public abstract class Actor {
 
 		if ((align & Align.right) == Align.right) {
 			actualPosition.x = viewportWidth - originX - originWidth + x;
+		} else if ((align & Align.left) == Align.left) {
+			actualPosition.x = originX + x;
 		} else if ((align & Align.center) == Align.center) {
 			actualPosition.x = viewportWidth * 0.5f - originWidth * 0.5f + originX + x;
-		} else {
-			actualPosition.x = originX + x;
 		}
 
 		if ((align & Align.top) == Align.top) {
 			actualPosition.y = viewportHeight - originY - originHeight + y;
+		} else if ((align & Align.bottom) == Align.bottom) {
+			actualPosition.y = originY + y;
 		} else if ((align & Align.center) == Align.center) {
 			actualPosition.y = viewportHeight * 0.5f - originHeight * 0.5f + originY + y;
-		} else {
-			actualPosition.y = originY + y;
 		}
 
 		actualPosition.setSize(originWidth, originHeight);
