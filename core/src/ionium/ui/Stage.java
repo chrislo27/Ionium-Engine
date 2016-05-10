@@ -38,6 +38,10 @@ public class Stage {
 	}
 
 	public void onResize(int width, int height) {
+		camera.viewportWidth = width;
+		camera.viewportHeight = height;
+		camera.update();
+
 		for (int i = 0; i < actors.size; i++) {
 			actors.get(i).onResize(width, height);
 		}

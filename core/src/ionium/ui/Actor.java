@@ -2,6 +2,7 @@ package ionium.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 
 public abstract class Actor {
@@ -13,40 +14,56 @@ public abstract class Actor {
 	protected final Stage stage;
 
 	private int align = Align.center;
+	private Rectangle viewport = new Rectangle();
 
 	public Actor(Stage s) {
 		stage = s;
+		viewport.set(s.getCamera().position.x, s.getCamera().position.y,
+				s.getCamera().viewportWidth, s.getCamera().viewportHeight);
 	}
 
 	public abstract void render(SpriteBatch batch);
 
 	public void updateActualPosition() {
-		float originX = stage.getCamera().viewportWidth * screenOffset.x + pixelOffset.x;
-		float originY = stage.getCamera().viewportHeight * screenOffset.y + pixelOffset.y;
-		float originWidth = stage.getCamera().viewportWidth * screenOffset.width
-				+ pixelOffset.width;
-		float originHeight = stage.getCamera().viewportHeight * screenOffset.height
-				+ pixelOffset.height;
+		float x = viewport.x;
+		float y = viewport.y;
+		float viewportWidth = viewport.width;
+		float viewportHeight = viewport.height;
+
+		float originX = viewportWidth * screenOffset.x + pixelOffset.x;
+		float originY = viewportHeight * screenOffset.y + pixelOffset.y;
+		float originWidth = viewportWidth * screenOffset.width + pixelOffset.width;
+		float originHeight = viewportHeight * screenOffset.height + pixelOffset.height;
 
 		if ((align & Align.right) == Align.right) {
-			actualPosition.x = stage.getCamera().viewportWidth - originX - originWidth;
+			actualPosition.x = viewportWidth - originX - originWidth + x;
 		} else if ((align & Align.center) == Align.center) {
-			actualPosition.x = stage.getCamera().viewportWidth * 0.5f - originWidth * 0.5f
-					+ originX;
+			actualPosition.x = viewportWidth * 0.5f - originWidth * 0.5f + originX + x;
 		} else {
-			actualPosition.x = originX;
+			actualPosition.x = originX + x;
 		}
 
 		if ((align & Align.top) == Align.top) {
-			actualPosition.y = stage.getCamera().viewportHeight - originY - originHeight;
+			actualPosition.y = viewportHeight - originY - originHeight + y;
 		} else if ((align & Align.center) == Align.center) {
-			actualPosition.y = stage.getCamera().viewportHeight * 0.5f - originHeight * 0.5f
-					+ originY;
+			actualPosition.y = viewportHeight * 0.5f - originHeight * 0.5f + originY + y;
 		} else {
-			actualPosition.y = originY;
+			actualPosition.y = originY + y;
 		}
 
 		actualPosition.setSize(originWidth, originHeight);
+	}
+
+	public Rectangle getViewport() {
+		return viewport;
+	}
+
+	public Actor setViewportToStageCamera() {
+		viewport.set(stage.getCamera().position.x - stage.getCamera().viewportWidth * 0.5f,
+				stage.getCamera().position.y - stage.getCamera().viewportHeight * 0.5f,
+				stage.getCamera().viewportWidth, stage.getCamera().viewportHeight);
+
+		return this;
 	}
 
 	public Actor align(int align) {
@@ -58,6 +75,38 @@ public abstract class Actor {
 
 	public int getAlign() {
 		return align;
+	}
+
+	public float getScreenOffsetX() {
+		return screenOffset.x;
+	}
+
+	public float getScreenOffsetY() {
+		return screenOffset.y;
+	}
+
+	public float getScreenOffsetWidth() {
+		return screenOffset.width;
+	}
+
+	public float getScreenOffsetHeight() {
+		return screenOffset.height;
+	}
+
+	public float getPixelOffsetX() {
+		return pixelOffset.x;
+	}
+
+	public float getPixelOffsetY() {
+		return pixelOffset.y;
+	}
+
+	public float getPixelOffsetWidth() {
+		return pixelOffset.width;
+	}
+
+	public float getPixelOffsetHeight() {
+		return pixelOffset.height;
 	}
 
 	public Actor setScreenOffset(float x, float y, float w, float h) {
@@ -107,6 +156,7 @@ public abstract class Actor {
 	}
 
 	public void onResize(int width, int height) {
+		setViewportToStageCamera();
 		updateActualPosition();
 	}
 
