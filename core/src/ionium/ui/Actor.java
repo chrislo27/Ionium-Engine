@@ -59,9 +59,7 @@ public abstract class Actor {
 	}
 
 	public Actor setViewportToStageCamera() {
-		viewport.set(stage.getCamera().position.x - stage.getCamera().viewportWidth * 0.5f,
-				stage.getCamera().position.y - stage.getCamera().viewportHeight * 0.5f,
-				stage.getCamera().viewportWidth, stage.getCamera().viewportHeight);
+		viewport.set(0, 0, stage.getCamera().viewportWidth, stage.getCamera().viewportHeight);
 
 		return this;
 	}
