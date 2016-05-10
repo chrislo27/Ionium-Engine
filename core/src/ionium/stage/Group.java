@@ -1,4 +1,4 @@
-package ionium.ui;
+package ionium.stage;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;

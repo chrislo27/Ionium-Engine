@@ -1,4 +1,4 @@
-package ionium.ui;
+package ionium.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
