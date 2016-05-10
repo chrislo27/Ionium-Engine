@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 
+import ionium.templates.Main;
+
 public abstract class Actor {
 
 	private Rectangle screenOffset = new Rectangle();
@@ -23,6 +25,12 @@ public abstract class Actor {
 	}
 
 	public abstract void render(SpriteBatch batch);
+
+	public void renderDebug(SpriteBatch batch) {
+		batch.setColor(0, 0, 1, 1);
+		Main.drawRect(batch, actualX(), actualY(), actualWidth(), actualHeight(), 1);
+		batch.setColor(1, 1, 1, 1);
+	}
 
 	public void updateActualPosition() {
 		float x = viewport.x;

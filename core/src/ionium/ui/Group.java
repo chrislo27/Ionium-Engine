@@ -3,6 +3,8 @@ package ionium.ui;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
+import ionium.templates.Main;
+
 public class Group extends Actor {
 
 	private Array<Actor> children = new Array<>();
@@ -43,6 +45,17 @@ public class Group extends Actor {
 		for (int i = 0; i < children.size; i++) {
 			children.get(i).render(batch);
 		}
+	}
+
+	@Override
+	public void renderDebug(SpriteBatch batch) {
+		for (int i = 0; i < children.size; i++) {
+			children.get(i).renderDebug(batch);
+		}
+
+		batch.setColor(0, 1, 0, 1);
+		Main.drawRect(batch, actualX(), actualY(), actualWidth(), actualHeight(), 1);
+		batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override
