@@ -18,6 +18,8 @@ public abstract class Actor {
 	private int align = Align.center;
 	private Rectangle viewport = new Rectangle();
 
+	protected boolean isPressed = false;
+
 	public Actor(Stage s) {
 		stage = s;
 		viewport.set(s.getCamera().position.x, s.getCamera().position.y,
@@ -60,6 +62,24 @@ public abstract class Actor {
 		}
 
 		actualPosition.setSize(originWidth, originHeight);
+	}
+
+	/**
+	 * Fired when the mouse is clicked
+	 * @param x position of mouse in actor
+	 * @param y position of mouse in actor
+	 */
+	public void onClicked(float x, float y) {
+		if (x >= 0 && x <= 1 && y >= 0 && y <= 1) isPressed = true;
+	}
+
+	/**
+	 * Fired when the mouse is released
+	 * @param x position of mouse in actor
+	 * @param y position of mouse in actor
+	 */
+	public void onClickRelease(float x, float y) {
+		isPressed = false;
 	}
 
 	public Rectangle getViewport() {
