@@ -56,6 +56,10 @@ public class Group extends Actor {
 	public void onMouseDrag(float x, float y) {
 		super.onMouseDrag(x, y);
 
+		checkMouseStillOnActors();
+	}
+
+	private void checkMouseStillOnActors() {
 		stage.setVectorToMouse(Gdx.input.getX(), Gdx.input.getY(), Stage.tmpVec3);
 
 		for (int i = pressedActors.size - 1; i >= 0; i--) {
@@ -95,6 +99,8 @@ public class Group extends Actor {
 	@Override
 	public void updateActualPosition() {
 		super.updateActualPosition();
+
+		checkMouseStillOnActors();
 
 		for (int i = 0; i < children.size; i++) {
 			children.get(i).getViewport().set(getX(), getY(), getWidth(), getHeight());
