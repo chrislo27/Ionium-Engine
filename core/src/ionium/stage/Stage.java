@@ -117,11 +117,11 @@ public class Stage implements InputProcessor {
 
 			for (int i = 0; i < actors.size; i++) {
 				Actor act = actors.get(i);
-				if (MathHelper.intersects(tmpVec3.x, tmpVec3.y, 1, 1, act.actualX(), act.actualY(),
-						act.actualWidth(), act.actualHeight(), true)) {
+				if (MathHelper.intersects(tmpVec3.x, tmpVec3.y, 1, 1, act.getX(), act.getY(),
+						act.getWidth(), act.getHeight(), true)) {
 					pressedActors.add(act);
-					act.onClicked((tmpVec3.x - act.actualX()) / act.actualWidth(),
-							(tmpVec3.y - act.actualY()) / act.actualHeight());
+					act.onClicked((tmpVec3.x - act.getX()) / act.getWidth(),
+							(tmpVec3.y - act.getY()) / act.getHeight());
 				}
 			}
 
@@ -139,8 +139,8 @@ public class Stage implements InputProcessor {
 			for (int i = pressedActors.size - 1; i >= 0; i--) {
 				Actor act = pressedActors.get(i);
 
-				act.onClickRelease((tmpVec3.x - act.actualX()) / act.actualWidth(),
-						(tmpVec3.y - act.actualY()) / act.actualHeight());
+				act.onClickRelease((tmpVec3.x - act.getX()) / act.getWidth(),
+						(tmpVec3.y - act.getY()) / act.getHeight());
 
 				pressedActors.removeIndex(i);
 			}
@@ -162,11 +162,11 @@ public class Stage implements InputProcessor {
 			for (int i = pressedActors.size - 1; i >= 0; i--) {
 				Actor act = pressedActors.get(i);
 
-				if (!MathHelper.intersects(tmpVec3.x, tmpVec3.y, 1, 1, act.actualX(), act.actualY(),
-						act.actualWidth(), act.actualHeight(), true)) {
+				if (!MathHelper.intersects(tmpVec3.x, tmpVec3.y, 1, 1, act.getX(), act.getY(),
+						act.getWidth(), act.getHeight(), true)) {
 
-					act.onClickRelease((tmpVec3.x - act.actualX()) / act.actualWidth(),
-							(tmpVec3.y - act.actualY()) / act.actualHeight());
+					act.onClickRelease((tmpVec3.x - act.getX()) / act.getWidth(),
+							(tmpVec3.y - act.getY()) / act.getHeight());
 
 					pressedActors.removeIndex(i);
 				}

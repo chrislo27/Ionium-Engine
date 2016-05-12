@@ -30,7 +30,7 @@ public abstract class Actor {
 
 	public void renderDebug(SpriteBatch batch) {
 		batch.setColor(0, 0, 1, 1);
-		Main.drawRect(batch, actualX(), actualY(), actualWidth(), actualHeight(), 1);
+		Main.drawRect(batch, getX(), getY(), getWidth(), getHeight(), 1);
 		batch.setColor(1, 1, 1, 1);
 	}
 
@@ -165,19 +165,19 @@ public abstract class Actor {
 		return setPixelOffset(pixelOffset.x, pixelOffset.y, w, h);
 	}
 
-	public float actualX() {
+	public float getX() {
 		return actualPosition.x;
 	}
 
-	public float actualY() {
+	public float getY() {
 		return actualPosition.y;
 	}
 
-	public float actualWidth() {
+	public float getWidth() {
 		return actualPosition.width;
 	}
 
-	public float actualHeight() {
+	public float getHeight() {
 		return actualPosition.height;
 	}
 

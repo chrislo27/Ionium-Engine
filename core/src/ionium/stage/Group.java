@@ -35,7 +35,7 @@ public class Group extends Actor {
 		super.updateActualPosition();
 
 		for (int i = 0; i < children.size; i++) {
-			children.get(i).getViewport().set(actualX(), actualY(), actualWidth(), actualHeight());
+			children.get(i).getViewport().set(getX(), getY(), getWidth(), getHeight());
 			children.get(i).updateActualPosition();
 		}
 	}
@@ -54,7 +54,7 @@ public class Group extends Actor {
 		}
 
 		batch.setColor(0, 1, 0, 1);
-		Main.drawRect(batch, actualX(), actualY(), actualWidth(), actualHeight(), 1);
+		Main.drawRect(batch, getX(), getY(), getWidth(), getHeight(), 1);
 		batch.setColor(1, 1, 1, 1);
 	}
 
