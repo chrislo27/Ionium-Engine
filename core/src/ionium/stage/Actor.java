@@ -82,6 +82,10 @@ public abstract class Actor {
 		isPressed = false;
 	}
 
+	public void onMouseDrag(float x, float y) {
+
+	}
+
 	public Rectangle getViewport() {
 		return viewport;
 	}

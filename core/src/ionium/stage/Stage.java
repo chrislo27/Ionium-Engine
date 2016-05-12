@@ -14,7 +14,7 @@ import ionium.util.MathHelper;
 
 public class Stage implements InputProcessor {
 
-	private static final Vector3 tmpVec3 = new Vector3();
+	protected static final Vector3 tmpVec3 = new Vector3();
 
 	private Array<Actor> actors = new Array<>();
 	private Array<Actor> pressedActors = new Array<>();
@@ -83,7 +83,22 @@ public class Stage implements InputProcessor {
 		return camera;
 	}
 
+	public boolean isMouseOver(Actor act) {
+		setVectorToMouse(Gdx.input.getX(), Gdx.input.getY(), tmpVec3);
+
+		return isMouseOver(tmpVec3.x, tmpVec3.y, act);
+	}
+
+	public boolean isMouseOver(float x, float y, Actor act) {
+		return MathHelper.intersects(x, y, 1, 1, act.getX(), act.getY(), act.getWidth(),
+				act.getHeight(), true);
+	}
+
 	// input processor stuff
+
+	public Vector3 setVectorToMouse(float x, float y, Vector3 vec3) {
+		return vec3.set(camera.unproject(vec3.set(x, y, 0)));
+	}
 
 	public void addSelfToInputMultiplexer(InputMultiplexer plex) {
 		plex.addProcessor(0, this);
@@ -110,15 +125,14 @@ public class Stage implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		tmpVec3.set(camera.unproject(tmpVec3.set(screenX, screenY, 0)));
+		setVectorToMouse(screenX, screenY, tmpVec3);
 
 		if (button == Buttons.LEFT) {
 			pressedActors.clear();
 
 			for (int i = 0; i < actors.size; i++) {
 				Actor act = actors.get(i);
-				if (MathHelper.intersects(tmpVec3.x, tmpVec3.y, 1, 1, act.getX(), act.getY(),
-						act.getWidth(), act.getHeight(), true)) {
+				if (isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
 					pressedActors.add(act);
 					act.onClicked((tmpVec3.x - act.getX()) / act.getWidth(),
 							(tmpVec3.y - act.getY()) / act.getHeight());
@@ -133,7 +147,7 @@ public class Stage implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		tmpVec3.set(camera.unproject(tmpVec3.set(screenX, screenY, 0)));
+		setVectorToMouse(screenX, screenY, tmpVec3);
 
 		if (button == Buttons.LEFT) {
 			for (int i = pressedActors.size - 1; i >= 0; i--) {
@@ -151,28 +165,32 @@ public class Stage implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		tmpVec3.set(camera.unproject(tmpVec3.set(screenX, screenY, 0)));
+		setVectorToMouse(screenX, screenY, tmpVec3);
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			for (int i = pressedActors.size - 1; i >= 0; i--) {
 				Actor act = pressedActors.get(i);
 
-				if (!MathHelper.intersects(tmpVec3.x, tmpVec3.y, 1, 1, act.getX(), act.getY(),
-						act.getWidth(), act.getHeight(), true)) {
+				float actorLocalX = (tmpVec3.x - act.getX()) / act.getWidth();
+				float actorLocalY = (tmpVec3.y - act.getY()) / act.getHeight();
 
-					act.onClickRelease((tmpVec3.x - act.getX()) / act.getWidth(),
-							(tmpVec3.y - act.getY()) / act.getHeight());
+				act.onMouseDrag(actorLocalX, actorLocalY);
 
+				if (!isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
+
+					act.onClickRelease(actorLocalX, actorLocalY);
 					pressedActors.removeIndex(i);
 				}
 			}
+
+			return true;
 		}
 
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
 		return false;
 	}
 
