@@ -132,7 +132,7 @@ public class Stage implements InputProcessor {
 
 			for (int i = 0; i < actors.size; i++) {
 				Actor act = actors.get(i);
-				if (isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
+				if (act.isEnabled() && isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
 					pressedActors.add(act);
 					act.onClicked((tmpVec3.x - act.getX()) / act.getWidth(),
 							(tmpVec3.y - act.getY()) / act.getHeight());
@@ -176,7 +176,7 @@ public class Stage implements InputProcessor {
 
 				act.onMouseDrag(actorLocalX, actorLocalY);
 
-				if (!isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
+				if (!act.isEnabled() || !isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
 
 					act.onClickRelease(actorLocalX, actorLocalY);
 					pressedActors.removeIndex(i);

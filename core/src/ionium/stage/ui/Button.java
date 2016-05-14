@@ -39,7 +39,9 @@ public class Button extends Actor {
 		boolean isMouseOver = stage.isMouseOver(this);
 
 		Color backgroundColor = palette.backgroundColor;
-		if (isPressed) {
+		if (!isEnabled()) {
+			backgroundColor = palette.disabledBackgroundColor;
+		} else if (isPressed()) {
 			backgroundColor = palette.clickedBackgroundColor;
 		} else if (isMouseOver) {
 			backgroundColor = palette.mouseoverBackgroundColor;
@@ -49,7 +51,9 @@ public class Button extends Actor {
 		Main.fillRect(batch, getX(), getY(), getWidth(), getHeight());
 
 		Color borderColor = palette.borderColor;
-		if (isPressed) {
+		if (!isEnabled()) {
+			borderColor = palette.disabledBorderColor;
+		} else if (isPressed()) {
 			borderColor = palette.clickedBorderColor;
 		} else if (isMouseOver) {
 			borderColor = palette.mouseoverBorderColor;
@@ -58,7 +62,9 @@ public class Button extends Actor {
 		batch.setColor(borderColor);
 
 		int borderThickness = palette.borderThickness;
-		if (isPressed) {
+		if (!isEnabled()) {
+			borderThickness = palette.disabledBorderThickness;
+		} else if (isPressed()) {
 			borderThickness = palette.clickedBorderThickness;
 		} else if (isMouseOver) {
 			borderThickness = palette.mouseoverBorderThickness;

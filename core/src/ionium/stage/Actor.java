@@ -18,7 +18,8 @@ public abstract class Actor {
 	private int align = Align.center;
 	private Rectangle viewport = new Rectangle();
 
-	protected boolean isPressed = false;
+	private boolean isPressed = false;
+	private boolean enabled = true;
 
 	public Actor(Stage s) {
 		stage = s;
@@ -105,6 +106,26 @@ public abstract class Actor {
 
 	public int getAlign() {
 		return align;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public Actor setEnabled(boolean enabled) {
+		this.enabled = enabled;
+
+		return this;
+	}
+
+	public boolean isPressed() {
+		return isPressed;
+	}
+
+	public Actor setPressed(boolean pressed) {
+		isPressed = pressed;
+
+		return this;
 	}
 
 	public float getScreenOffsetX() {

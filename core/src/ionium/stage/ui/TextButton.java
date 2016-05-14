@@ -27,7 +27,9 @@ public class TextButton extends Button {
 		boolean isMouseOver = stage.isMouseOver(this);
 
 		Color textColor = palette.textColor;
-		if (isPressed) {
+		if (!isEnabled()) {
+			textColor = palette.disabledTextColor;
+		} else if (isPressed()) {
 			textColor = palette.clickedTextColor;
 		} else if (isMouseOver) {
 			textColor = palette.mouseoverTextColor;

@@ -13,18 +13,22 @@ public class Palette {
 	public Color backgroundColor = new Color();
 	public Color mouseoverBackgroundColor = new Color();
 	public Color clickedBackgroundColor = new Color();
+	public Color disabledBackgroundColor = new Color();
 
 	public Color borderColor = new Color();
 	public Color mouseoverBorderColor = new Color();
 	public Color clickedBorderColor = new Color();
+	public Color disabledBorderColor = new Color();
 
 	public int borderThickness = 1;
 	public int mouseoverBorderThickness = 1;
 	public int clickedBorderThickness = 1;
+	public int disabledBorderThickness = 1;
 
-	public Color textColor = new Color(0, 0, 0, 1);
-	public Color mouseoverTextColor = new Color(0, 0, 0, 1);
-	public Color clickedTextColor = new Color(0, 0, 0, 1);
+	public Color textColor = new Color();
+	public Color mouseoverTextColor = new Color();
+	public Color clickedTextColor = new Color();
+	public Color disabledTextColor = new Color();
 
 	public BitmapFont textFont;
 
@@ -32,6 +36,7 @@ public class Palette {
 		textColor.set(r, g, b, a);
 		mouseoverTextColor.set(r, g, b, a);
 		clickedTextColor.set(r, g, b, a);
+		disabledTextColor.set(r, g, b, a);
 
 		return this;
 	}
@@ -40,6 +45,7 @@ public class Palette {
 		backgroundColor.set(r, g, b, a);
 		mouseoverBackgroundColor.set(r, g, b, a);
 		clickedBackgroundColor.set(r, g, b, a);
+		disabledBackgroundColor.set(r, g, b, a);
 
 		return this;
 	}
@@ -48,6 +54,7 @@ public class Palette {
 		borderColor.set(r, g, b, a);
 		mouseoverBorderColor.set(r, g, b, a);
 		clickedBorderColor.set(r, g, b, a);
+		disabledBorderColor.set(r, g, b, a);
 
 		return this;
 	}
@@ -56,6 +63,7 @@ public class Palette {
 		borderThickness = thickness;
 		mouseoverBorderThickness = thickness;
 		clickedBorderThickness = thickness;
+		disabledBorderThickness = thickness;
 
 		return this;
 	}

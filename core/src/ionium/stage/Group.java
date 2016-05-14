@@ -27,7 +27,7 @@ public class Group extends Actor {
 
 		for (int i = 0; i < children.size; i++) {
 			Actor act = children.get(i);
-			if (stage.isMouseOver(Stage.tmpVec3.x, Stage.tmpVec3.y, act)) {
+			if (act.isEnabled() && stage.isMouseOver(Stage.tmpVec3.x, Stage.tmpVec3.y, act)) {
 				pressedActors.add(act);
 				act.onClicked((Stage.tmpVec3.x - act.getX()) / act.getWidth(),
 						(Stage.tmpVec3.y - act.getY()) / act.getHeight());
@@ -70,7 +70,7 @@ public class Group extends Actor {
 
 			act.onMouseDrag(actorLocalX, actorLocalY);
 
-			if (!stage.isMouseOver(Stage.tmpVec3.x, Stage.tmpVec3.y, act)) {
+			if (!act.isEnabled() || !stage.isMouseOver(Stage.tmpVec3.x, Stage.tmpVec3.y, act)) {
 
 				act.onClickRelease(actorLocalX, actorLocalY);
 
