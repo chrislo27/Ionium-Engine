@@ -1,196 +1,139 @@
 package ionium.util.quadtree;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
-/**
- * Created by alwex on 28/05/2015.
- * 
- * Original creator: https://github.com/alwex/QuadTree
- * <br>
- * Modified to use libgdx
- */
 public class QuadTree<E extends QuadRectangleable> {
 
-	// the current nodes
-	Array<E> nodes;
+	private static final int NODE_PARENT = -1;
+	private static final int NODE_NW = 0;
+	private static final int NODE_NE = 1;
+	private static final int NODE_SE = 2;
+	private static final int NODE_SW = 3;
 
-	// current rectangle zone
-	private Rectangle zone;
+	public static int maxObjects = 4;
+	public static int maxNodes = 8;
 
-	// if this is reached,
-	// the zone is subdivised
-	public int maxItemByNode = 5;
-	public int maxLevel = 10;
+	private int level = 0;
+	private Array<E> objects = new Array<>();
+	private Rectangle nodeBounds = new Rectangle();
+	private QuadTree[] childNodes = new QuadTree[4];
 
-	int level;
+	private boolean hasChildNodes = false;
 
-	// the four sub regions,
-	// may be null if not needed
-	QuadTree<E>[] regions;
+	public QuadTree(float worldWidth, float worldHeight) {
+		level = 0;
+		nodeBounds.set(0, 0, worldWidth, worldHeight);
+	}
 
-	public static final int REGION_SELF = -1;
-	public static final int REGION_NW = 0;
-	public static final int REGION_NE = 1;
-	public static final int REGION_SW = 2;
-	public static final int REGION_SE = 3;
-
-	private Array<E> tempArray = new Array<>();
-	private Rectangle tempRect = new Rectangle();
-
-	public QuadTree(Rectangle definition, int level, int maxLevel, int maxItems) {
-		zone = definition;
-		nodes = new Array<>();
+	private QuadTree(int level, float x, float y, float width, float height) {
 		this.level = level;
-		this.maxItemByNode = maxItems;
-		this.maxLevel = maxLevel;
+		nodeBounds.set(x, y, width, height);
 	}
 
-	protected Rectangle getZone() {
-		return this.zone;
-	}
+	public void clear() {
+		objects.clear();
 
-	private int findRegion(E rect) {
-		int region = REGION_SELF;
-		if (nodes.size >= maxItemByNode && this.level < maxLevel) {
-			if (regions == null) {
-				// then create the subregions
-				this.split();
-			}
-
-			if (regions[REGION_NW].getZone().contains(rect.getX(), rect.getY())) {
-				region = REGION_NW;
-			} else if (regions[REGION_NE].getZone().contains(rect.getX(), rect.getY())) {
-				region = REGION_NE;
-			} else if (regions[REGION_SW].getZone().contains(rect.getX(), rect.getY())) {
-				region = REGION_SW;
-			} else if (regions[REGION_SE].getZone().contains(rect.getX(), rect.getY())) {
-				region = REGION_SE;
-			}
+		for (int i = 0; i < childNodes.length; i++) {
+			if (childNodes[i] != null) childNodes[i].clear();
+			childNodes[i] = null;
 		}
 
-		return region;
+		hasChildNodes = false;
 	}
 
 	private void split() {
+		final int newLevel = level + 1;
+		final float halfWidth = nodeBounds.width * 0.5f;
+		final float halfHeight = nodeBounds.height * 0.5f;
+		final float x = nodeBounds.x;
+		final float y = nodeBounds.y;
 
-		regions = new QuadTree[4];
+		childNodes[NODE_NW] = new QuadTree(newLevel, x, y + halfHeight, halfWidth, halfHeight);
+		childNodes[NODE_NE] = new QuadTree(newLevel, x + halfWidth, y + halfHeight, halfWidth,
+				halfHeight);
+		childNodes[NODE_SE] = new QuadTree(newLevel, x + halfWidth, y, halfWidth, halfHeight);
+		childNodes[NODE_SW] = new QuadTree(newLevel, x, y, halfWidth, halfHeight);
 
-		float newWidth = zone.width / 2;
-		float newHeight = zone.height / 2;
-		int newLevel = level + 1;
-
-		regions[REGION_NW] = new QuadTree<>(
-				new Rectangle(zone.x, zone.y + zone.height / 2, newWidth, newHeight), newLevel,
-				maxLevel, maxItemByNode);
-
-		regions[REGION_NE] = new QuadTree<>(new Rectangle(zone.x + zone.width / 2,
-				zone.y + zone.height / 2, newWidth, newHeight), newLevel, maxLevel, maxItemByNode);
-
-		regions[REGION_SW] = new QuadTree<>(new Rectangle(zone.x, zone.y, newWidth, newHeight),
-				newLevel, maxLevel, maxItemByNode);
-
-		regions[REGION_SE] = new QuadTree<>(
-				new Rectangle(zone.x + zone.width / 2, zone.y, newWidth, newHeight), newLevel,
-				maxLevel, maxItemByNode);
+		hasChildNodes = true;
 	}
 
 	/**
-	 * Inserts an element.
+	 * Returns index of where an element can be placed. Returns NODE_PARENT if it doesn't fit.
 	 * @param element
+	 * @return node ID (parent, NW, NE, SE, SW)
 	 */
+	private int getIndex(E element) {
+		int index = NODE_PARENT;
+
+		final float xMidpoint = nodeBounds.x + nodeBounds.width * 0.5f;
+		final float yMidpoint = nodeBounds.y + nodeBounds.height * 0.5f;
+
+		boolean topHalf = element.getY() > yMidpoint;
+		boolean bottomHalf = element.getY() + element.getHeight() < yMidpoint;
+		boolean leftHalf = element.getX() + element.getWidth() < xMidpoint;
+		boolean rightHalf = element.getX() > xMidpoint;
+
+		if (leftHalf) {
+			if (topHalf) {
+				index = NODE_NW;
+			} else if (bottomHalf) {
+				index = NODE_SW;
+			}
+		} else if (rightHalf) {
+			if (topHalf) {
+				index = NODE_NE;
+			} else if (bottomHalf) {
+				index = NODE_SE;
+			}
+		}
+
+		return index;
+	}
+
 	public void insert(E element) {
-		int region = this.findRegion(element);
-		if (region == REGION_SELF || this.level == maxLevel) {
-			nodes.add(element);
+		// place in child node first
+		if (hasChildNodes) {
+			int index = getIndex(element);
+
+			if (index != NODE_PARENT) {
+				childNodes[index].insert(element);
+			}
+
 			return;
-		} else {
-			regions[region].insert(element);
 		}
 
-		if (nodes.size >= maxItemByNode && this.level < maxLevel) {
-			// redispatch the elements
-			tempArray.clear();
-			for (E node : nodes) {
-				tempArray.add(node);
-			}
-			nodes.clear();
-			for (E node : tempArray) {
-				this.insert(node);
-			}
-		}
-	}
+		// must be placed in this node
+		objects.add(element);
 
-	/**
-	 * Gets all elements in the area of E using a temp array.
-	 * @param element
-	 * @return
-	 */
-	public Array<E> getElements(E element) {
-		tempArray.clear();
-		return getElements(tempArray, element);
-	}
+		// split because we're too large
+		if (level < maxNodes && objects.size > maxObjects) {
+			if (!hasChildNodes) split();
 
-	/**
-	 * Gets all elements using a supplied array in the area of E. The array isn't cleared before use.
-	 * @param list
-	 * @param element
-	 * @return
-	 */
-	public Array<E> getElements(Array<E> list, E element) {
-		int region = this.findRegion(element);
+			for (int i = objects.size - 1; i >= 0; i--) {
+				int index = getIndex(objects.get(i));
 
-		for (E node : nodes) {
-			list.add(node);
-		}
-
-		if (region != REGION_SELF) {
-			regions[region].getElements(list, element);
-		} else {
-			getAllElements(list, true);
-		}
-
-		return list;
-	}
-
-	/**
-	 * Gets all the element in the entire tree into a supplied array. If firstCall is true,
-	 * it also adds the quadtree's base elements into the list.
-	 * 
-	 * @param list
-	 * @param firstCall
-	 * @return
-	 */
-	public Array<E> getAllElements(Array<E> list, boolean firstCall) {
-		if (regions != null) {
-			regions[REGION_NW].getAllElements(list, false);
-			regions[REGION_NE].getAllElements(list, false);
-			regions[REGION_SW].getAllElements(list, false);
-			regions[REGION_SE].getAllElements(list, false);
-		}
-
-		if (!firstCall) {
-			for (E node : nodes) {
-				list.add(node);
+				if (index == NODE_PARENT) {
+					continue;
+				} else {
+					childNodes[index].insert(objects.removeIndex(i));
+				}
 			}
 		}
-
-		return list;
 	}
 
-	/**
-	 * Returns all rectangle bounding areas.
-	 * @param list
-	 */
-	public void getAllZones(Array<Rectangle> list) {
-		list.add(this.zone);
-		if (regions != null) {
-			regions[REGION_NW].getAllZones(list);
-			regions[REGION_NE].getAllZones(list);
-			regions[REGION_SW].getAllZones(list);
-			regions[REGION_SE].getAllZones(list);
+	public Array<E> retrieve(Array<E> returnList, E reference) {
+		if (reference == null) throw new IllegalArgumentException(
+				"Reference element while retrieving cannot be null!");
+
+		int index = getIndex(reference);
+		if (index != NODE_PARENT && hasChildNodes) {
+			childNodes[index].retrieve(returnList, reference);
 		}
+
+		returnList.addAll(returnList);
+
+		return returnList;
 	}
+
 }
