@@ -20,6 +20,7 @@ public class CollisionResolver {
 	};
 	private final Array<PhysicsBody> tempBodies = new Array<>();
 	private Vector2 tempAmtToMove = new Vector2();
+	private final Array<PhysicsBody> broadphase = new Array<>();
 
 	public float timeScale = 1;
 	public float tolerance = 1f / 100f;
@@ -79,12 +80,19 @@ public class CollisionResolver {
 
 		result.normal.setZero();
 
+		// broad-phase check
+		broadphase.clear();
+
+		for (PhysicsBody b : otherBodies) {
+			if (b.bounds.overlaps(pathBounds)) broadphase.add(b);
+		}
+
 		// stepping
 		while (true) {
 			result.stepsTaken++;
 
 			// scan bodies for collision
-			for (PhysicsBody b : otherBodies) {
+			for (PhysicsBody b : broadphase) {
 				if (MathHelper.intersects(positionX, positionY, target.bounds.width,
 						target.bounds.height, b.bounds.x, b.bounds.y, b.bounds.width,
 						b.bounds.height, false)) {
@@ -236,6 +244,8 @@ public class CollisionResolver {
 
 		// set position on result
 		result.newPosition.set(positionX, positionY);
+
+		broadphase.clear();
 
 		return result;
 	}
