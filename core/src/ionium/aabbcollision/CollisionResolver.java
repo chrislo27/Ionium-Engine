@@ -1,15 +1,11 @@
 package ionium.aabbcollision;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
-import ionium.templates.Main;
-import ionium.util.DebugSetting;
 import ionium.util.MathHelper;
 
 public class CollisionResolver {
@@ -24,7 +20,6 @@ public class CollisionResolver {
 	};
 	private final Array<PhysicsBody> tempBodies = new Array<>();
 	private Vector2 tempAmtToMove = new Vector2();
-	private final DirectionalSorter sorter = new DirectionalSorter();
 
 	public float timeScale = 1;
 	public float tolerance = 1f / 100f;
@@ -45,10 +40,6 @@ public class CollisionResolver {
 
 		// obtain pooled result
 		CollisionResult result = resultPool.obtain();
-
-		// set up the sorter to sort from the position of the target's centre
-		target.bounds.getCenter(sorter.position);
-		//otherBodies.sort(sorter);
 
 		float remainingVeloX = target.velocity.x * timeScale;
 		float remainingVeloY = target.velocity.y * timeScale;
