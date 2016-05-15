@@ -52,7 +52,7 @@ public class Stage implements InputProcessor {
 		batch.setProjectionMatrix(camera.combined);
 
 		for (int i = 0; i < actors.size; i++) {
-			actors.get(i).render(batch);
+			actors.get(i).render(batch, actors.get(i).getAlpha());
 		}
 
 		if (!debugMode) return;

@@ -35,7 +35,7 @@ public class Button extends Actor {
 	}
 
 	@Override
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch, float alpha) {
 		boolean isMouseOver = stage.isMouseOver(this);
 
 		Color backgroundColor = palette.backgroundColor;
@@ -47,7 +47,7 @@ public class Button extends Actor {
 			backgroundColor = palette.mouseoverBackgroundColor;
 		}
 
-		batch.setColor(backgroundColor);
+		batch.setColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a * alpha);
 		Main.fillRect(batch, getX(), getY(), getWidth(), getHeight());
 
 		Color borderColor = palette.borderColor;
@@ -59,7 +59,7 @@ public class Button extends Actor {
 			borderColor = palette.mouseoverBorderColor;
 		}
 
-		batch.setColor(borderColor);
+		batch.setColor(borderColor.r, borderColor.g, borderColor.b, borderColor.a * alpha);
 
 		int borderThickness = palette.borderThickness;
 		if (!isEnabled()) {

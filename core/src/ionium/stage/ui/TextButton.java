@@ -20,8 +20,8 @@ public class TextButton extends Button {
 	}
 
 	@Override
-	public void render(SpriteBatch batch) {
-		super.render(batch);
+	public void render(SpriteBatch batch, float alpha) {
+		super.render(batch, alpha);
 
 		Palette palette = getPalette();
 		boolean isMouseOver = stage.isMouseOver(this);
@@ -35,7 +35,8 @@ public class TextButton extends Button {
 			textColor = palette.mouseoverTextColor;
 		}
 
-		palette.textFont.setColor(palette.textColor);
+		palette.textFont.setColor(palette.textColor.r, palette.textColor.b, palette.textColor.b,
+				palette.textColor.a * alpha);
 		palette.textFont.draw(batch, getText(), getX() + getWidth() * 0.5f,
 				getY() + getHeight() * 0.5f + palette.textFont.getCapHeight() * 0.5f, 0,
 				Align.center, false);

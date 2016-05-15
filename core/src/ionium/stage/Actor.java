@@ -20,6 +20,7 @@ public abstract class Actor {
 
 	private boolean isPressed = false;
 	private boolean enabled = true;
+	private float alpha = 1;
 
 	public Actor(Stage s) {
 		stage = s;
@@ -27,7 +28,7 @@ public abstract class Actor {
 				s.getCamera().viewportWidth, s.getCamera().viewportHeight);
 	}
 
-	public abstract void render(SpriteBatch batch);
+	public abstract void render(SpriteBatch batch, float alpha);
 
 	public void renderDebug(SpriteBatch batch) {
 		batch.setColor(0, 0, 1, 1);
@@ -106,6 +107,16 @@ public abstract class Actor {
 
 	public int getAlign() {
 		return align;
+	}
+
+	public float getAlpha() {
+		return alpha;
+	}
+
+	public Actor setAlpha(float alpha) {
+		this.alpha = alpha;
+
+		return this;
 	}
 
 	public boolean isEnabled() {
