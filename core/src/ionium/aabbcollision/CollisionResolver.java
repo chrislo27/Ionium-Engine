@@ -48,7 +48,7 @@ public class CollisionResolver {
 
 		// set up the sorter to sort from the position of the target's centre
 		target.bounds.getCenter(sorter.position);
-		otherBodies.sort(sorter);
+		//otherBodies.sort(sorter);
 
 		float remainingVeloX = target.velocity.x * timeScale;
 		float remainingVeloY = target.velocity.y * timeScale;
@@ -89,7 +89,7 @@ public class CollisionResolver {
 		result.normal.setZero();
 
 		// stepping
-		outerLoop: while (true) {
+		while (true) {
 			result.stepsTaken++;
 
 			// scan bodies for collision
@@ -106,33 +106,42 @@ public class CollisionResolver {
 					float xOverlap = 0;
 					float yOverlap = 0;
 					Vector2 normal = result.normal;
-
-					if (target.velocity.x != 0) {
-						xOverlap = (positionX + (target.velocity.x > 0 ? target.bounds.width : 0))
-								- (b.bounds.x + (target.velocity.x < 0 ? b.bounds.width : 0));
-					}
-
-					if (target.velocity.y != 0) {
-						yOverlap = (positionY + (target.velocity.y > 0 ? target.bounds.height : 0))
-								- (b.bounds.y + (target.velocity.y < 0 ? b.bounds.height : 0));
-					}
-
-					if (Math.abs(xOverlap) >= b.bounds.width
-							&& Math.abs(yOverlap) >= b.bounds.height)
-						continue;
-
-					// normals
 					normal.setZero();
 
-					if ((Math.abs(xOverlap) <= Math.abs(yOverlap)
-							|| (yOverlap == 0 && xOverlap != 0))) {
-						normal.x = -Math.signum(xOverlap);
+					if (target.bounds.x <= b.bounds.x) {
+						// approaching from left
+
+						xOverlap = (target.bounds.x + target.bounds.width) - b.bounds.x;
+						normal.x = -1;
+					} else {
+						// approaching from right
+
+						xOverlap = (b.bounds.x + b.bounds.width) - target.bounds.x;
+						normal.x = 1;
 					}
 
-					if ((Math.abs(yOverlap) <= Math.abs(xOverlap)
-							|| (xOverlap == 0 && yOverlap != 0))) {
-						normal.y = -Math.signum(yOverlap);
+					if (target.bounds.y <= b.bounds.y) {
+						// approaching from below
+
+						yOverlap = (target.bounds.y + target.bounds.height) - b.bounds.y;
+						normal.y = -1;
+					} else {
+						// approaching from above
+
+						yOverlap = (b.bounds.y + b.bounds.height) - target.bounds.y;
+						normal.y = 1;
 					}
+
+					if (Math.abs(xOverlap) < Math.abs(yOverlap)) {
+						normal.y = 0;
+					}
+
+					if (Math.abs(yOverlap) < Math.abs(xOverlap)) {
+						normal.x = 0;
+					}
+
+					if (Math.abs(xOverlap) > b.bounds.width && Math.abs(yOverlap) > b.bounds.height)
+						continue;
 
 					// actual resolution
 					if (normal.x == 1) {
@@ -160,8 +169,6 @@ public class CollisionResolver {
 					}
 
 					result.didCollide = true;
-
-					break outerLoop;
 				}
 
 				// check for direct touches
