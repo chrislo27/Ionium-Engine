@@ -1,7 +1,10 @@
 package ionium.util.quadtree;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+
+import ionium.templates.Main;
 
 public class QuadTree<E extends QuadRectangleable> {
 
@@ -18,8 +21,7 @@ public class QuadTree<E extends QuadRectangleable> {
 	private Array<E> objects = new Array<>();
 	private Rectangle nodeBounds = new Rectangle();
 	private QuadTree[] childNodes = new QuadTree[4];
-
-	private boolean hasChildNodes = false;
+	private boolean[] usedNodes = new boolean[4];
 
 	public QuadTree(float worldWidth, float worldHeight) {
 		level = 0;
@@ -31,15 +33,26 @@ public class QuadTree<E extends QuadRectangleable> {
 		nodeBounds.set(x, y, width, height);
 	}
 
+	public void renderDebug(SpriteBatch batch, float thickness) {
+		batch.setColor(0, 1, 0, 1);
+		Main.drawRect(batch, nodeBounds.x, nodeBounds.y, nodeBounds.width, nodeBounds.height,
+				thickness);
+		batch.setColor(1, 1, 1, 1);
+
+		for (int i = 0; i < childNodes.length; i++) {
+			if (usedNodes[i]) {
+				childNodes[i].renderDebug(batch, thickness);
+			}
+		}
+	}
+
 	public void clear() {
 		objects.clear();
 
 		for (int i = 0; i < childNodes.length; i++) {
 			if (childNodes[i] != null) childNodes[i].clear();
-			childNodes[i] = null;
+			usedNodes[i] = false;
 		}
-
-		hasChildNodes = false;
 	}
 
 	private void split() {
@@ -49,13 +62,18 @@ public class QuadTree<E extends QuadRectangleable> {
 		final float x = nodeBounds.x;
 		final float y = nodeBounds.y;
 
-		childNodes[NODE_NW] = new QuadTree(newLevel, x, y + halfHeight, halfWidth, halfHeight);
-		childNodes[NODE_NE] = new QuadTree(newLevel, x + halfWidth, y + halfHeight, halfWidth,
-				halfHeight);
-		childNodes[NODE_SE] = new QuadTree(newLevel, x + halfWidth, y, halfWidth, halfHeight);
-		childNodes[NODE_SW] = new QuadTree(newLevel, x, y, halfWidth, halfHeight);
+		if (childNodes[NODE_NW] == null)
+			childNodes[NODE_NW] = new QuadTree(newLevel, x, y + halfHeight, halfWidth, halfHeight);
+		if (childNodes[NODE_NE] == null) childNodes[NODE_NE] = new QuadTree(newLevel, x + halfWidth,
+				y + halfHeight, halfWidth, halfHeight);
+		if (childNodes[NODE_SE] == null)
+			childNodes[NODE_SE] = new QuadTree(newLevel, x + halfWidth, y, halfWidth, halfHeight);
+		if (childNodes[NODE_SW] == null)
+			childNodes[NODE_SW] = new QuadTree(newLevel, x, y, halfWidth, halfHeight);
 
-		hasChildNodes = true;
+		for (int i = 0; i < usedNodes.length; i++) {
+			usedNodes[i] = true;
+		}
 	}
 
 	/**
@@ -93,12 +111,10 @@ public class QuadTree<E extends QuadRectangleable> {
 
 	public void insert(E element) {
 		// place in child node first
-		if (hasChildNodes) {
-			int index = getIndex(element);
+		int testIndex = getIndex(element);
 
-			if (index != NODE_PARENT) {
-				childNodes[index].insert(element);
-			}
+		if (testIndex != NODE_PARENT && usedNodes[testIndex] != false) {
+			childNodes[testIndex].insert(element);
 
 			return;
 		}
@@ -108,7 +124,7 @@ public class QuadTree<E extends QuadRectangleable> {
 
 		// split because we're too large
 		if (level < maxNodes && objects.size > maxObjects) {
-			if (!hasChildNodes) split();
+			split();
 
 			for (int i = objects.size - 1; i >= 0; i--) {
 				int index = getIndex(objects.get(i));
@@ -127,11 +143,12 @@ public class QuadTree<E extends QuadRectangleable> {
 				"Reference element while retrieving cannot be null!");
 
 		int index = getIndex(reference);
-		if (index != NODE_PARENT && hasChildNodes) {
+
+		if (index != NODE_PARENT && usedNodes[index] != false) {
 			childNodes[index].retrieve(returnList, reference);
 		}
 
-		returnList.addAll(returnList);
+		returnList.addAll(objects);
 
 		return returnList;
 	}
