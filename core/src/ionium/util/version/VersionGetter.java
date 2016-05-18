@@ -37,7 +37,7 @@ public class VersionGetter {
 		final String path = GlobalVariables.versionUrl;
 
 		if (path == null) {
-			Main.logger.error("Version URL is null!");
+			Main.logger.warn("Version URL is null!");
 			return;
 		}
 
