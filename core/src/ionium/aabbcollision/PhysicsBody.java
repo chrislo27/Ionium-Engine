@@ -9,6 +9,8 @@ import ionium.util.MathHelper;
 
 public class PhysicsBody implements Poolable {
 
+	public static final PhysicsBody tmp = new PhysicsBody();
+	public static final PhysicsBody tmp2 = new PhysicsBody();
 	private static final Rectangle pathHitTempRect = new Rectangle();
 
 	public Rectangle bounds = new Rectangle();
