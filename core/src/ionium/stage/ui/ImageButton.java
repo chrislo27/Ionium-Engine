@@ -37,14 +37,15 @@ public class ImageButton extends Button {
 		super.render(batch, alpha);
 
 		if (textureRegion != null) {
+			boolean isMouseOver = stage.isMouseOver(this);
 			float texWidth, texHeight;
 
 			if (getWidth() <= getHeight()) {
-				texWidth = getWidth();
+				texWidth = getWidth() - getBorderThickness(isMouseOver) * 2;
 				texHeight = texWidth
 						* (textureRegion.getRegionWidth() * 1f / textureRegion.getRegionHeight());
 			} else {
-				texHeight = getHeight();
+				texHeight = getHeight() - getBorderThickness(isMouseOver) * 2;
 				texWidth = texHeight
 						* (textureRegion.getRegionHeight() * 1f / textureRegion.getRegionWidth());
 			}
@@ -52,7 +53,7 @@ public class ImageButton extends Button {
 			batch.setColor(imageTint);
 
 			batch.draw(textureRegion, (getX() + getWidth() * 0.5f) - texWidth * 0.5f,
-					(getY() + getHeight() * 0.5f) - texHeight * 0.5f);
+					(getY() + getHeight() * 0.5f) - texHeight * 0.5f, texWidth, texHeight);
 
 			batch.setColor(1, 1, 1, 1);
 		}
