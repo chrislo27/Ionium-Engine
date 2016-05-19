@@ -1,6 +1,5 @@
 package ionium.stage.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -47,7 +46,8 @@ public class Button extends Actor {
 			backgroundColor = palette.mouseoverBackgroundColor;
 		}
 
-		batch.setColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a * alpha);
+		batch.setColor(backgroundColor.r, backgroundColor.g, backgroundColor.b,
+				backgroundColor.a * alpha);
 		Main.fillRect(batch, getX(), getY(), getWidth(), getHeight());
 
 		Color borderColor = palette.borderColor;
