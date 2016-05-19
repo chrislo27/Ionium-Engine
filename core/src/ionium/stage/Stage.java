@@ -50,6 +50,8 @@ public class Stage implements InputProcessor {
 	 */
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(camera.combined);
+		
+		batch.begin();
 
 		for (int i = 0; i < actors.size; i++) {
 			actors.get(i).render(batch, actors.get(i).getAlpha());
@@ -67,6 +69,8 @@ public class Stage implements InputProcessor {
 		}
 
 		batch.setColor(1, 1, 1, 1);
+		batch.end();
+
 	}
 
 	public void onResize(int width, int height) {
