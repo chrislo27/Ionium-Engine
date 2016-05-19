@@ -57,7 +57,10 @@ public class Stage implements InputProcessor {
 			actors.get(i).render(batch, actors.get(i).getAlpha());
 		}
 
-		if (!debugMode) return;
+		if (!debugMode){
+			batch.end();
+			return;
+		}
 
 		batch.setColor(1, 0, 0, 1);
 		Main.drawRect(batch, 0, 0, camera.viewportWidth, camera.viewportHeight, 1);
