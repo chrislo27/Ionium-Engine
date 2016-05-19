@@ -37,6 +37,24 @@ public class Button extends Actor {
 	public void render(SpriteBatch batch, float alpha) {
 		boolean isMouseOver = stage.isMouseOver(this);
 
+		Color backgroundColor = getBackgroundColor(isMouseOver);
+
+		batch.setColor(backgroundColor.r, backgroundColor.g, backgroundColor.b,
+				backgroundColor.a * alpha);
+		Main.fillRect(batch, getX(), getY(), getWidth(), getHeight());
+
+		Color borderColor = getBorderColor(isMouseOver);
+
+		batch.setColor(borderColor.r, borderColor.g, borderColor.b, borderColor.a * alpha);
+
+		int borderThickness = getBorderThickness(isMouseOver);
+
+		Main.drawRect(batch, getX(), getY(), getWidth(), getHeight(), borderThickness);
+
+		batch.setColor(1, 1, 1, 1);
+	}
+
+	protected Color getBackgroundColor(boolean isMouseOver) {
 		Color backgroundColor = palette.backgroundColor;
 		if (!isEnabled()) {
 			backgroundColor = palette.disabledBackgroundColor;
@@ -46,10 +64,10 @@ public class Button extends Actor {
 			backgroundColor = palette.mouseoverBackgroundColor;
 		}
 
-		batch.setColor(backgroundColor.r, backgroundColor.g, backgroundColor.b,
-				backgroundColor.a * alpha);
-		Main.fillRect(batch, getX(), getY(), getWidth(), getHeight());
+		return backgroundColor;
+	}
 
+	protected Color getBorderColor(boolean isMouseOver) {
 		Color borderColor = palette.borderColor;
 		if (!isEnabled()) {
 			borderColor = palette.disabledBorderColor;
@@ -59,8 +77,10 @@ public class Button extends Actor {
 			borderColor = palette.mouseoverBorderColor;
 		}
 
-		batch.setColor(borderColor.r, borderColor.g, borderColor.b, borderColor.a * alpha);
+		return borderColor;
+	}
 
+	protected int getBorderThickness(boolean isMouseOver) {
 		int borderThickness = palette.borderThickness;
 		if (!isEnabled()) {
 			borderThickness = palette.disabledBorderThickness;
@@ -70,9 +90,7 @@ public class Button extends Actor {
 			borderThickness = palette.mouseoverBorderThickness;
 		}
 
-		Main.drawRect(batch, getX(), getY(), getWidth(), getHeight(), borderThickness);
-
-		batch.setColor(1, 1, 1, 1);
+		return borderThickness;
 	}
 
 }
