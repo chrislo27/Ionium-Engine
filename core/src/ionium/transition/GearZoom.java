@@ -65,13 +65,13 @@ public class GearZoom implements Transition {
 
 		StencilMaskUtil.useMask();
 
-		if (ts.nextScreen == null) {
-			main.batch.begin();
-			main.batch.setColor(0, 0, 0, 1);
-			Main.fillRect(main.batch, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			main.batch.setColor(1, 1, 1, 1);
-			main.batch.end();
-		} else {
+		main.batch.begin();
+		main.batch.setColor(0, 0, 0, 1);
+		Main.fillRect(main.batch, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		main.batch.setColor(1, 1, 1, 1);
+		main.batch.end();
+
+		if (ts.nextScreen != null) {
 			ts.nextScreen.render(Gdx.graphics.getDeltaTime());
 		}
 
