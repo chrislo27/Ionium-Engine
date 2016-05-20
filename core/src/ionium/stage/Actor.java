@@ -82,6 +82,14 @@ public abstract class Actor {
 	 */
 	public void onClickRelease(float x, float y) {
 		isPressed = false;
+
+		if (x >= 0 && y >= 0 && x <= 1 && y <= 1) {
+			onClickAction(x, y);
+		}
+	}
+
+	public void onClickAction(float x, float y) {
+
 	}
 
 	public void onMouseDrag(float x, float y) {

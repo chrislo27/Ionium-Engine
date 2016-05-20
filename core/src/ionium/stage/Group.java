@@ -67,10 +67,10 @@ public class Group extends Actor {
 	public void onMouseDrag(float x, float y) {
 		super.onMouseDrag(x, y);
 
-		checkMouseStillOnActors();
+		checkMouseStillOnActors(true);
 	}
 
-	private void checkMouseStillOnActors() {
+	private void checkMouseStillOnActors(boolean checkDrag) {
 		stage.setVectorToMouse(Gdx.input.getX(), Gdx.input.getY(), Stage.tmpVec3);
 
 		for (int i = pressedActors.size - 1; i >= 0; i--) {
@@ -79,7 +79,7 @@ public class Group extends Actor {
 			float actorLocalX = (Stage.tmpVec3.x - act.getX()) / act.getWidth();
 			float actorLocalY = (Stage.tmpVec3.y - act.getY()) / act.getHeight();
 
-			act.onMouseDrag(actorLocalX, actorLocalY);
+			if (checkDrag) act.onMouseDrag(actorLocalX, actorLocalY);
 
 			if (!act.isEnabled() || !stage.isMouseOver(Stage.tmpVec3.x, Stage.tmpVec3.y, act)) {
 
@@ -116,7 +116,7 @@ public class Group extends Actor {
 			children.get(i).updateActualPosition();
 		}
 
-		checkMouseStillOnActors();
+		checkMouseStillOnActors(false);
 	}
 
 	@Override
