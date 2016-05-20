@@ -12,7 +12,7 @@ public class Palettes {
 	/**
 	 * The original "Project MP" style of UI colours.
 	 */
-	public static Palette getIoniumDefault(BitmapFont font) {
+	public static Palette getIoniumDefault(BitmapFont textFont, BitmapFont labelFont) {
 		Palette p = new Palette();
 
 		p.setBackgroundColor(229 / 255f, 229 / 255f, 229 / 255f, 1);
@@ -29,7 +29,8 @@ public class Palettes {
 
 		p.setBorderThickness(4);
 
-		p.textFont = font;
+		p.textFont = textFont;
+		p.labelFont = labelFont;
 
 		return p;
 	}

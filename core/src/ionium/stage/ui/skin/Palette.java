@@ -31,6 +31,7 @@ public class Palette {
 	public Color disabledTextColor = new Color();
 
 	public BitmapFont textFont;
+	public BitmapFont labelFont;
 
 	public Palette setTextColor(float r, float g, float b, float a) {
 		textColor.set(r, g, b, a);
