@@ -105,6 +105,7 @@ public class Group extends Actor {
 
 	public <T extends Actor> T addActor(T actor) {
 		if (actor == null) return actor;
+		if (actor == this) return null;
 
 		children.add(actor);
 
@@ -113,6 +114,7 @@ public class Group extends Actor {
 
 	public <T extends Actor> T removeActor(T actor) {
 		if (actor == null) return null;
+		if (actor == this) return null;
 
 		pressedActors.removeValue(actor, true);
 		if (children.removeValue(actor, true)) return actor;
