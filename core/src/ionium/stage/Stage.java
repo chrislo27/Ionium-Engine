@@ -44,6 +44,23 @@ public class Stage implements InputProcessor {
 		return null;
 	}
 
+	public void removeAllActors() {
+		actors.clear();
+		pressedActors.clear();
+	}
+
+	public void setAllVisible(boolean visible) {
+		for (int i = 0; i < actors.size; i++) {
+			actors.get(i).setVisible(visible);
+		}
+	}
+
+	public void setAllEnabled(boolean enabled) {
+		for (int i = 0; i < actors.size; i++) {
+			actors.get(i).setEnabled(enabled);
+		}
+	}
+
 	/**
 	 * Sets the batch projection matrix to the stage's camera matrix and renders
 	 * @param batch
