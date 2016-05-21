@@ -50,14 +50,16 @@ public class Stage implements InputProcessor {
 	 */
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(camera.combined);
-		
+
 		batch.begin();
 
 		for (int i = 0; i < actors.size; i++) {
+			if (!actors.get(i).isVisible()) continue;
+
 			actors.get(i).render(batch, actors.get(i).getAlpha());
 		}
 
-		if (!debugMode){
+		if (!debugMode) {
 			batch.end();
 			return;
 		}
@@ -97,6 +99,8 @@ public class Stage implements InputProcessor {
 	}
 
 	public boolean isMouseOver(float x, float y, Actor act) {
+		if (!act.isVisible()) return false;
+
 		return MathHelper.intersects(x, y, 1, 1, act.getX(), act.getY(), act.getWidth(),
 				act.getHeight(), true);
 	}

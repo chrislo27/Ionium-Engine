@@ -20,6 +20,7 @@ public abstract class Actor {
 
 	private boolean isPressed = false;
 	private boolean enabled = true;
+	private boolean visible = true;
 	private float alpha = 1;
 
 	public Actor(Stage s) {
@@ -129,6 +130,16 @@ public abstract class Actor {
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public Actor setVisible(boolean visible) {
+		this.visible = visible;
+
+		return this;
 	}
 
 	public Actor setEnabled(boolean enabled) {

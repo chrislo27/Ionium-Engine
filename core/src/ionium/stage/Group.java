@@ -17,12 +17,25 @@ public class Group extends Actor {
 		setScreenOffsetSize(1, 1);
 	}
 
+	@Override
 	public Group setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 
 		for (int i = 0; i < children.size; i++) {
 			Actor act = children.get(i);
 			act.setEnabled(enabled);
+		}
+
+		return this;
+	}
+
+	@Override
+	public Group setVisible(boolean visible) {
+		super.setVisible(visible);
+
+		for (int i = 0; i < children.size; i++) {
+			Actor act = children.get(i);
+			act.setVisible(visible);
 		}
 
 		return this;
