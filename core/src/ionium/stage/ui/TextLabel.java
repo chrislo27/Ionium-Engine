@@ -25,9 +25,19 @@ public class TextLabel extends Label {
 	public void render(SpriteBatch batch, float alpha) {
 		Palette palette = getPalette();
 
+		float textY = 0;
+
+		if ((getTextAlign() & Align.top) == Align.top) {
+			textY = getHeight() - palette.labelFont.getLineHeight();
+		} else if ((getTextAlign() & Align.bottom) == Align.bottom) {
+			textY = 0;
+		} else if ((getTextAlign() & Align.center) == Align.center) {
+			textY = getHeight() * 0.5f;
+		}
+
 		palette.labelFont.draw(batch, getText(), getX(),
-				getY() + getHeight() * 0.5f + palette.labelFont.getLineHeight() * 0.5f, getWidth(),
-				textAlign, wrapText);
+				getY() + textY + palette.labelFont.getLineHeight() * 0.5f, getWidth(), textAlign,
+				wrapText);
 	}
 
 	public boolean isTextWrapped() {
