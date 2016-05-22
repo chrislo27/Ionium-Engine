@@ -72,7 +72,7 @@ public class Group extends Actor {
 			act.onClickRelease((Stage.tmpVec3.x - act.getX()) / act.getWidth(),
 					(Stage.tmpVec3.y - act.getY()) / act.getHeight());
 
-			pressedActors.removeIndex(i);
+			pressedActors.removeValue(act, true);
 		}
 	}
 
