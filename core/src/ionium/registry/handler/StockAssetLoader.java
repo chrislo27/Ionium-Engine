@@ -1,19 +1,20 @@
 package ionium.registry.handler;
 
-import ionium.animation.Animation;
-import ionium.animation.LoopingAnimation;
-import ionium.util.AssetMap;
-
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
+import ionium.animation.Animation;
+import ionium.util.AssetMap;
 
 public class StockAssetLoader implements IAssetLoader {
 
 	@Override
 	public void addManagedAssets(AssetManager manager) {
+		manager.load(AssetMap.add("ionium_ui-icons", "images/ui/ui-icons.pack"),
+				TextureAtlas.class);
 	}
 
 	@Override
