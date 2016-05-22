@@ -35,9 +35,11 @@ public class TextLabel extends Label {
 			textY = getHeight() * 0.5f;
 		}
 
+		palette.labelFont.setColor(textColor.r, textColor.g, textColor.b, textColor.a * alpha);
 		palette.labelFont.draw(batch, getText(), getX(),
 				getY() + textY + palette.labelFont.getLineHeight() * 0.5f, getWidth(), textAlign,
 				wrapText);
+		palette.labelFont.setColor(1, 1, 1, 1);
 	}
 
 	public boolean isTextWrapped() {
