@@ -50,7 +50,7 @@ public class ImageButton extends Button {
 						* (textureRegion.getRegionHeight() * 1f / textureRegion.getRegionWidth());
 			}
 
-			batch.setColor(imageTint);
+			batch.setColor(imageTint.r, imageTint.g, imageTint.b, imageTint.a * alpha);
 
 			batch.draw(textureRegion, (getX() + getWidth() * 0.5f) - texWidth * 0.5f,
 					(getY() + getHeight() * 0.5f) - texHeight * 0.5f, texWidth, texHeight);
