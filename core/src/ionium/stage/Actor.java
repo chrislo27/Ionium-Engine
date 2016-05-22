@@ -32,7 +32,7 @@ public abstract class Actor {
 	public abstract void render(SpriteBatch batch, float alpha);
 
 	public void renderDebug(SpriteBatch batch) {
-		batch.setColor(0, 0, 1, 1);
+		batch.setColor(0, 0, 1, visible ? 1 : 0);
 		Main.drawRect(batch, getX(), getY(), getWidth(), getHeight(), 1);
 		batch.setColor(1, 1, 1, 1);
 	}
