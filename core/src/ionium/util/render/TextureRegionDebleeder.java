@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureRegionDebleeder {
 
-	public static float fixAmountPx = 0.01f;
+	public static float fixAmountPx = 0.25f;
 
 	public static void fixBleeding(TextureRegion region) {
 		float x = region.getRegionX();
