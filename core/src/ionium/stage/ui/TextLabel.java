@@ -26,7 +26,7 @@ public class TextLabel extends Label {
 		Palette palette = getPalette();
 
 		palette.labelFont.draw(batch, getText(), getX(),
-				getY() + getHeight() * 0.5f - palette.labelFont.getLineHeight() * 0.5f, getWidth(),
+				getY() + getHeight() * 0.5f + palette.labelFont.getLineHeight() * 0.5f, getWidth(),
 				textAlign, wrapText);
 	}
 
