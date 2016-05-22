@@ -158,16 +158,20 @@ public class Stage implements InputProcessor {
 		if (button == Buttons.LEFT) {
 			pressedActors.clear();
 
+			boolean worked = false;
+			
 			for (int i = 0; i < actors.size; i++) {
 				Actor act = actors.get(i);
 				if (act.isEnabled() && isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
 					pressedActors.add(act);
 					act.onClicked((tmpVec3.x - act.getX()) / act.getWidth(),
 							(tmpVec3.y - act.getY()) / act.getHeight());
+					
+					worked = true;
 				}
 			}
 
-			return true;
+			return worked;
 		}
 
 		return false;
@@ -196,6 +200,8 @@ public class Stage implements InputProcessor {
 		setVectorToMouse(screenX, screenY, tmpVec3);
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			boolean worked = false;
+
 			for (int i = pressedActors.size - 1; i >= 0; i--) {
 				Actor act = pressedActors.get(i);
 
@@ -204,6 +210,9 @@ public class Stage implements InputProcessor {
 
 				act.onMouseDrag(actorLocalX, actorLocalY);
 
+				if (actorLocalX >= 0 && actorLocalY >= 0 && actorLocalX <= 1 && actorLocalY <= 1)
+					worked = true;
+
 				if (!act.isEnabled() || !isMouseOver(tmpVec3.x, tmpVec3.y, act)) {
 
 					act.onClickRelease(actorLocalX, actorLocalY);
@@ -211,7 +220,7 @@ public class Stage implements InputProcessor {
 				}
 			}
 
-			return true;
+			return worked;
 		}
 
 		return false;
