@@ -219,6 +219,19 @@ public class Stage implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		setVectorToMouse(screenX, screenY, tmpVec3);
+
+		for (int i = actors.size - 1; i >= 0; i--) {
+			Actor act = actors.get(i);
+
+			if (!act.isVisible()) continue;
+
+			float actorLocalX = (tmpVec3.x - act.getX()) / act.getWidth();
+			float actorLocalY = (tmpVec3.y - act.getY()) / act.getHeight();
+
+			act.onMouseMove(actorLocalX, actorLocalY);
+		}
+
 		return false;
 	}
 

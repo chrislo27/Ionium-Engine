@@ -97,6 +97,10 @@ public abstract class Actor {
 
 	}
 
+	public void onMouseMove(float x, float y) {
+
+	}
+
 	public Rectangle getViewport() {
 		return viewport;
 	}
