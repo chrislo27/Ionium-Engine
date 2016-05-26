@@ -11,6 +11,8 @@ import ionium.util.i18n.Localization;
 public class LocalizationStrategy {
 
 	public String get(String key, Object... params) {
+		if (key == null) return "null";
+
 		return Localization.get(key, params);
 	}
 
