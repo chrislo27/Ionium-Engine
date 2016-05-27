@@ -32,7 +32,7 @@ public class TextLabel extends Label {
 		} else if ((getTextAlign() & Align.bottom) == Align.bottom) {
 			textY = 0;
 		} else if ((getTextAlign() & Align.center) == Align.center) {
-			textY = getHeight() * 0.5f;
+			textY = getHeight() * 0.5f - palette.labelFont.getCapHeight() * 0.5f;
 		}
 
 		palette.labelFont.setColor(textColor.r, textColor.g, textColor.b, textColor.a * alpha);
