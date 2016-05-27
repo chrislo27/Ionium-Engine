@@ -21,6 +21,10 @@ public class MathHelper {
 		return x + alpha * (y - x);
 	}
 
+	public static float lockAtIntervals(float number, float interval) {
+		return Math.round(number / interval) * interval;
+	}
+
 	/**
 	 * Normalizes a rectangle to have positive width and height
 	 */
