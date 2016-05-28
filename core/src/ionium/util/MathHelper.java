@@ -21,12 +21,20 @@ public class MathHelper {
 		return x + alpha * (y - x);
 	}
 
-	public static float lockAtIntervals(float number, float interval) {
+	public static float snapToNearest(float number, float interval) {
 		interval = Math.abs(interval);
 
 		if (interval == 0) return number;
 
 		return Math.round(number / interval) * interval;
+	}
+
+	public static float lockAtIntervals(float number, float interval) {
+		interval = Math.abs(interval);
+
+		if (interval == 0) return number;
+
+		return ((int) (number / interval)) * interval;
 	}
 
 	/**
