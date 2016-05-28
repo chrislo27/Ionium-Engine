@@ -634,11 +634,21 @@ public abstract class Main extends Game implements Consumer {
 
 	public static void drawRect(Batch batch, float x, float y, float width, float height,
 			float thickness) {
+		if (width < 0) {
+			width = Math.abs(width);
+			x -= width;
+		}
+
+		if (height < 0) {
+			height = Math.abs(height);
+			y -= height;
+		}
+
 		// bottom
 		batch.draw(filltex, x, y, width, thickness);
 
 		// top
-		batch.draw(filltex, x, y + height, width, -thickness);
+		batch.draw(filltex, x, y + height - thickness, width, thickness);
 
 		// left
 		batch.draw(filltex, x, y + thickness, thickness, height - (thickness * 2));
