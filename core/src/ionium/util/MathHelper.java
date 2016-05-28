@@ -22,6 +22,10 @@ public class MathHelper {
 	}
 
 	public static float lockAtIntervals(float number, float interval) {
+		interval = Math.abs(interval);
+
+		if (interval == 0) return number;
+
 		return Math.round(number / interval) * interval;
 	}
 
