@@ -483,7 +483,7 @@ public abstract class Main extends Game implements Consumer {
 					conscrollPane.getVerticalScrollBar()
 							.setValue(conscrollPane.getVerticalScrollBar().getMaximum());
 				}
-			} else if (Gdx.input.isKeyPressed(DebugSetting.REINIT_LOCALIZATION_KEY)) {
+			} else if (Gdx.input.isKeyJustPressed(DebugSetting.REINIT_LOCALIZATION_KEY)) {
 				Localization.instance().reloadFromFile();
 				Main.logger.debug("Reloaded I18N from files");
 			} else if (Gdx.input.isKeyJustPressed(DebugSetting.TICK_PERCENTAGE_KEY)) {
