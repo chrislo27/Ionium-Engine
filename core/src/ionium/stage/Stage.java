@@ -119,7 +119,7 @@ public class Stage implements InputProcessor {
 		if (!act.isVisible()) return false;
 
 		return MathHelper.intersects(x, y, 1, 1, act.getX(), act.getY(), act.getWidth(),
-				act.getHeight(), true);
+				act.getHeight(), false);
 	}
 
 	// input processor stuff
