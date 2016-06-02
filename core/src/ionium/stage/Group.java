@@ -155,7 +155,8 @@ public class Group extends Actor {
 	@Override
 	public void render(SpriteBatch batch, float alpha) {
 		for (int i = 0; i < children.size; i++) {
-			children.get(i).render(batch, children.get(i).getAlpha() * alpha);
+			if (children.get(i).isVisible())
+				children.get(i).render(batch, children.get(i).getAlpha() * alpha);
 		}
 	}
 
