@@ -2,8 +2,8 @@ package ionium.stage;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.IntArray;
 
 import ionium.templates.Main;
 
@@ -22,6 +22,7 @@ public abstract class Actor {
 	private boolean enabled = true;
 	private boolean visible = true;
 	private float alpha = 1;
+	private IntArray keybinds = new IntArray();
 
 	public Actor(Stage s) {
 		stage = s;
@@ -99,6 +100,18 @@ public abstract class Actor {
 
 	public void onMouseMove(float x, float y) {
 
+	}
+
+	public boolean onKeyAction(int key) {
+		for (int keycode : getKeybinds().items) {
+			if (key == keycode) {
+				onClickAction(0, 0);
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public Rectangle getViewport() {
@@ -243,6 +256,10 @@ public abstract class Actor {
 	public void onResize(int width, int height) {
 		setViewportToStageCamera();
 		updateActualPosition();
+	}
+
+	public IntArray getKeybinds() {
+		return keybinds;
 	}
 
 }

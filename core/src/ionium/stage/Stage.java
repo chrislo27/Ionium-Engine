@@ -138,7 +138,16 @@ public class Stage implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		return false;
+		boolean worked = false;
+
+		for (int i = 0; i < actors.size; i++) {
+			Actor act = actors.get(i);
+			if (act.isEnabled() && act.isVisible()) {
+				worked |= act.onKeyAction(keycode);
+			}
+		}
+
+		return worked;
 	}
 
 	@Override

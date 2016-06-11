@@ -182,4 +182,18 @@ public class Group extends Actor {
 		updateActualPosition();
 	}
 
+	@Override
+	public boolean onKeyAction(int key) {
+		boolean worked = false;
+
+		for (int i = 0; i < children.size; i++) {
+			Actor act = children.get(i);
+			if (act.isEnabled() && act.isVisible()) {
+				worked |= act.onKeyAction(key);
+			}
+		}
+
+		return worked;
+	}
+
 }
