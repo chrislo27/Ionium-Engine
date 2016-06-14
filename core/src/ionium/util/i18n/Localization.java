@@ -1,5 +1,6 @@
 package ionium.util.i18n;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import ionium.templates.Main;
 
@@ -52,7 +54,7 @@ public class Localization {
 		}
 
 		try {
-			if (params == null) {
+			if (params == null || params.length == 0) {
 				return instance().getCurrentBundle().getBundle().get(key);
 			} else {
 				return instance().getCurrentBundle().getBundle().format(key, params);
@@ -97,15 +99,15 @@ public class Localization {
 
 		selectedBundle = bundles.get(index);
 	}
-	
-	public void setLanguage(NamedLocale locale){
+
+	public void setLanguage(NamedLocale locale) {
 		for (int i = 0; i < bundles.size; i++) {
-			if(locale.equals(bundles.get(i).locale)){
+			if (locale.equals(bundles.get(i).locale)) {
 				selectedBundle = bundles.get(i);
 				return;
 			}
 		}
-		
+
 		selectedBundle = bundles.get(0);
 	}
 
@@ -120,6 +122,26 @@ public class Localization {
 		}
 	}
 
+	public void addCustom(String key, String value) {
+		I18NBundle bundle = null;
+
+		for (int i = 0; i < bundles.size; i++) {
+			bundle = bundles.get(i).bundle;
+
+			try {
+				Field f = bundle.getClass().getDeclaredField("properties");
+
+				f.setAccessible(true);
+
+				ObjectMap<String, String> props = (ObjectMap<String, String>) f.get(bundle);
+
+				props.put(key, value);
+			} catch (Exception e) {
+				Main.logger.warn("Failed to add custom key/value to " + bundle.toString(), e);
+			}
+		}
+	}
+
 	public CompleteI18NBundle getCurrentBundle() {
 		return selectedBundle;
 	}
@@ -131,8 +153,9 @@ public class Localization {
 	public void addBundle(NamedLocale locale) {
 		bundles.add(new CompleteI18NBundle(locale,
 				I18NBundle.createBundle(getBaseFileHandle(), locale.getLocale())));
-		
-		Main.logger.info("Loaded language " + locale.getName() + " (" + locale.getLocale().toString() + ")");
+
+		Main.logger.info(
+				"Loaded language " + locale.getName() + " (" + locale.getLocale().toString() + ")");
 	}
 
 	public void loadFromSettings(Preferences settings) {
