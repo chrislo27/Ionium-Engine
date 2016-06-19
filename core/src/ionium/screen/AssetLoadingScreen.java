@@ -22,6 +22,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	private AssetLogger output = new AssetLogger("assetoutput", Logger.DEBUG);
 
 	private long startms = 0;
+	private boolean finished = false;
 
 	@Override
 	public void render(float delta) {
@@ -33,13 +34,18 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				if (canFinishLoading()) {
 					AssetRegistry.instance().optionalOnFinish();
 					onFinishLoading();
+
+					main.setScreen(main.getScreenToSwitchToAfterLoadingAssets());
 					break;
 				}
 
-				Main.logger.info("Finished loading all managed assets, took "
-						+ (System.currentTimeMillis() - startms) + " ms");
+				if (!finished) {
+					finished = true;
 
-				main.setScreen(main.getScreenToSwitchToAfterLoadingAssets());
+					Main.logger.info("Finished loading all managed assets, took "
+							+ (System.currentTimeMillis() - startms) + " ms");
+				}
+
 			}
 		} while (false);
 
