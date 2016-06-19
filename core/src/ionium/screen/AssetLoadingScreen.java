@@ -23,8 +23,6 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 	private long startms = 0;
 
-	private boolean waitedAFrame = false;
-
 	@Override
 	public void render(float delta) {
 		AssetManager manager = AssetRegistry.instance().getAssetManager();
@@ -32,11 +30,9 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		AssetRegistry.instance().loadManagedAssets(((int) (1000f / GlobalVariables.maxFps)));
 		do {
 			if (AssetRegistry.instance().finishedLoading()) {
-				if (!waitedAFrame && canFinishLoading()) {
+				if (canFinishLoading()) {
 					AssetRegistry.instance().optionalOnFinish();
 					onFinishLoading();
-
-					waitedAFrame = true;
 					break;
 				}
 
@@ -83,6 +79,10 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 	public boolean canFinishLoading() {
 		return true;
+	}
+
+	protected final boolean shouldFinishLoading() {
+		return AssetRegistry.instance().getAssetManager().getProgress() >= 1;
 	}
 
 	public void onFinishLoading() {
