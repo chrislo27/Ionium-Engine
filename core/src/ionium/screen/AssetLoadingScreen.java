@@ -32,7 +32,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		AssetRegistry.instance().loadManagedAssets(((int) (1000f / GlobalVariables.maxFps)));
 		do {
 			if (AssetRegistry.instance().finishedLoading()) {
-				if (!waitedAFrame) {
+				if (!waitedAFrame && canFinishLoading()) {
 					AssetRegistry.instance().optionalOnFinish();
 					onFinishLoading();
 
@@ -79,6 +79,10 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				Gdx.graphics.getHeight() * 0.5f - 85);
 
 		main.batch.end();
+	}
+
+	public boolean canFinishLoading() {
+		return true;
 	}
 
 	public void onFinishLoading() {
