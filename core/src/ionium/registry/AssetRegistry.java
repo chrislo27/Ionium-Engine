@@ -82,6 +82,7 @@ public final class AssetRegistry implements Disposable {
 
 		// add the managed textures to the asset manager, the unmanaged textures are loaded separately
 		l.addManagedAssets(manager);
+		l.addUnmanagedTextures(unmanagedTextures);
 		l.addUnmanagedAnimations(animations);
 
 		return this;
@@ -210,7 +211,9 @@ public final class AssetRegistry implements Disposable {
 		if (instance().getUnmanagedTextures().get(key) != null) {
 			return instance().getUnmanagedTextures().get(key);
 		} else {
-			if (AssetMap.get(key) == null) return getMissingTexture();
+			if (AssetMap.get(key) == null) {
+				return getMissingTexture();
+			}
 
 			return getAsset(key, Texture.class);
 		}
