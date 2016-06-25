@@ -9,13 +9,9 @@ public class NamedLocale {
 	private Locale locale;
 	private String name;
 
-	private Array<String> flags = new Array<String>(new String[] { "flag_unknown" });
-
-	public NamedLocale(String name, Locale locale, String... flags) {
+	public NamedLocale(String name, Locale locale) {
 		this.name = name;
 		this.locale = locale;
-
-		if (flags.length > 0) this.flags = new Array<String>(flags);
 
 		if (name == null || locale == null)
 			throw new IllegalArgumentException("Name and/or locale cannot be null!");
@@ -36,15 +32,6 @@ public class NamedLocale {
 
 	public NamedLocale setName(String name) {
 		this.name = name;
-		return this;
-	}
-
-	public Array<String> getFlags() {
-		return flags;
-	}
-
-	public NamedLocale setFlags(Array<String> flags) {
-		this.flags = flags;
 		return this;
 	}
 
