@@ -3,6 +3,7 @@ package ionium.util;
 import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 
@@ -37,6 +39,11 @@ public class Utils {
 
 	public static float getHeight(BitmapFont font, String text) {
 		glyphLayout.setText(font, text);
+		return glyphLayout.height;
+	}
+
+	public static float getHeightWithWrapping(BitmapFont font, String text, float width) {
+		glyphLayout.setText(font, text, Color.WHITE, width, Align.left, true);
 		return glyphLayout.height;
 	}
 
@@ -139,7 +146,8 @@ public class Utils {
 
 	public static void drawRotated(Batch batch, TextureRegion tex, float x, float y, float width,
 			float height, float centerX, float centerY, float rotation, boolean clockwise) {
-		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1, rotation * (clockwise ? -1 : 1), false);
+		batch.draw(tex, x, y, centerX, centerY, width, height, 1, 1,
+				rotation * (clockwise ? -1 : 1), false);
 	}
 
 	public static void drawRotated(Batch batch, TextureRegion tex, float x, float y, float width,
