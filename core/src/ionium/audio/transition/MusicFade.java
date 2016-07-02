@@ -10,8 +10,13 @@ public class MusicFade extends MusicTransition {
 	private float init, end, time;
 
 	private float elapsed = 0;
+	private boolean shouldStopMusic;
 
 	public MusicFade(Music m, float init, float end, float time) {
+		this(m, init, end, time, true);
+	}
+
+	public MusicFade(Music m, float init, float end, float time, boolean shouldStopMusic) {
 		super(m);
 
 		if (init < 0 || end < 0) throw new IllegalArgumentException(String
@@ -20,6 +25,7 @@ public class MusicFade extends MusicTransition {
 		this.init = init;
 		this.end = end;
 		this.time = time;
+		this.shouldStopMusic = shouldStopMusic;
 	}
 
 	@Override
@@ -29,7 +35,7 @@ public class MusicFade extends MusicTransition {
 		music.setVolume(MathHelper.lerp(init, end,
 				MathUtils.clamp(elapsed / (time <= 0 ? 1 : time), 0f, 1f)));
 
-		if (music.getVolume() <= 0) {
+		if (music.getVolume() <= 0 && shouldStopMusic) {
 			music.stop();
 			if (init >= 1) music.setVolume(1);
 		}

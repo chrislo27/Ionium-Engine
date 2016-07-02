@@ -40,7 +40,12 @@ public class MusicTransitioner {
 	}
 
 	public static void fade(Music music, float initialVol, float endVol, float duration) {
-		addTransition(new MusicFade(music, initialVol, endVol, duration));
+		fade(music, initialVol, endVol, duration, true);
+	}
+
+	public static void fade(Music music, float initialVol, float endVol, float duration,
+			boolean shouldStop) {
+		addTransition(new MusicFade(music, initialVol, endVol, duration, shouldStop));
 	}
 
 	public static void pitchGradual(Music music, float initial, float end, float duration) {
