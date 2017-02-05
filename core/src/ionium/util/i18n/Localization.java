@@ -78,7 +78,7 @@ public class Localization {
 		for (int i = 0; i < bundles.size; i++) {
 			if (bundles.get(i) == selectedBundle) {
 				currentIndex = i;
-				return;
+				break;
 			}
 		}
 
