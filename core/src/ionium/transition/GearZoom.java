@@ -3,7 +3,6 @@ package ionium.transition;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Interpolation;
-
 import ionium.registry.AssetRegistry;
 import ionium.registry.ScreenRegistry;
 import ionium.templates.Main;

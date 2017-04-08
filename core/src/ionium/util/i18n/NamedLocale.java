@@ -2,8 +2,6 @@ package ionium.util.i18n;
 
 import java.util.Locale;
 
-import com.badlogic.gdx.utils.Array;
-
 public class NamedLocale {
 
 	private Locale locale;

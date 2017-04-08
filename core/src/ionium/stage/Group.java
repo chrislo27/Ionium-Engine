@@ -1,10 +1,8 @@
 package ionium.stage;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-
 import ionium.templates.Main;
 
 public class Group extends Actor {

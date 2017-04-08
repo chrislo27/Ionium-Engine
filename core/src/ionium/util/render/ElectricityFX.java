@@ -1,12 +1,11 @@
 package ionium.util.render;
 
-import ionium.templates.Main;
-import ionium.util.MathHelper;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import ionium.templates.Main;
+import ionium.util.MathHelper;
 
 public final class ElectricityFX {
 

@@ -1,10 +1,9 @@
 package ionium.registry;
 
+import com.badlogic.gdx.utils.Array;
 import ionium.registry.handler.IErrorLogWriter;
 import ionium.registry.handler.SpecsErrorLogWriter;
 import ionium.registry.handler.StockErrorLogWriter;
-
-import com.badlogic.gdx.utils.Array;
 
 /**
  * appends things to the error log

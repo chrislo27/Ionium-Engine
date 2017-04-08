@@ -1,13 +1,12 @@
 package ionium.util.render;
 
-import ionium.registry.GlobalVariables;
-import ionium.templates.Main;
-import ionium.util.MathHelper;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import ionium.registry.GlobalVariables;
+import ionium.templates.Main;
+import ionium.util.MathHelper;
 
 /**
  * 

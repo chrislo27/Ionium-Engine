@@ -1,7 +1,5 @@
 package ionium.util;
 
-import com.badlogic.gdx.utils.Logger;
-
 public class AssetLogger extends Logger {
 
 	public AssetLogger(String tag, int level) {

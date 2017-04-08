@@ -1,7 +1,6 @@
 package ionium.util.input;
 
 import com.badlogic.gdx.Gdx;
-
 import ionium.util.Utils;
 
 public class AnyKeyPressed {

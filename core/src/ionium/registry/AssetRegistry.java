@@ -1,9 +1,6 @@
 package ionium.registry;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
+import chrislo27.rhre.lazysound.LazySound;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -16,15 +13,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-
 import ionium.animation.Animation;
 import ionium.audio.captioned.Captioned;
 import ionium.audio.captioned.CaptionedLoader;
 import ionium.registry.handler.IAssetLoader;
 import ionium.registry.handler.StockAssetLoader;
-import ionium.templates.Main;
 import ionium.util.AssetMap;
 import ionium.util.GameException;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public final class AssetRegistry implements Disposable {
 
@@ -53,6 +52,7 @@ public final class AssetRegistry implements Disposable {
 	private Texture missingTexture;
 
 	private Array<Sound> tempSoundArray;
+	private Array<LazySound> tempLazySoundArray;
 	private Array<Music> tempMusicArray;
 
 	private void onInstantiate() {
@@ -290,8 +290,17 @@ public final class AssetRegistry implements Disposable {
 			tempSoundArray = manager.getAll(Sound.class, new Array<Sound>());
 		}
 
+		if (tempLazySoundArray == null) {
+			tempLazySoundArray = manager.getAll(LazySound.class, new Array<>());
+		}
+
 		for (Sound s : tempSoundArray) {
 			s.pause();
+		}
+
+		for (LazySound s : tempLazySoundArray) {
+			if (s.isLoaded())
+				s.getSound().pause();
 		}
 	}
 
@@ -300,8 +309,17 @@ public final class AssetRegistry implements Disposable {
 			tempSoundArray = manager.getAll(Sound.class, new Array<Sound>());
 		}
 
+		if (tempLazySoundArray == null) {
+			tempLazySoundArray = manager.getAll(LazySound.class, new Array<>());
+		}
+
 		for (Sound s : tempSoundArray) {
 			s.resume();
+		}
+
+		for (LazySound s : tempLazySoundArray) {
+			if (s.isLoaded())
+				s.getSound().resume();
 		}
 	}
 
@@ -310,8 +328,17 @@ public final class AssetRegistry implements Disposable {
 			tempSoundArray = manager.getAll(Sound.class, new Array<Sound>());
 		}
 
+		if (tempLazySoundArray == null) {
+			tempLazySoundArray = manager.getAll(LazySound.class, new Array<>());
+		}
+
 		for (Sound s : tempSoundArray) {
 			s.stop();
+		}
+
+		for (LazySound s : tempLazySoundArray) {
+			if (s.isLoaded())
+				s.getSound().stop();
 		}
 	}
 

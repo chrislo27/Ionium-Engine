@@ -1,14 +1,12 @@
 package ionium.desktop;
 
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import ionium.util.Utils;
+import ionium.util.resolution.Resolutable;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-
-import ionium.templates.Main;
-import ionium.util.Utils;
-import ionium.util.resolution.Resolutable;
 
 public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguration implements Resolutable {
 
@@ -46,7 +44,7 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 		}
 
 	}
-	
+
 	private void inferenceFail(String key, String value){
 		System.err.println("Failed to infer argument " + value + " for key " + key);
 	}
@@ -58,102 +56,102 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 		value = value.toLowerCase();
 
 		switch (key.toLowerCase()) {
-		case "width":
-			try {
-				int i = Integer.parseInt(value);
+			case "width":
+				try {
+					int i = Integer.parseInt(value);
 
-				this.width = i;
-				
-				Utils.setArgumentsOverrideSettings(true);
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
-		case "height":
-			try {
-				int i = Integer.parseInt(value);
+					this.width = i;
 
-				this.height = i;
-				
-				Utils.setArgumentsOverrideSettings(true);
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
-		case "fullscreen":
-			try {
-				int i = Integer.parseInt(value);
-
-				if (i == 0) {
-					this.fullscreen = false;
-				
 					Utils.setArgumentsOverrideSettings(true);
-				} else if (i == 1) {
-					this.fullscreen = true;
-				
-					Utils.setArgumentsOverrideSettings(true);
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
 				}
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
-		case "vsync":
-			try {
-				int i = Integer.parseInt(value);
+				break;
+			case "height":
+				try {
+					int i = Integer.parseInt(value);
 
-				if (i == 0) {
-					this.vSyncEnabled = false;
-				
+					this.height = i;
+
 					Utils.setArgumentsOverrideSettings(true);
-				} else if (i == 1) {
-					this.vSyncEnabled = true;
-				
-					Utils.setArgumentsOverrideSettings(true);
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
 				}
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
-		case "fpslock":
-			try {
-				int i = Integer.parseInt(value);
+				break;
+			case "fullscreen":
+				try {
+					int i = Integer.parseInt(value);
 
-				this.foregroundFPS = i;
-				this.backgroundFPS = i;
-				
-				Utils.setArgumentsOverrideSettings(true);
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
-		case "msaasamples":
-			try {
-				int i = Integer.parseInt(value);
+					if (i == 0) {
+						this.fullscreen = false;
 
-				this.samples = i;
-				
-				Utils.setArgumentsOverrideSettings(true);
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
-		case "resizeable":
-			try {
-				int i = Integer.parseInt(value);
+						Utils.setArgumentsOverrideSettings(true);
+					} else if (i == 1) {
+						this.fullscreen = true;
 
-				if (i == 0) {
-					this.resizable = false;
-				
-					Utils.setArgumentsOverrideSettings(true);
-				} else if (i == 1) {
-					this.resizable = true;
-				
-					Utils.setArgumentsOverrideSettings(true);
+						Utils.setArgumentsOverrideSettings(true);
+					}
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
 				}
-			} catch (NumberFormatException ex) {
-				inferenceFail(key.toLowerCase(), value);
-			}
-			break;
+				break;
+			case "vsync":
+				try {
+					int i = Integer.parseInt(value);
+
+					if (i == 0) {
+						this.vSyncEnabled = false;
+
+						Utils.setArgumentsOverrideSettings(true);
+					} else if (i == 1) {
+						this.vSyncEnabled = true;
+
+						Utils.setArgumentsOverrideSettings(true);
+					}
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
+				}
+				break;
+			case "fpslock":
+				try {
+					int i = Integer.parseInt(value);
+
+					this.foregroundFPS = i;
+					this.backgroundFPS = i;
+
+					Utils.setArgumentsOverrideSettings(true);
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
+				}
+				break;
+			case "msaasamples":
+				try {
+					int i = Integer.parseInt(value);
+
+					this.samples = i;
+
+					Utils.setArgumentsOverrideSettings(true);
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
+				}
+				break;
+			case "resizeable":
+				try {
+					int i = Integer.parseInt(value);
+
+					if (i == 0) {
+						this.resizable = false;
+
+						Utils.setArgumentsOverrideSettings(true);
+					} else if (i == 1) {
+						this.resizable = true;
+
+						Utils.setArgumentsOverrideSettings(true);
+					}
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
+				}
+				break;
 		}
 	}
 

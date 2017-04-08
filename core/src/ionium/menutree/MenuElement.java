@@ -1,7 +1,5 @@
 package ionium.menutree;
 
-import ionium.templates.Main;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 

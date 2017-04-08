@@ -1,11 +1,5 @@
 package ionium.benchmarking;
 
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectMap.Entries;
-import com.badlogic.gdx.utils.ObjectMap.Entry;
-
-import ionium.templates.Main;
-
 public class TickBenchmark extends Benchmark {
 
 	private static TickBenchmark instance;

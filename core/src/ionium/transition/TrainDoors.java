@@ -1,10 +1,9 @@
 package ionium.transition;
 
-import ionium.registry.AssetRegistry;
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import ionium.registry.AssetRegistry;
+import ionium.templates.Main;
 
 public class TrainDoors implements Transition {
 

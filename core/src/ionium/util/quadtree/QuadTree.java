@@ -3,7 +3,6 @@ package ionium.util.quadtree;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 import ionium.templates.Main;
 
 public class QuadTree<E extends QuadRectangleable> {

@@ -3,7 +3,6 @@ package ionium.stage.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
-
 import ionium.stage.Stage;
 import ionium.stage.ui.skin.Palette;
 

@@ -3,7 +3,6 @@ package ionium.transition;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-
 import ionium.templates.Main;
 
 public class BlankTransition implements Transition {

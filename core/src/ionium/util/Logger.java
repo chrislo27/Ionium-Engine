@@ -1,9 +1,9 @@
 package ionium.util;
 
+import ionium.templates.Main;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import ionium.templates.Main;
 
 public class Logger extends com.badlogic.gdx.utils.Logger {
 
@@ -32,8 +32,8 @@ public class Logger extends com.badlogic.gdx.utils.Logger {
 
 	@Override
 	public void debug(String message, Exception exception) {
-		if (getLevel() >= com.badlogic.gdx.utils.Logger.ERROR) {
-			System.out.println(getDateStamp() + " [INFO] " + message);
+		if (getLevel() >= com.badlogic.gdx.utils.Logger.DEBUG) {
+			System.out.println(getDateStamp() + " [DEBUG] " + message);
 			exception.printStackTrace(System.out);
 		}
 	}
@@ -47,7 +47,7 @@ public class Logger extends com.badlogic.gdx.utils.Logger {
 
 	@Override
 	public void info(String message, Exception exception) {
-		if (getLevel() >= com.badlogic.gdx.utils.Logger.ERROR) {
+		if (getLevel() >= com.badlogic.gdx.utils.Logger.INFO) {
 			System.out.println(getDateStamp() + " [INFO] " + message);
 			exception.printStackTrace(System.out);
 		}

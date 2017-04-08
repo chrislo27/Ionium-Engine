@@ -1,11 +1,10 @@
 package ionium.registry.handler;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import ionium.animation.Animation;
 
 import java.util.HashMap;
-
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 
 public interface IAssetLoader {
 	

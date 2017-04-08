@@ -1,13 +1,12 @@
 package ionium.registry.handler;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-
 import ionium.animation.Animation;
 import ionium.util.AssetMap;
+
+import java.util.HashMap;
 
 public class StockAssetLoader implements IAssetLoader {
 

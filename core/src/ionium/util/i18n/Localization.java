@@ -1,22 +1,22 @@
 package ionium.util.i18n;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.MissingResourceException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
-
 import ionium.templates.Main;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.MissingResourceException;
 
 public class Localization {
 
 	public static final String SETTINGS_KEY = "language";
+	public static volatile NamedLocale DEFAULT_LOCALE = new NamedLocale("English", new Locale(""));
 
 	private static Localization instance;
 
@@ -42,7 +42,7 @@ public class Localization {
 	private void loadResources() {
 		setBaseFileHandle(Gdx.files.internal("localization/default"));
 
-		addBundle(new NamedLocale("English", new Locale("")));
+		addBundle(DEFAULT_LOCALE);
 
 		selectedBundle = bundles.get(0);
 	}
@@ -71,7 +71,9 @@ public class Localization {
 	}
 
 	public void nextLanguage(int advance) {
-		if (advance == 0) return;
+		if (advance == 0) {
+			return;
+		}
 
 		int currentIndex = 0;
 

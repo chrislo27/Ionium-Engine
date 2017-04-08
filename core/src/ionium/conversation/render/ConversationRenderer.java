@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
-
 import ionium.conversation.Conversation;
 import ionium.conversation.Conversation.Choice;
 import ionium.conversation.DialogueLine;

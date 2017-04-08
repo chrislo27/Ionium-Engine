@@ -1,11 +1,9 @@
 package ionium.transition;
 
-import ionium.screen.Updateable;
-import ionium.templates.Main;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
+import ionium.screen.Updateable;
+import ionium.templates.Main;
 
 public class TransitionScreen extends Updateable<Main> {
 

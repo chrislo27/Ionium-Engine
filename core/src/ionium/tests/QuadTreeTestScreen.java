@@ -1,10 +1,8 @@
 package ionium.tests;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 import ionium.screen.Updateable;
 import ionium.templates.Main;
 import ionium.util.quadtree.QuadRectangleable;

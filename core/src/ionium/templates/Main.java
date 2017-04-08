@@ -1,30 +1,13 @@
 package ionium.templates;
 
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -38,38 +21,32 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-
 import ionium.audio.transition.MusicTransitioner;
 import ionium.benchmarking.TickBenchmark;
 import ionium.registry.AssetRegistry;
-import ionium.registry.ErrorLogRegistry;
 import ionium.registry.GlobalVariables;
 import ionium.registry.ScreenRegistry;
 import ionium.screen.AssetLoadingScreen;
 import ionium.screen.Updateable;
 import ionium.transition.Transition;
 import ionium.transition.TransitionScreen;
-import ionium.util.AssetMap;
-import ionium.util.CaptureStream;
-import ionium.util.CaptureStream.Consumer;
-import ionium.util.DebugSetting;
-import ionium.util.Logger;
-import ionium.util.MathHelper;
-import ionium.util.MemoryUtils;
-import ionium.util.ScreenshotFactory;
-import ionium.util.SpecialCharactersList;
-import ionium.util.Utils;
+import ionium.util.*;
 import ionium.util.i18n.Localization;
 import ionium.util.render.Gears;
 import ionium.util.render.Shaders;
 import ionium.util.version.VersionGetter;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * 
  * Main class, think of it like slick's Main class
  *
  */
-public abstract class Main extends Game implements Consumer {
+public abstract class Main extends Game {
 
 	public OrthographicCamera camera;
 
@@ -106,12 +83,6 @@ public abstract class Main extends Game implements Consumer {
 	public static ShaderProgram meshShader;
 	public ShaderProgram maskNoiseShader;
 
-	private CaptureStream output;
-	private PrintStream printstrm;
-	private JFrame consolewindow;
-	private JTextArea consoletext;
-	private JScrollPane conscrollPane;
-
 	private long lastKnownNano = System.nanoTime();
 	public static float totalSeconds = 0f;
 	public static long totalFrames = 0;
@@ -142,8 +113,6 @@ public abstract class Main extends Game implements Consumer {
 
 	@Override
 	public void create() {
-		redirectSysOut();
-
 		ShaderProgram.pedantic = false;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -208,14 +177,16 @@ public abstract class Main extends Game implements Consumer {
 
 		this.setScreen(getAssetLoadingScreenToUse());
 
-		new Thread("version checker") {
+		Thread t = new Thread("version checker") {
 
 			@Override
 			public void run() {
 				VersionGetter.instance().getVersionFromServer();
 				persistentDebugStrings.clear();
 			}
-		}.start();
+		};
+		t.setDaemon(true);
+		t.start();
 	}
 
 	public void prepareStates() {
@@ -313,10 +284,6 @@ public abstract class Main extends Game implements Consumer {
 					+ new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()).trim()
 					+ ".txt");
 
-			handle.writeString(ErrorLogRegistry.instance().createErrorLog(output.toString()),
-					false);
-
-			resetSystemOut();
 			System.out.println(
 					"\n\nThe game crashed. There is an error log at " + handle.path() + "\n");
 
@@ -401,16 +368,11 @@ public abstract class Main extends Game implements Consumer {
 		debugStrings.clear();
 
 		if (persistentDebugStrings.size == 0) {
-			StringBuffer keysInfo = new StringBuffer();
-
-			keysInfo.append("Detached console: " + Keys.toString(DebugSetting.CONSOLE_KEY));
-			keysInfo.append(
-					" | Re-init I18N: " + Keys.toString(DebugSetting.REINIT_LOCALIZATION_KEY));
-			keysInfo.append(
-					" | Tick percentages: " + Keys.toString(DebugSetting.TICK_PERCENTAGE_KEY));
+			String keysInfo = ("Re-init I18N: " + Keys.toString(DebugSetting.REINIT_LOCALIZATION_KEY)) +
+					" | Tick percentages: " + Keys.toString(DebugSetting.TICK_PERCENTAGE_KEY);
 
 			persistentDebugStrings.add("Debug info: " + Keys.toString(DebugSetting.DEBUG_KEY));
-			persistentDebugStrings.add(keysInfo.toString());
+			persistentDebugStrings.add(keysInfo);
 			persistentDebugStrings.add("");
 			persistentDebugStrings.add("version: " + Main.version
 					+ (githubVersion == null ? "" : "; latestV: " + Main.githubVersion));
@@ -475,15 +437,7 @@ public abstract class Main extends Game implements Consumer {
 		}
 
 		if (Gdx.input.isKeyPressed(DebugSetting.DEBUG_KEY)) {
-			if (Gdx.input.isKeyJustPressed(DebugSetting.CONSOLE_KEY)) {
-				if (consolewindow.isVisible()) {
-					consolewindow.setVisible(false);
-				} else {
-					consolewindow.setVisible(true);
-					conscrollPane.getVerticalScrollBar()
-							.setValue(conscrollPane.getVerticalScrollBar().getMaximum());
-				}
-			} else if (Gdx.input.isKeyJustPressed(DebugSetting.REINIT_LOCALIZATION_KEY)) {
+			if (Gdx.input.isKeyJustPressed(DebugSetting.REINIT_LOCALIZATION_KEY)) {
 				Localization.instance().reloadFromFile();
 				Main.logger.debug("Reloaded I18N from files");
 			} else if (Gdx.input.isKeyJustPressed(DebugSetting.TICK_PERCENTAGE_KEY)) {
@@ -554,35 +508,6 @@ public abstract class Main extends Game implements Consumer {
 
 			up.resize(width, height);
 		}
-	}
-
-	public void redirectSysOut() {
-		PrintStream ps = System.out;
-		output = new CaptureStream(this, ps);
-		printstrm = new PrintStream(output);
-		resetConsole();
-		System.setOut(printstrm);
-	}
-
-	public void resetConsole() {
-		consolewindow = new JFrame();
-		consolewindow.setTitle("Console for " + Localization.get("gamename") + " " + Main.version);
-		consolewindow.setVisible(false);
-		consoletext = new JTextArea(40, 60);
-		consoletext.setEditable(false);
-		conscrollPane = new JScrollPane(consoletext);
-		consolewindow.add(conscrollPane, null);
-		consolewindow.pack();
-	}
-
-	public void resetSystemOut() {
-		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-	}
-
-	@Override
-	public void appendText(final String text) {
-		consoletext.append(text);
-		consoletext.setCaretPosition(consoletext.getText().length());
 	}
 
 	@Override

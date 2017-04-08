@@ -1,12 +1,11 @@
 package ionium.conversation;
 
-import java.text.MessageFormat;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
-
 import ionium.conversation.Conversation.Choice;
+
+import java.text.MessageFormat;
 
 /**
  * Creates a conversation object from an XML file.

@@ -1,9 +1,7 @@
 package ionium.templates;
 
-import ionium.screen.Updateable;
-
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
+import ionium.screen.Updateable;
 
 public class MainInputProcessor implements InputProcessor {
 

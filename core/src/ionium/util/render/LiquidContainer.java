@@ -1,13 +1,12 @@
 package ionium.util.render;
 
-import ionium.templates.Main;
-import ionium.util.noise.SimplexNoise;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import ionium.templates.Main;
+import ionium.util.noise.SimplexNoise;
 
 public class LiquidContainer {
 

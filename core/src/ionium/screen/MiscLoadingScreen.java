@@ -1,11 +1,10 @@
 package ionium.screen;
 
-import ionium.registry.GlobalVariables;
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Array;
+import ionium.registry.GlobalVariables;
+import ionium.templates.Main;
 
 public class MiscLoadingScreen extends Updateable<Main> {
 

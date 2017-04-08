@@ -1,7 +1,5 @@
 package ionium.util;
 
-import java.util.concurrent.TimeUnit;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
@@ -15,10 +13,11 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-
 import ionium.templates.Main;
 import ionium.util.resolution.AspectRatio;
 import ionium.util.resolution.ResolutionDeterminator;
+
+import java.util.concurrent.TimeUnit;
 
 public class Utils {
 
@@ -46,6 +45,12 @@ public class Utils {
 		glyphLayout.setText(font, text, Color.WHITE, width, Align.left, true);
 		return glyphLayout.height;
 	}
+
+	public static float getWidthWithWrapping(BitmapFont font, String text, float width) {
+		glyphLayout.setText(font, text, Color.WHITE, width, Align.left, true);
+		return glyphLayout.width;
+	}
+
 
 	public static void setArgumentsOverrideSettings(boolean b) {
 		argumentsOverrode = b;
@@ -168,7 +173,7 @@ public class Utils {
 			r = g = b = (int) (brightness * 255.0f + 0.5f);
 		} else {
 			float h = (hue - (float) Math.floor(hue)) * 6.0f;
-			float f = h - (float) java.lang.Math.floor(h);
+			float f = h - (float) Math.floor(h);
 			float p = brightness * (1.0f - saturation);
 			float q = brightness * (1.0f - saturation * f);
 			float t = brightness * (1.0f - (saturation * (1.0f - f)));

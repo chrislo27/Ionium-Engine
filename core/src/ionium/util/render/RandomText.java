@@ -1,11 +1,10 @@
 package ionium.util.render;
 
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import ionium.templates.Main;
 
 public class RandomText {
 

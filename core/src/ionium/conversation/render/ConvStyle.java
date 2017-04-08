@@ -1,7 +1,5 @@
 package ionium.conversation.render;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-
 public class ConvStyle {
 
 	public boolean shouldFaceBeShown = true;

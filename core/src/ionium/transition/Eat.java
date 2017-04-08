@@ -1,11 +1,9 @@
 package ionium.transition;
 
-import ionium.registry.GlobalVariables;
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import ionium.templates.Main;
 
 public class Eat implements Transition {
 

@@ -2,7 +2,6 @@ package ionium.stage.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import ionium.stage.Actor;
 import ionium.stage.Stage;
 import ionium.stage.ui.skin.Palette;

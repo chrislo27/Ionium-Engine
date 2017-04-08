@@ -1,11 +1,10 @@
 package ionium.registry;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import ionium.screen.Updateable;
 
 import java.util.HashMap;
-
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
 
 
 public class ScreenRegistry implements Disposable{

@@ -1,16 +1,14 @@
 package ionium.screen;
 
-import ionium.registry.AssetRegistry;
-import ionium.registry.GlobalVariables;
-import ionium.registry.ScreenRegistry;
-import ionium.templates.Main;
-import ionium.util.AssetLogger;
-import ionium.util.Utils;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+import ionium.registry.AssetRegistry;
+import ionium.registry.GlobalVariables;
+import ionium.templates.Main;
+import ionium.util.AssetLogger;
+import ionium.util.Utils;
 
 public class AssetLoadingScreen extends MiscLoadingScreen {
 
@@ -19,7 +17,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		AssetRegistry.instance().getAssetManager().setLogger(output);
 	}
 
-	private AssetLogger output = new AssetLogger("assetoutput", Logger.DEBUG);
+	protected AssetLogger output = new AssetLogger("assetoutput", Logger.DEBUG);
 
 	private long startms = 0;
 	private boolean finished = false;

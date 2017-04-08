@@ -3,7 +3,6 @@ package ionium.projection;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
-
 import ionium.projection.CoordinateF.CoordFPool;
 import ionium.util.render.TexturedQuad;
 

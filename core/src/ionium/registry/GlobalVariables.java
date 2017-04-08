@@ -1,9 +1,5 @@
 package ionium.registry;
 
-import java.util.HashMap;
-
-import com.badlogic.gdx.Preferences;
-
 public class GlobalVariables {
 
 	public static int defaultWidth = 1280;

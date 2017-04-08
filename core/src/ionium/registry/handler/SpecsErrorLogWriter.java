@@ -1,10 +1,9 @@
 package ionium.registry.handler;
 
-import ionium.templates.Main;
-import ionium.util.MemoryUtils;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import ionium.templates.Main;
+import ionium.util.MemoryUtils;
 
 /**
  * Designed to add the system specs to the error log

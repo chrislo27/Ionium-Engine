@@ -1,9 +1,8 @@
 package ionium.transition;
 
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import ionium.templates.Main;
 
 public class Spiral implements Transition {
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntArray;
-
 import ionium.templates.Main;
 
 public abstract class Actor {
@@ -91,7 +90,6 @@ public abstract class Actor {
 	}
 
 	public void onClickAction(float x, float y) {
-
 	}
 
 	public void onMouseDrag(float x, float y) {
@@ -103,6 +101,9 @@ public abstract class Actor {
 	}
 
 	public boolean onKeyAction(int key) {
+		if (key == 0)
+			return false;
+
 		for (int keycode : getKeybinds().items) {
 			if (key == keycode) {
 				onClickAction(0, 0);

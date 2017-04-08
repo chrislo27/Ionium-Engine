@@ -2,7 +2,6 @@ package ionium.audio.transition;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
-
 import ionium.util.MathHelper;
 
 public class MusicFade extends MusicTransition {

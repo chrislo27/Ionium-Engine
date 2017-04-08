@@ -3,8 +3,6 @@ package ionium.aabbcollision;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
-
-import ionium.templates.Main;
 import ionium.util.MathHelper;
 
 public class PhysicsBody implements Poolable {

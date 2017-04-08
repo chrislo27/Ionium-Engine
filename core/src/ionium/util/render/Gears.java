@@ -1,10 +1,9 @@
 package ionium.util.render;
 
-import ionium.registry.AssetRegistry;
-import ionium.templates.Main;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import ionium.registry.AssetRegistry;
+import ionium.templates.Main;
 
 public class Gears {
 
