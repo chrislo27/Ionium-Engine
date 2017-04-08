@@ -1,6 +1,6 @@
 package ionium.registry;
 
-import chrislo27.rhre.lazysound.LazySound;
+import ionium.registry.lazysound.LazySound;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
