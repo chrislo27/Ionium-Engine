@@ -8,7 +8,7 @@ import java.util.Calendar;
 public class Logger extends com.badlogic.gdx.utils.Logger {
 
 	public boolean includeTicks = true;
-	private SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
+	private SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss.SSS");
 
 	public Logger(String tag) {
 		super(tag);
