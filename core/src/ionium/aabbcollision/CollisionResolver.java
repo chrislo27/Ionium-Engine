@@ -51,6 +51,9 @@ public class CollisionResolver {
 		float moveAmountY = 0;
 		boolean lastIteration = false;
 
+		// moveAmount is basically Math.min(halfBody, velocity)
+
+		// more X velocity than Y
 		if (Math.abs(remainingVeloX) >= Math.abs(remainingVeloY)) {
 			if (Math.abs(remainingVeloX) > Math.abs(halfWidth)) {
 				// use halfWidth
@@ -138,6 +141,7 @@ public class CollisionResolver {
 						normal.x = 0;
 					}
 
+					// this implies that the body that we checked in broadphase doesn't actually overlap
 					if (Math.abs(xOverlap) > b.bounds.width && Math.abs(yOverlap) > b.bounds.height)
 						continue;
 
