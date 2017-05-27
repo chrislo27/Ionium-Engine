@@ -112,6 +112,23 @@ public class ArgumentInferredLwjglAppConfig extends LwjglApplicationConfiguratio
 					inferenceFail(key.toLowerCase(), value);
 				}
 				break;
+			case "softwaremode":
+				try {
+					int i = Integer.parseInt(value);
+
+					if (i == 0) {
+						this.allowSoftwareMode = false;
+
+						Utils.setArgumentsOverrideSettings(true);
+					} else if (i == 1) {
+						this.allowSoftwareMode = true;
+
+						Utils.setArgumentsOverrideSettings(true);
+					}
+				} catch (NumberFormatException ex) {
+					inferenceFail(key.toLowerCase(), value);
+				}
+				break;
 			case "fpslock":
 				try {
 					int i = Integer.parseInt(value);
