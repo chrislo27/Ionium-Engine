@@ -122,6 +122,8 @@ public class Localization {
 			bundle.setBundle(
 					I18NBundle.createBundle(getBaseFileHandle(), bundle.locale.getLocale()));
 		}
+
+		caughtMissing.clear();
 	}
 
 	public void addCustom(String key, String value) {
